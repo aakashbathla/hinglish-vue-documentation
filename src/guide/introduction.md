@@ -4,10 +4,11 @@ footer: false
 
 # Introduction {#introduction}
 
-:::info You are reading the documentation for Vue 3!
+:::info
+Aap Vue 3 ki documentation padh rahe ho!
 
-- Vue 2 support has ended on **Dec 31, 2023**. Learn more about [Vue 2 EOL](https://v2.vuejs.org/eol/).
-- Upgrading from Vue 2? Check out the [Migration Guide](https://v3-migration.vuejs.org/).
+- Vue 2 ka support **31 Dec, 2023** ko khatam ho gaya. Aur jaankari ke liye dekho: [Vue 2 EOL](https://v2.vuejs.org/eol/)
+- Agar aap Vue 2 se upgrade kar rahe ho, toh yeh guide zaroor padho: [Migration Guide](https://v3-migration.vuejs.org/)
   :::
 
 <style src="@theme/styles/vue-mastery.css"></style>
@@ -16,7 +17,7 @@ footer: false
     <div class="banner-wrapper">
       <img class="banner" alt="Vue Mastery banner" width="96px" height="56px" src="https://storage.googleapis.com/vue-mastery.appspot.com/flamelink/media/vuemastery-graphical-link-96x56.png" />
     </div>
-    <p class="description">Learn Vue with video tutorials on <span>VueMastery.com</span></p>
+    <p class="description">Vue seekhne ke liye video tutorials dekho <span>VueMastery.com</span> pe</p>
     <div class="logo-wrapper">
         <img alt="Vue Mastery Logo" width="25px" src="https://storage.googleapis.com/vue-mastery.appspot.com/flamelink/media/vue-mastery-logo.png" />
     </div>
@@ -25,9 +26,10 @@ footer: false
 
 ## What is Vue? {#what-is-vue}
 
-Vue (pronounced /vjuː/, like **view**) is a JavaScript framework for building user interfaces. It builds on top of standard HTML, CSS, and JavaScript and provides a declarative, component-based programming model that helps you efficiently develop user interfaces of any complexity.
+Vue (pronounce hota hai /vjuː/, jaise **view**) ek JavaScript framework hai jo user interfaces banane ke kaam aata hai.  
+Ye standard HTML, CSS aur JavaScript ke upar based hai aur aapko ek **declarative** aur **component-based** programming model deta hai, jisse aap simple se leke complex tak kisi bhi UI ko easily bana sakte ho.
 
-Here is a minimal example:
+Yahan ek chhota basic example diya gaya hai:
 
 <div class="options-api">
 
@@ -81,38 +83,70 @@ const count = ref(0)
   </button>
 </div>
 
-The above example demonstrates the two core features of Vue:
+Upar wale example mein Vue ke do core features dikh rahe hain:
 
-- **Declarative Rendering**: Vue extends standard HTML with a template syntax that allows us to declaratively describe HTML output based on JavaScript state.
+- **Declarative Rendering**: Vue normal HTML ko extend karta hai ek aise template syntax ke saath jisme hum JavaScript state ke basis par HTML ka output clearly describe kar sakte hain.
 
-- **Reactivity**: Vue automatically tracks JavaScript state changes and efficiently updates the DOM when changes happen.
+- **Reactivity**: Vue automatically JavaScript ki state changes ko track karta hai aur jab bhi koi change hota hai, DOM (page ka content) smartly aur efficiently update ho jata hai.
 
-You may already have questions - don't worry. We will cover every little detail in the rest of the documentation. For now, please read along so you can have a high-level understanding of what Vue offers.
+Ho sakta hai aapke dimaag mein abhi kuch sawal aaye ho — lekin tension mat lo! Aage aapko documentation mein har ek chhoti-badi detail clearly samjhayi jaayegi. Abhi ke liye bas itna padho taaki aapko Vue ka ek high-level overview mil sake.
 
 :::tip Prerequisites
-The rest of the documentation assumes basic familiarity with HTML, CSS, and JavaScript. If you are totally new to frontend development, it might not be the best idea to jump right into a framework as your first step - grasp the basics and then come back! You can check your knowledge level with these overviews for [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript), [HTML](https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML) and [CSS](https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps) if needed. Prior experience with other frameworks helps, but is not required.
+Baaki documentation yeh maan kar chalti hai ki aapko HTML, CSS aur JavaScript ka basic knowledge hai.  
+Agar aap bilkul naye ho frontend development mein, toh directly kisi framework se start karna thoda mushkil ho sakta hai — pehle basic samjho, fir Vue pe aao.
+
+Apni knowledge test karne ke liye yeh links useful hain:
+
+- [JavaScript basics](https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript)
+- [HTML basics](https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML)
+- [CSS basics](https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps)
+
+Agar aapne pehle kisi aur framework ke saath kaam kiya hai, to wo helpful hoga — lekin zaroori nahi hai.
 :::
 
 ## The Progressive Framework {#the-progressive-framework}
 
-Vue is a framework and ecosystem that covers most of the common features needed in frontend development. But the web is extremely diverse - the things we build on the web may vary drastically in form and scale. With that in mind, Vue is designed to be flexible and incrementally adoptable. Depending on your use case, Vue can be used in different ways:
+Vue ek aisa framework aur ecosystem hai jo frontend development mein lagbhag har common requirement ko cover karta hai.  
+Lekin web duniya kaafi alag-alag tarah ka hota hai — hum web pe jo cheezein banate hain, unka form aur scale bahut vary karta hai.
 
-- Enhancing static HTML without a build step
-- Embedding as Web Components on any page
-- Single-Page Application (SPA)
-- Fullstack / Server-Side Rendering (SSR)
-- Jamstack / Static Site Generation (SSG)
-- Targeting desktop, mobile, WebGL, and even the terminal
+Isiliye Vue ko design kiya gaya hai ekdum flexible aur dheere-dheere adopt hone waale framework ke roop mein.  
+Aapke use-case ke hisaab se, Vue ko kai tariko se use kiya ja sakta hai:
 
-If you find these concepts intimidating, don't worry! The tutorial and guide only require basic HTML and JavaScript knowledge, and you should be able to follow along without being an expert in any of these.
+- Bina build step ke simple HTML pages mein interactivity add karna
+- Web Components ke form mein kisi bhi page mein use karna
+- Single Page Application (SPA) banana
+- Fullstack apps ya Server Side Rendering (SSR)
+- Jamstack ya Static Site Generation (SSG)
+- Desktop, mobile, WebGL ya even terminal apps ke liye use karna
 
-If you are an experienced developer interested in how to best integrate Vue into your stack, or you are curious about what these terms mean, we discuss them in more detail in [Ways of Using Vue](/guide/extras/ways-of-using-vue).
+Agar ye terms thodi confusing lag rahi hain, toh chinta mat karo!  
+Tutorials aur guide sirf basic HTML aur JS knowledge expect karte hain — expert hona zaroori nahi hai.
 
-Despite the flexibility, the core knowledge about how Vue works is shared across all these use cases. Even if you are just a beginner now, the knowledge gained along the way will stay useful as you grow to tackle more ambitious goals in the future. If you are a veteran, you can pick the optimal way to leverage Vue based on the problems you are trying to solve, while retaining the same productivity. This is why we call Vue "The Progressive Framework": it's a framework that can grow with you and adapt to your needs.
+Agar aap ek experienced developer ho aur Vue ko apne stack mein best way se integrate karna chahte ho,  
+ya fir aap in sab concepts ka matlab samajhna chahte ho, toh yeh section dekho:  
+👉 [Ways of Using Vue](/guide/extras/ways-of-using-vue)
+
+Chahe aap Vue ko kis bhi level pe use karo, Vue ka core system har jagah common rehta hai.  
+Agar aap beginner ho toh yeh knowledge aapke saath grow karega,  
+aur agar aap experienced ho toh aap Vue ko efficiently optimize kar sakte ho — productivity compromise kiye bina.
+
+**Isi liye Vue ko kehte hain “Progressive Framework”** —  
+kyunki ye aapke skill aur project ke scale ke saath evolve ho sakta hai.
 
 ## Single-File Components {#single-file-components}
 
-In most build-tool-enabled Vue projects, we author Vue components using an HTML-like file format called **Single-File Component** (also known as `*.vue` files, abbreviated as **SFC**). A Vue SFC, as the name suggests, encapsulates the component's logic (JavaScript), template (HTML), and styles (CSS) in a single file. Here's the previous example, written in SFC format:
+Zyadatar build-tool-enabled Vue projects mein hum apne components `.vue` files ke form mein likhte hain.  
+Is tarah ke file format ko bola jaata hai **Single-File Component** ya short mein **SFC**.
+
+Ek SFC file mein teen major parts hote hain:
+
+- JavaScript (component ka logic)
+- HTML (template)
+- CSS (style/design)
+
+Aur yeh sab ek hi file ke andar hote hain — neatly organized.
+
+Yeh raha wahi pehle waala example, ab SFC format mein likha gaya hai:
 
 <div class="options-api">
 
@@ -160,15 +194,20 @@ button {
 
 </div>
 
-SFC is a defining feature of Vue and is the recommended way to author Vue components **if** your use case warrants a build setup. You can learn more about the [how and why of SFC](/guide/scaling-up/sfc) in its dedicated section - but for now, just know that Vue will handle all the build tools setup for you.
+SFC (Single-File Component) Vue ka ek aisa feature hai jo uski pehchaan banata hai,  
+aur jab aapka use case build setup ki requirement rakhta ho, toh Vue components likhne ka recommended tareeka bhi yahi hai.  
+Aap [SFC kaise aur kyun use hota hai](/guide/scaling-up/sfc) yeh detail mein dedicated section mein padh sakte ho —  
+lekin filhaal itna jaan lo ki Vue aapke liye saare build tools ka setup khud handle karta hai.
 
 ## API Styles {#api-styles}
 
-Vue components can be authored in two different API styles: **Options API** and **Composition API**.
+Vue components do alag-alag API styles mein likhe ja sakte hain: **Options API** aur **Composition API**.
 
 ### Options API {#options-api}
 
-With Options API, we define a component's logic using an object of options such as `data`, `methods`, and `mounted`. Properties defined by options are exposed on `this` inside functions, which points to the component instance:
+Options API mein hum component ka logic ek options object ke zariye define karte hain jaise ki `data`, `methods`, aur `mounted`.  
+Jo properties in options ke through define hoti hain, unhe functions ke andar `this` ke zariye access kiya ja sakta hai,  
+aur yeh `this` component instance ko point karta hai.
 
 ```vue
 <script>
@@ -207,9 +246,15 @@ export default {
 
 ### Composition API {#composition-api}
 
-With Composition API, we define a component's logic using imported API functions. In SFCs, Composition API is typically used with [`<script setup>`](/api/sfc-script-setup). The `setup` attribute is a hint that makes Vue perform compile-time transforms that allow us to use Composition API with less boilerplate. For example, imports and top-level variables / functions declared in `<script setup>` are directly usable in the template.
+Composition API ke saath, hum component ka logic imported API functions ka use karke define karte hain.  
+SFCs (Single-File Components) mein Composition API aam taur par [`<script setup>`](/api/sfc-script-setup) ke saath use hoti hai.  
+`setup` attribute ek signal hota hai jo Vue ko compile-time pe kuch special transformations karne ke liye kehata hai,  
+jisse hum Composition API ko kam boilerplate ke saath use kar sakein.
 
-Here is the same component, with the exact same template, but using Composition API and `<script setup>` instead:
+Jaise ki, `<script setup>` ke andar declare kiye gaye imports aur top-level variables/functions template ke andar directly use kiye ja sakte hain.
+
+Yahan wahi component diya gaya hai, bilkul same template ke saath,  
+lekin ab Composition API aur `<script setup>` ka use karke likha gaya hai:
 
 ```vue
 <script setup>
@@ -236,47 +281,63 @@ onMounted(() => {
 
 [Try it in the Playground](https://play.vuejs.org/#eNpNkMFqwzAQRH9lMYU4pNg9Bye09NxbjzrEVda2iLwS0spQjP69a+yYHnRYad7MaOfiw/tqSliciybqYDxDRE7+qsiM3gWGGQJ2r+DoyyVivEOGLrgRDkIdFCmqa1G0ms2EELllVKQdRQa9AHBZ+PLtuEm7RCKVd+ChZRjTQqwctHQHDqbvMUDyd7mKip4AGNIBRyQujzArgtW/mlqb8HRSlLcEazrUv9oiDM49xGGvXgp5uT5his5iZV1f3r4HFHvDprVbaxPhZf4XkKub/CDLaep1T7IhGRhHb6WoTADNT2KWpu/aGv24qGKvrIrr5+Z7hnneQnJu6hURvKl3ryL/ARrVkuI=)
 
-### Which to Choose? {#which-to-choose}
+### Kaunsa Choose Karein? {#which-to-choose}
 
-Both API styles are fully capable of covering common use cases. They are different interfaces powered by the exact same underlying system. In fact, the Options API is implemented on top of the Composition API! The fundamental concepts and knowledge about Vue are shared across the two styles.
+Dono API styles common use cases ko handle karne mein fully capable hain.  
+Yeh sirf do alag interfaces hain jo ek hi base system par kaam karte hain.  
+Actually, Options API bhi Composition API ke upar hi banayi gayi hai!  
+Vue ke fundamental concepts aur knowledge dono styles ke beech common hote hain.
 
-The Options API is centered around the concept of a "component instance" (`this` as seen in the example), which typically aligns better with a class-based mental model for users coming from OOP language backgrounds. It is also more beginner-friendly by abstracting away the reactivity details and enforcing code organization via option groups.
+Options API ka focus "component instance" ke concept par hota hai (`this` jaise ki example mein dekha).  
+Yeh style un users ke liye zyada natural feel hoti hai jo OOP (Object-Oriented Programming) background se aate hain.  
+Yeh beginners ke liye bhi friendly hoti hai, kyunki isme reactivity ka logic abstract hota hai aur code clearly options mein organized hota hai.
 
-The Composition API is centered around declaring reactive state variables directly in a function scope and composing state from multiple functions together to handle complexity. It is more free-form and requires an understanding of how reactivity works in Vue to be used effectively. In return, its flexibility enables more powerful patterns for organizing and reusing logic.
+Composition API ka focus yeh hota hai ki aap reactive state variables ko function scope ke andar declare karo,  
+aur complexity ko multiple functions ke through manage karo.  
+Yeh zyada flexible hai, lekin isse achhe se use karne ke liye aapko Vue ki reactivity ka concept samajhna zaroori hota hai.  
+Is flexibility ke wajah se aap powerful logic reuse aur organization patterns bana sakte ho.
 
-You can learn more about the comparison between the two styles and the potential benefits of Composition API in the [Composition API FAQ](/guide/extras/composition-api-faq).
+Aap in dono styles ke comparison aur Composition API ke benefits ke baare mein aur padh sakte ho yahan:  
+👉 [Composition API FAQ](/guide/extras/composition-api-faq)
 
-If you are new to Vue, here's our general recommendation:
+Agar aap Vue mein naye ho, toh hamari general recommendation yeh hai:
 
-- For learning purposes, go with the style that looks easier to understand to you. Again, most of the core concepts are shared between the two styles. You can always pick up the other style later.
+- Learning ke liye jo style aapko easy lage, usse start karo.  
+  Waise bhi, dono styles ke beech core concepts mostly shared hote hain.  
+  Baad mein aap easily dusri style seekh sakte ho.
 
-- For production use:
+- Production ke liye:
 
-  - Go with Options API if you are not using build tools, or plan to use Vue primarily in low-complexity scenarios, e.g. progressive enhancement.
+  - Options API use karo agar aap build tools nahi use kar rahe ho,  
+    ya Vue ko sirf low-complexity cases ke liye use karne wale ho (jaise progressive enhancement).
 
-  - Go with Composition API + Single-File Components if you plan to build full applications with Vue.
+  - Composition API + Single-File Components use karo agar aap full Vue application banana chahte ho.
 
-You don't have to commit to only one style during the learning phase. The rest of the documentation will provide code samples in both styles where applicable, and you can toggle between them at any time using the **API Preference switches** at the top of the left sidebar.
+Learning phase ke dauraan aap kisi ek style mein fix hone ki zaroorat nahi hai.  
+Documentation mein dono styles ke examples diye gaye hain jahan applicable ho,  
+aur aap left sidebar ke top mein **API Preference switches** ke through style switch kar sakte ho.
 
-## Still Got Questions? {#still-got-questions}
+## Abhi Bhi Questions Hain? {#still-got-questions}
 
-Check out our [FAQ](/about/faq).
+Toh [FAQ](/about/faq) section zaroor check karo.
 
-## Pick Your Learning Path {#pick-your-learning-path}
+## Apna Learning Path Choose Karo {#pick-your-learning-path}
 
-Different developers have different learning styles. Feel free to pick a learning path that suits your preference - although we do recommend going over all of the content, if possible!
+Har developer ka apna learning style hota hai.  
+Aap apne comfort ke according learning path choose kar sakte ho —  
+lekin agar possible ho, toh poora content padhna recommend kiya jata hai!
 
 <div class="vt-box-container next-steps">
   <a class="vt-box" href="/tutorial/">
-    <p class="next-steps-link">Try the Tutorial</p>
-    <p class="next-steps-caption">For those who prefer learning things hands-on.</p>
+    <p class="next-steps-link">Tutorial Try Karo</p>
+    <p class="next-steps-caption">Un logon ke liye jo hands-on tareeke se seekhna pasand karte hain.</p>
   </a>
   <a class="vt-box" href="/guide/quick-start.html">
-    <p class="next-steps-link">Read the Guide</p>
-    <p class="next-steps-caption">The guide walks you through every aspect of the framework in full detail.</p>
+    <p class="next-steps-link">Guide Padhkar Seekho</p>
+    <p class="next-steps-caption">Guide aapko framework ke har pehlu se detail mein guzarti hai.</p>
   </a>
   <a class="vt-box" href="/examples/">
-    <p class="next-steps-link">Check out the Examples</p>
-    <p class="next-steps-caption">Explore examples of core features and common UI tasks.</p>
+    <p class="next-steps-link">Examples Dekho</p>
+    <p class="next-steps-caption">Core features aur common UI tasks ke examples explore karo.</p>
   </a>
 </div>
