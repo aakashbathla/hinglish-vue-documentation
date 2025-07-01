@@ -8,27 +8,32 @@ import { VTCodeGroup, VTCodeGroupTab } from '@vue/theme'
 
 # Quick Start {#quick-start}
 
-## Try Vue Online {#try-vue-online}
+## Vue Online Try Karo {#try-vue-online}
 
-- To quickly get a taste of Vue, you can try it directly in our [Playground](https://play.vuejs.org/#eNo9jcEKwjAMhl/lt5fpQYfXUQfefAMvvRQbddC1pUuHUPrudg4HIcmXjyRZXEM4zYlEJ+T0iEPgXjn6BB8Zhp46WUZWDjCa9f6w9kAkTtH9CRinV4fmRtZ63H20Ztesqiylphqy3R5UYBqD1UyVAPk+9zkvV1CKbCv9poMLiTEfR2/IXpSoXomqZLtti/IFwVtA9A==).
+- Vue ka ek quick demo dekhne ke liye, aap seedha hamare [Playground](https://play.vuejs.org/#eNo9jcEKwjAMhl/lt5fpQYfXUQfefAMvvRQbddC1pUuHUPrudg4HIcmXjyRZXEM4zYlEJ+T0iEPgXjn6BB8Zhp46WUZWDjCa9f6w9kAkTtH9CRinV4fmRtZ63H20Ztesqiylphqy3R5UYBqD1UyVAPk+9zkvV1CKbCv9poMLiTEfR2/IXpSoXomqZLtti/IFwVtA9A==) par try kar sakte ho.
 
-- If you prefer a plain HTML setup without any build steps, you can use this [JSFiddle](https://jsfiddle.net/yyx990803/2ke1ab0z/) as your starting point.
+- Agar aap ek simple HTML setup prefer karte ho bina kisi build step ke, toh aap [JSFiddle](https://jsfiddle.net/yyx990803/2ke1ab0z/) ka use kar sakte ho starting point ke roop mein.
 
-- If you are already familiar with Node.js and the concept of build tools, you can also try a complete build setup right within your browser on [StackBlitz](https://vite.new/vue).
+- Agar aapko Node.js aur build tools ka concept already pata hai, toh aap browser ke andar hi ek complete build setup try kar sakte ho [StackBlitz](https://vite.new/vue) par.
 
-- To get a walkthrough of the recommended setup, watch this interactive [Scrimba](http://scrimba.com/links/vue-quickstart) tutorial that shows you how to run, edit, and deploy your first Vue app.
+- Recommended setup ka walkthrough dekhne ke liye, yeh interactive [Scrimba](http://scrimba.com/links/vue-quickstart) tutorial dekhiye jisme aapko Vue app ko run, edit aur deploy karna sikhaya gaya hai.
 
-## Creating a Vue Application {#creating-a-vue-application}
+## Vue Application Banana {#creating-a-vue-application}
 
 :::tip Prerequisites
 
-- Familiarity with the command line
-- Install [Node.js](https://nodejs.org/) version 18.3 or higher
-  :::
+- Command line ka basic use aana chahiye
+- [Node.js](https://nodejs.org/) version 18.3 ya usse naya install hona chahiye
 
-In this section we will introduce how to scaffold a Vue [Single Page Application](/guide/extras/ways-of-using-vue#single-page-application-spa) on your local machine. The created project will be using a build setup based on [Vite](https://vitejs.dev) and allow us to use Vue [Single-File Components](/guide/scaling-up/sfc) (SFCs).
+:::
 
-Make sure you have an up-to-date version of [Node.js](https://nodejs.org/) installed and your current working directory is the one where you intend to create a project. Run the following command in your command line (without the `$` sign):
+Is section mein hum sikhenge ki apne local machine par Vue [Single Page Application](/guide/extras/ways-of-using-vue#single-page-application-spa) kaise create karte hain.  
+Jo project create hoga, wo [Vite](https://vitejs.dev) par based build setup use karega  
+aur humein Vue ke [Single-File Components](/guide/scaling-up/sfc) (SFCs) likhne ki suvidha dega.
+
+Ensure karein ki aapne [Node.js](https://nodejs.org/) ka latest version install kiya hua hai,  
+aur aapka current working directory wahi ho jahan aap project create karna chahte ho.  
+Command line mein neeche diya gaya command run karein (without `$` sign):
 
 ::: code-group
 
@@ -46,7 +51,7 @@ $ yarn create vue
 
 # For Yarn Modern (v2+)
 $ yarn create vue@latest
-  
+
 # For Yarn ^v4.11
 $ yarn dlx create-vue@latest
 ```
@@ -54,9 +59,10 @@ $ yarn dlx create-vue@latest
 ```sh [bun]
 $ bun create vue@latest
 ```
+
 :::
 
-This command will install and execute [create-vue](https://github.com/vuejs/create-vue), the official Vue project scaffolding tool. You will be presented with prompts for several optional features such as TypeScript and testing support:
+Yeh command [create-vue](https://github.com/vuejs/create-vue) ko install aur execute karegi, jo Vue ka official project scaffolding tool hai. Iske baad aapke saamne kuch prompts aayenge jisme aapko optional features choose karne ka option milega — jaise ki TypeScript aur testing support.
 
 <div class="language-sh"><pre><code><span style="color:var(--vt-c-green);">✔</span> <span style="color:#A6ACCD;">Project name: <span style="color:#888;">… <span style="color:#89DDFF;">&lt;</span><span style="color:#888;">your-project-name</span><span style="color:#89DDFF;">&gt;</span></span></span>
 <span style="color:var(--vt-c-green);">✔</span> <span style="color:#A6ACCD;">Add TypeScript? <span style="color:#888;">… <span style="color:#89DDFF;text-decoration:underline">No</span> / Yes</span></span>
@@ -72,7 +78,7 @@ This command will install and execute [create-vue](https://github.com/vuejs/crea
 <span style="color:#A6ACCD;">Scaffolding project in ./<span style="color:#89DDFF;">&lt;</span><span style="color:#888;">your-project-name</span><span style="color:#89DDFF;">&gt;</span>...</span>
 <span style="color:#A6ACCD;">Done.</span></code></pre></div>
 
-If you are unsure about an option, simply choose `No` by hitting enter for now. Once the project is created, follow the instructions to install dependencies and start the dev server:
+Agar aap kisi option ko lekar sure nahi ho, toh filhaal ke liye bas `Enter` dabakar `No` choose kar lo. Jab project create ho jaye, toh neeche diye gaye steps follow karke dependencies install karo aur development server start karo:
 
 ::: code-group
 
@@ -102,15 +108,24 @@ $ bun run dev
 
 :::
 
+Ab aapka pehla Vue project successfully chal raha hoga!  
+Dhyaan dein ki jo example components generated project ke andar hain,  
+wo [Composition API](/guide/introduction#composition-api) aur `<script setup>` ka use karke likhe gaye hain —  
+na ki [Options API](/guide/introduction#options-api) ke saath.
 
-You should now have your first Vue project running! Note that the example components in the generated project are written using the [Composition API](/guide/introduction#composition-api) and `<script setup>`, rather than the [Options API](/guide/introduction#options-api). Here are some additional tips:
+Yahan kuch additional tips hain:
 
-- The recommended IDE setup is [Visual Studio Code](https://code.visualstudio.com/) + [Vue - Official extension](https://marketplace.visualstudio.com/items?itemName=Vue.volar). If you use other editors, check out the [IDE support section](/guide/scaling-up/tooling#ide-support).
-- More tooling details, including integration with backend frameworks, are discussed in the [Tooling Guide](/guide/scaling-up/tooling).
-- To learn more about the underlying build tool Vite, check out the [Vite docs](https://vitejs.dev).
-- If you choose to use TypeScript, check out the [TypeScript Usage Guide](typescript/overview).
+- Recommended IDE hai [Visual Studio Code](https://code.visualstudio.com/) + [Vue - Official extension](https://marketplace.visualstudio.com/items?itemName=Vue.volar).  
+  Agar aap koi aur editor use karte ho toh [IDE support section](/guide/scaling-up/tooling#ide-support) check karo.
 
-When you are ready to ship your app to production, run the following:
+- Tooling aur backend framework ke integration ke details ke liye yeh section dekhein: [Tooling Guide](/guide/scaling-up/tooling)
+
+- Build tool Vite ke baare mein aur jaankari ke liye: [Vite docs](https://vitejs.dev)
+
+- Agar aap TypeScript use karna chahte ho, toh yeh guide dekhein: [TypeScript Usage Guide](typescript/overview)
+
+Jab aap apne app ko production mein deploy karne ke liye ready ho jao,  
+toh yeh command run karein:
 
 ::: code-group
 
@@ -132,26 +147,35 @@ $ bun run build
 
 :::
 
-
-This will create a production-ready build of your app in the project's `./dist` directory. Check out the [Production Deployment Guide](/guide/best-practices/production-deployment) to learn more about shipping your app to production.
+Yeh command aapke app ka production-ready build banayegi,  
+jo project ke `./dist` directory ke andar milega.  
+Apne app ko production mein kaise deploy karein — iske liye [Production Deployment Guide](/guide/best-practices/production-deployment) zaroor padhein.
 
 [Next Steps >](#next-steps)
 
-## Using Vue from CDN {#using-vue-from-cdn}
+## CDN ke zariye Vue ka use karna {#using-vue-from-cdn}
 
-You can use Vue directly from a CDN via a script tag:
+Aap Vue ko directly CDN ke through `<script>` tag se use kar sakte ho:
 
 ```html
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 ```
 
-Here we are using [unpkg](https://unpkg.com/), but you can also use any CDN that serves npm packages, for example [jsdelivr](https://www.jsdelivr.com/package/npm/vue) or [cdnjs](https://cdnjs.com/libraries/vue). Of course, you can also download this file and serve it yourself.
+Yahan hum [unpkg](https://unpkg.com/) ka use kar rahe hain,  
+lekin aap koi bhi aisa CDN use kar sakte ho jo npm packages serve karta ho —  
+jaise [jsdelivr](https://www.jsdelivr.com/package/npm/vue) ya [cdnjs](https://cdnjs.com/libraries/vue).  
+Aap chahein toh is file ko download karke khud bhi host kar sakte ho.
 
-When using Vue from a CDN, there is no "build step" involved. This makes the setup a lot simpler, and is suitable for enhancing static HTML or integrating with a backend framework. However, you won't be able to use the Single-File Component (SFC) syntax.
+Jab aap Vue ko CDN ke zariye use karte ho, toh koi "build step" nahi hota.  
+Is wajah se setup kaafi simple ho jaata hai,  
+aur yeh method static HTML enhance karne ya backend framework ke saath integrate karne ke liye perfect hota hai.  
+Lekin isme aap **Single-File Component (SFC)** syntax use nahi kar paayenge.
 
-### Using the Global Build {#using-the-global-build}
+### Global Build ka use karna {#using-the-global-build}
 
-The above link loads the _global build_ of Vue, where all top-level APIs are exposed as properties on the global `Vue` object. Here is a full example using the global build:
+Upar diya gaya link Vue ka _global build_ load karta hai,  
+jisme saare top-level APIs global `Vue` object ke properties ke roop mein available hote hain.  
+Neeche ek complete example diya gaya hai jo global build ka use karta hai:
 
 <div class="options-api">
 
@@ -201,14 +225,19 @@ The above link loads the _global build_ of Vue, where all top-level APIs are exp
 [CodePen Demo >](https://codepen.io/vuejs-examples/pen/eYQpQEG)
 
 :::tip
-Many of the examples for Composition API throughout the guide will be using the `<script setup>` syntax, which requires build tools. If you intend to use Composition API without a build step, consult the usage of the [`setup()` option](/api/composition-api-setup).
+Is guide mein Composition API ke kai examples `<script setup>` syntax ka use karte hain,  
+jo ki build tools ki requirement rakhta hai.  
+Agar aap Composition API ko bina build step ke use karna chahte ho,  
+toh [`setup()` option](/api/composition-api-setup) ke usage ko dekhein.
 :::
 
 </div>
 
-### Using the ES Module Build {#using-the-es-module-build}
+### ES Module Build ka use karna {#using-the-es-module-build}
 
-Throughout the rest of the documentation, we will be primarily using [ES modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) syntax. Most modern browsers now support ES modules natively, so we can use Vue from a CDN via native ES modules like this:
+Aage ki documentation mein hum mostly [ES modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) syntax ka use karenge.  
+Aaj ke zyadatar modern browsers ES modules ko natively support karte hain,  
+isliye hum Vue ko CDN ke zariye native ES modules ke through bhi use kar sakte hain, kuch is tarah:
 
 <div class="options-api">
 
@@ -251,7 +280,8 @@ Throughout the rest of the documentation, we will be primarily using [ES modules
 
 </div>
 
-Notice that we are using `<script type="module">`, and the imported CDN URL is pointing to the **ES modules build** of Vue instead.
+Dhyan dein ki hum yahan `<script type="module">` ka use kar rahe hain,  
+aur jo CDN URL import ho raha hai, wo Vue ke **ES modules build** ko point karta hai.
 
 <div class="options-api">
 
@@ -264,15 +294,17 @@ Notice that we are using `<script type="module">`, and the imported CDN URL is p
 
 </div>
 
-### Enabling Import maps {#enabling-import-maps}
+### Import Maps enable karna {#enabling-import-maps}
 
-In the above example, we are importing from the full CDN URL, but in the rest of the documentation you will see code like this:
+Upar wale example mein humne full CDN URL se import kiya hai,  
+lekin aage ki documentation mein aap aise code dekhoge:
 
 ```js
 import { createApp } from 'vue'
 ```
 
-We can teach the browser where to locate the `vue` import by using [Import Maps](https://caniuse.com/import-maps):
+Hum browser ko yeh bata sakte hain ki `vue` import ko kahan se load karna hai,  
+aur yeh kaam hota hai [Import Maps](https://caniuse.com/import-maps) ke zariye:
 
 <div class="options-api">
 
@@ -335,21 +367,30 @@ We can teach the browser where to locate the `vue` import by using [Import Maps]
 
 </div>
 
-You can also add entries for other dependencies to the import map - but make sure they point to the ES modules version of the library you intend to use.
+Aap import map mein apne dusre dependencies ke entries bhi add kar sakte ho —  
+lekin dhyan rahe ki unka path us library ke **ES modules version** ko hi point kare.
 
 :::tip Import Maps Browser Support
-Import Maps is a relatively new browser feature. Make sure to use a browser within its [support range](https://caniuse.com/import-maps). In particular, it is only supported in Safari 16.4+.
+Import Maps ek relatively naya browser feature hai.  
+Ensure karein ki aap aisa browser use kar rahe ho jo is feature ko support karta ho:  
+[Support range](https://caniuse.com/import-maps) check karein.  
+Particularly, yeh Safari 16.4+ mein hi supported hai.
 :::
 
-:::warning Notes on Production Use
-The examples so far are using the development build of Vue - if you intend to use Vue from a CDN in production, make sure to check out the [Production Deployment Guide](/guide/best-practices/production-deployment#without-build-tools).
+:::warning Production Use ke Notes
+Ab tak ke examples Vue ke development build par based the —  
+agar aap Vue ko CDN ke through production mein use karna chahte ho,  
+toh yeh zaruri hai ki aap [Production Deployment Guide](/guide/best-practices/production-deployment#without-build-tools) check karo.
 
-While it is possible to use Vue without a build system, an alternative approach to consider is using [`vuejs/petite-vue`](https://github.com/vuejs/petite-vue) that could better suit the context where [`jquery/jquery`](https://github.com/jquery/jquery) (in the past) or [`alpinejs/alpine`](https://github.com/alpinejs/alpine) (in the present) might be used instead.
+Yeh zarur possible hai ki aap Vue bina kisi build system ke use karo,  
+lekin ek alternate approach yeh ho sakta hai ki aap [`vuejs/petite-vue`](https://github.com/vuejs/petite-vue) ka use karo —  
+jo un cases ke liye zyada suitable ho sakta hai jahan pehle [`jquery/jquery`](https://github.com/jquery/jquery) ya aaj kal [`alpinejs/alpine`](https://github.com/alpinejs/alpine) use hota tha.
 :::
 
-### Splitting Up the Modules {#splitting-up-the-modules}
+### Modules ko Split Karna {#splitting-up-the-modules}
 
-As we dive deeper into the guide, we may need to split our code into separate JavaScript files so that they are easier to manage. For example:
+Jaise-jaise hum guide mein aage badhenge, aapko apna code multiple JavaScript files mein split karna pad sakta hai taaki maintain karna easy ho jaye.  
+For example:
 
 ```html [index.html]
 <div id="app"></div>
@@ -389,29 +430,43 @@ export default {
 
 </div>
 
-If you directly open the above `index.html` in your browser, you will find that it throws an error because ES modules cannot work over the `file://` protocol, which is the protocol the browser uses when you open a local file.
+Agar aap upar diya gaya `index.html` file directly browser mein open karte ho,  
+toh aapko ek error milega kyunki ES modules `file://` protocol ke saath kaam nahi karte —  
+aur yahi protocol browser use karta hai jab aap koi local file open karte ho.
 
-Due to security reasons, ES modules can only work over the `http://` protocol, which is what the browsers use when opening pages on the web. In order for ES modules to work on our local machine, we need to serve the `index.html` over the `http://` protocol, with a local HTTP server.
+Security reasons ki wajah se, ES modules sirf `http://` protocol ke through hi kaam karte hain,  
+jo browser normally tab use karta hai jab aap koi page web par open karte ho.  
+Apne local system par ES modules ko chalane ke liye humein `index.html` ko `http://` protocol ke saath serve karna padega,  
+ek local HTTP server ke zariye.
 
-To start a local HTTP server, first make sure you have [Node.js](https://nodejs.org/en/) installed, then run `npx serve` from the command line in the same directory where your HTML file is. You can also use any other HTTP server that can serve static files with the correct MIME types.
+Ek local HTTP server start karne ke liye:
 
-You may have noticed that the imported component's template is inlined as a JavaScript string. If you are using VS Code, you can install the [es6-string-html](https://marketplace.visualstudio.com/items?itemName=Tobermory.es6-string-html) extension and prefix the strings with a `/*html*/` comment to get syntax highlighting for them.
+- Pehle ensure karein ki aapne [Node.js](https://nodejs.org/en/) install kiya hua hai
+- Uske baad command line mein `npx serve` run karein — usi directory mein jahan aapka HTML file hai
 
-## Next Steps {#next-steps}
+Aap koi bhi doosra HTTP server use kar sakte ho  
+jo static files ko sahi MIME types ke saath serve kar sake.
 
-If you skipped the [Introduction](/guide/introduction), we strongly recommend reading it before moving on to the rest of the documentation.
+Aapne shayad notice kiya hoga ki imported component ka template JavaScript string ke andar inline likha gaya hai.  
+Agar aap VS Code use kar rahe ho, toh aap [es6-string-html](https://marketplace.visualstudio.com/items?itemName=Tobermory.es6-string-html) extension install karke  
+us string ko `/*html*/` comment ke saath prefix karo taaki aapko syntax highlighting mil sake.
+
+## Aage ke Steps {#next-steps}
+
+Agar aapne [Introduction](/guide/introduction) section skip kiya hai,  
+toh strongly recommend kiya jaata hai ki usse zarur padhein uske baad hi aage ke documentation mein badhein.
 
 <div class="vt-box-container next-steps">
   <a class="vt-box" href="/guide/essentials/application.html">
-    <p class="next-steps-link">Continue with the Guide</p>
-    <p class="next-steps-caption">The guide walks you through every aspect of the framework in full detail.</p>
+    <p class="next-steps-link">Guide Continue Karo</p>
+    <p class="next-steps-caption">Guide framework ke har part ko detail mein samjhata hai.</p>
   </a>
   <a class="vt-box" href="/tutorial/">
-    <p class="next-steps-link">Try the Tutorial</p>
-    <p class="next-steps-caption">For those who prefer learning things hands-on.</p>
+    <p class="next-steps-link">Tutorial Try Karo</p>
+    <p class="next-steps-caption">Un logon ke liye jo hands-on tareeke se seekhna pasand karte hain.</p>
   </a>
   <a class="vt-box" href="/examples/">
-    <p class="next-steps-link">Check out the Examples</p>
-    <p class="next-steps-caption">Explore examples of core features and common UI tasks.</p>
+    <p class="next-steps-link">Examples Dekho</p>
+    <p class="next-steps-caption">Core features aur common UI tasks ke examples explore karo.</p>
   </a>
 </div>
