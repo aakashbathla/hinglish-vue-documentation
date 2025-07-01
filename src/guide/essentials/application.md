@@ -1,8 +1,9 @@
-# Creating a Vue Application {#creating-a-vue-application}
+# Vue Application Banana {#creating-a-vue-application}
 
-## The application instance {#the-application-instance}
+## Application Instance kya hoti hai {#the-application-instance}
 
-Every Vue application starts by creating a new **application instance** with the [`createApp`](/api/application#createapp) function:
+Har Vue application ki shuruaat ek naye **application instance** create karne se hoti hai,  
+jo ki [`createApp`](/api/application#createapp) function ke through kiya jaata hai:
 
 ```js
 import { createApp } from 'vue'
@@ -12,38 +13,49 @@ const app = createApp({
 })
 ```
 
-## The Root Component {#the-root-component}
+## Root Component {#the-root-component}
 
-The object we are passing into `createApp` is in fact a component. Every app requires a "root component" that can contain other components as its children.
+Jo object hum `createApp` mein pass kar rahe hain, wo actually ek component hota hai.  
+Har app mein ek "root component" hona zaroori hota hai, jo baaki components ko apne children ke roop mein contain karta hai.
 
-If you are using Single-File Components, we typically import the root component from another file:
+Agar aap Single-File Components ka use kar rahe ho,  
+toh root component ko aam taur par kisi alag file se import kiya jaata hai:
 
 ```js
 import { createApp } from 'vue'
-// import the root component App from a single-file component.
+// Root component App ko ek single-file component se import kar rahe hain.
 import App from './App.vue'
 
 const app = createApp(App)
 ```
 
-While many examples in this guide only need a single component, most real applications are organized into a tree of nested, reusable components. For example, a Todo application's component tree might look like this:
+Is guide mein diye gaye kai examples sirf ek hi component ka use karte hain,  
+lekin jyadatar real applications ek component tree ke form mein organized hote hain —  
+jahaan kai nested aur reusable components hote hain.
+
+Maan lijiye ek Todo application hai, uska component tree kuch is tarah ka ho sakta hai:
 
 ```
+
 App (root component)
 ├─ TodoList
-│  └─ TodoItem
-│     ├─ TodoDeleteButton
-│     └─ TodoEditButton
+│ └─ TodoItem
+│ ├─ TodoDeleteButton
+│ └─ TodoEditButton
 └─ TodoFooter
-   ├─ TodoClearButton
-   └─ TodoStatistics
+├─ TodoClearButton
+└─ TodoStatistics
+
 ```
 
-In later sections of the guide, we will discuss how to define and compose multiple components together. Before that, we will focus on what happens inside a single component.
+Guide ke aage ke sections mein hum yeh dekhenge ki multiple components ko kaise define aur compose kiya jaata hai.  
+Lekin usse pehle hum yeh samjhenge ki ek single component ke andar kya hota hai.
 
-## Mounting the App {#mounting-the-app}
+## App ko Mount Karna {#mounting-the-app}
 
-An application instance won't render anything until its `.mount()` method is called. It expects a "container" argument, which can either be an actual DOM element or a selector string:
+Ek application instance tab tak kuch render nahi karta jab tak uska `.mount()` method call na kiya jaye.  
+Yeh method ek "container" argument expect karta hai,  
+jo ya to ek actual DOM element ho sakta hai ya fir ek selector string:
 
 ```html
 <div id="app"></div>
@@ -53,13 +65,19 @@ An application instance won't render anything until its `.mount()` method is cal
 app.mount('#app')
 ```
 
-The content of the app's root component will be rendered inside the container element. The container element itself is not considered part of the app.
+App ka root component jo bhi content render karega, wo container element ke andar dikhai dega.  
+Lekin container element khud app ka part nahi mana jaata.
 
-The `.mount()` method should always be called after all app configurations and asset registrations are done. Also note that its return value, unlike the asset registration methods, is the root component instance instead of the application instance.
+`.mount()` method ko hamesha tab call karna chahiye jab app ki saari configurations  
+aur asset registrations complete ho chuki ho.  
+Yeh bhi dhyan rahe ki `.mount()` ka return value — asset registration methods ke alag —  
+application instance nahi, balki root component instance hota hai.
 
 ### In-DOM Root Component Template {#in-dom-root-component-template}
 
-The template for the root component is usually part of the component itself, but it is also possible to provide the template separately by writing it directly inside the mount container:
+Root component ka template aam taur par component ke andar hi likha hota hai,  
+lekin aap chaho to us template ko alag se bhi de sakte ho  
+— seedha mount container ke andar likh kar:
 
 ```html
 <div id="app">
@@ -81,13 +99,18 @@ const app = createApp({
 app.mount('#app')
 ```
 
-Vue will automatically use the container's `innerHTML` as the template if the root component does not already have a `template` option.
+Agar root component ke paas `template` option nahi hai,  
+toh Vue automatically container element ke `innerHTML` ko template ke roop mein use karega.
 
-In-DOM templates are often used in applications that are [using Vue without a build step](/guide/quick-start.html#using-vue-from-cdn). They can also be used in conjunction with server-side frameworks, where the root template might be generated dynamically by the server.
+In-DOM templates aksar un applications mein use ki jaati hain jo [Vue ko bina build step ke use kar rahe hote hain](/guide/quick-start.html#using-vue-from-cdn).  
+Yeh server-side frameworks ke saath bhi use ki ja sakti hain,  
+jahan root template dynamically server ke through generate hoti hai.
 
 ## App Configurations {#app-configurations}
 
-The application instance exposes a `.config` object that allows us to configure a few app-level options, for example, defining an app-level error handler that captures errors from all descendant components:
+Application instance ek `.config` object expose karta hai  
+jiske through hum kuch app-level options configure kar sakte hain —  
+jaise ek app-level error handler define karna jo sabhi descendant components se aane wale errors ko capture kare:
 
 ```js
 app.config.errorHandler = (err) => {
@@ -95,19 +118,23 @@ app.config.errorHandler = (err) => {
 }
 ```
 
-The application instance also provides a few methods for registering app-scoped assets. For example, registering a component:
+Application instance kuch methods bhi provide karta hai jinse hum app-scoped assets register kar sakte hain. Jaise ki, ek component register karna:
 
 ```js
 app.component('TodoDeleteButton', TodoDeleteButton)
 ```
 
-This makes the `TodoDeleteButton` available for use anywhere in our app. We will discuss registration for components and other types of assets in later sections of the guide. You can also browse the full list of application instance APIs in its [API reference](/api/application).
+Isse `TodoDeleteButton` component poore app mein kahin bhi use kiya ja sakta hai.  
+Components aur doosre asset types ka registration guide ke aage ke sections mein detail mein explain kiya gaya hai.  
+Aap application instance ke sabhi APIs ki full list yahan dekh sakte ho: [API reference](/api/application)
 
-Make sure to apply all app configurations before mounting the app!
+Yaad rahe: App ko mount karne se pehle sabhi configurations apply kar lena chahiye!
 
-## Multiple application instances {#multiple-application-instances}
+## Multiple Application Instances {#multiple-application-instances}
 
-You are not limited to a single application instance on the same page. The `createApp` API allows multiple Vue applications to co-exist on the same page, each with its own scope for configuration and global assets:
+Aap ek hi page par sirf ek application instance tak simit nahi ho.  
+`createApp` API allow karta hai ki ek hi page par multiple Vue applications ho sakti hain —  
+aur har ek ka apna configuration scope aur global assets ho sakta hai:
 
 ```js
 const app1 = createApp({
@@ -121,4 +148,6 @@ const app2 = createApp({
 app2.mount('#container-2')
 ```
 
-If you are using Vue to enhance server-rendered HTML and only need Vue to control specific parts of a large page, avoid mounting a single Vue application instance on the entire page. Instead, create multiple small application instances and mount them on the elements they are responsible for.
+Agar aap Vue ka use server-rendered HTML ko enhance karne ke liye kar rahe ho aur sirf kisi bade page ke kuch specific parts ko hi Vue se control karna hai,toh poore page par ek hi Vue application instance mount karne se bachein.
+
+Iske bajaye, chhoti-chhoti multiple application instances banayein aur unhe un specific elements par mount karein jinke liye wo responsible hain.
