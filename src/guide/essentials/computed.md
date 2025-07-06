@@ -10,7 +10,7 @@
 
 ## Basic Example {#basic-example}
 
-In-template expressions are very convenient, but they are meant for simple operations. Putting too much logic in your templates can make them bloated and hard to maintain. For example, if we have an object with a nested array:
+Template ke andar expressions use karna kaafi convenient hota hai, lekin yeh sirf simple operations ke liye hi theek hai. Agar aap apna logic template mein zyada likhne lag jao to wo messy aur difficult to maintain ban jaata hai. Jaise agar humare paas ek object hai jisme ek nested array hai:
 
 <div class="options-api">
 
@@ -47,16 +47,16 @@ const author = reactive({
 
 </div>
 
-And we want to display different messages depending on if `author` already has some books or not:
+Aur hume yeh dikhana hai ki author ne koi book publish ki hai ya nahi:
 
 ```vue-html
 <p>Has published books:</p>
 <span>{{ author.books.length > 0 ? 'Yes' : 'No' }}</span>
 ```
 
-At this point, the template is getting a bit cluttered. We have to look at it for a second before realizing that it performs a calculation depending on `author.books`. More importantly, we probably don't want to repeat ourselves if we need to include this calculation in the template more than once.
+Is point par, template thoda cluttered lagne lagta hai. Ek second lagta hai samajhne mein ki yeh ek condition check kar raha hai `author.books` par based. Aur agar hume yehi calculation baar-baar karna pade to repeating logic ho jaayega.
 
-That's why for complex logic that includes reactive data, it is recommended to use a **computed property**. Here's the same example, refactored:
+Isi liye, jab logic thoda complex ho aur reactive data ke saath ho, tab use karna chahiye **computed property**. Yeh wahi example hai, thoda better structure ke saath:
 
 <div class="options-api">
 
@@ -75,9 +75,9 @@ export default {
     }
   },
   computed: {
-    // a computed getter
+    // ek computed getter
     publishedBooksMessage() {
-      // `this` points to the component instance
+      // `this` component instance ko point karta hai
       return this.author.books.length > 0 ? 'Yes' : 'No'
     }
   }
@@ -89,15 +89,15 @@ export default {
 <span>{{ publishedBooksMessage }}</span>
 ```
 
-[Try it in the Playground](https://play.vuejs.org/#eNqFkN1KxDAQhV/l0JsqaFfUq1IquwiKsF6JINaLbDNui20S8rO4lL676c82eCFCIDOZMzkzXxetlUoOjqI0ykypa2XzQtC3ktqC0ydzjUVXCIAzy87OpxjQZJ0WpwxgzlZSp+EBEKylFPGTrATuJcUXobST8sukeA8vQPzqCNe4xJofmCiJ48HV/FfbLLrxog0zdfmn4tYrXirC9mgs6WMcBB+nsJ+C8erHH0rZKmeJL0sot2tqUxHfDONuyRi2p4BggWCr2iQTgGTcLGlI7G2FHFe4Q/xGJoYn8SznQSbTQviTrRboPrHUqoZZ8hmQqfyRmTDFTC1bqalsFBN5183o/3NG33uvoWUwXYyi/gdTEpwK)
+[Playground mein try karo](https://play.vuejs.org/#eNqFkN1KxDAQhV/l0JsqaFfUq1IquwiKsF6JINaLbDNui20S8rO4lL676c82eCFCIDOZMzkzXxetlUoOjqI0ykypa2XzQtC3ktqC0ydzjUVXCIAzy87OpxjQZJ0WpwxgzlZSp+EBEKylFPGTrATuJcUXobST8sukeA8vQPzqCNe4xJofmCiJ48HV/FfbLLrxog0zdfmn4tYrXirC9mgs6WMcBB+nsJ+C8erHH0rZKmeJL0sot2tqUxHfDONuyRi2p4BggWCr2iQTgGTcLGlI7G2FHFe4Q/xGJoYn8SznQSbTQviTrRboPrHUqoZZ8hmQqfyRmTDFTC1bqalsFBN5183o/3NG33uvoWUwXYyi/gdTEpwK)
 
-Here we have declared a computed property `publishedBooksMessage`.
+Yahan humne ek computed property banayi hai `publishedBooksMessage`.
 
-Try to change the value of the `books` array in the application `data` and you will see how `publishedBooksMessage` is changing accordingly.
+Agar aap `books` array ka value change karoge to `publishedBooksMessage` ka output bhi change ho jaayega.
 
-You can data-bind to computed properties in templates just like a normal property. Vue is aware that `this.publishedBooksMessage` depends on `this.author.books`, so it will update any bindings that depend on `this.publishedBooksMessage` when `this.author.books` changes.
+Templates mein computed properties ko bilkul normal properties ki tarah bind kiya ja sakta hai. Vue ko pata hota hai ki `this.publishedBooksMessage` depend karta hai `this.author.books` par, isliye agar `this.author.books` change hota hai to `this.publishedBooksMessage` bhi update ho jaayega.
 
-See also: [Typing Computed Properties](/guide/typescript/options-api#typing-computed-properties) <sup class="vt-badge ts" />
+Aur dekho: [Typing Computed Properties](/guide/typescript/options-api#typing-computed-properties) <sup class="vt-badge ts" />
 
 </div>
 
@@ -116,7 +116,7 @@ const author = reactive({
   ]
 })
 
-// a computed ref
+// ek computed ref
 const publishedBooksMessage = computed(() => {
   return author.books.length > 0 ? 'Yes' : 'No'
 })
@@ -128,19 +128,19 @@ const publishedBooksMessage = computed(() => {
 </template>
 ```
 
-[Try it in the Playground](https://play.vuejs.org/#eNp1kE9Lw0AQxb/KI5dtoTainkoaaREUoZ5EEONhm0ybYLO77J9CCfnuzta0vdjbzr6Zeb95XbIwZroPlMySzJW2MR6OfDB5oZrWaOvRwZIsfbOnCUrdmuCpQo+N1S0ET4pCFarUynnI4GttMT9PjLpCAUq2NIN41bXCkyYxiZ9rrX/cDF/xDYiPQLjDDRbVXqqSHZ5DUw2tg3zP8lK6pvxHe2DtvSasDs6TPTAT8F2ofhzh0hTygm5pc+I1Yb1rXE3VMsKsyDm5JcY/9Y5GY8xzHI+wnIpVw4nTI/10R2rra+S4xSPEJzkBvvNNs310ztK/RDlLLjy1Zic9cQVkJn+R7gIwxJGlMXiWnZEq77orhH3Pq2NH9DjvTfpfSBSbmA==)
+[Playground mein try karo](https://play.vuejs.org/#eNp1kE9Lw0AQxb/KI5dtoTainkoaaREUoZ5EEONhm0ybYLO77J9CCfnuzta0vdjbzr6Zeb95XbIwZroPlMySzJW2MR6OfDB5oZrWaOvRwZIsfbOnCUrdmuCpQo+N1S0ET4pCFarUynnI4GttMT9PjLpCAUq2NIN41bXCkyYxiZ9rrX/cDF/xDYiPQLjDDRbVXqqSHZ5DUw2tg3zP8lK6pvxHe2DtvSasDs6TPTAT8F2ofhzh0hTygm5pc+I1Yb1rXE3VMsKsyDm5JcY/9Y5GY8xzHI+wnIpVw4nTI/10R2rra+S4xSPEJzkBvvNNs310ztK/RDlLLjy1Zic9cQVkJn+R7gIwxJGlMXiWnZEq77orhH3Pq2NH9DjvTfpfSBSbmA==)
 
-Here we have declared a computed property `publishedBooksMessage`. The `computed()` function expects to be passed a [getter function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get#description), and the returned value is a **computed ref**. Similar to normal refs, you can access the computed result as `publishedBooksMessage.value`. Computed refs are also auto-unwrapped in templates so you can reference them without `.value` in template expressions.
+Yahan humne `publishedBooksMessage` naam ka ek computed property banaya hai. `computed()` function ek [getter function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get#description) leta hai aur return karta hai ek **computed ref**. Normal refs ki tarah hi aap iska value `publishedBooksMessage.value` se access kar sakte ho. Lekin templates mein `.value` lagane ki zarurat nahi hoti — Vue automatically unwrap kar deta hai.
 
-A computed property automatically tracks its reactive dependencies. Vue is aware that the computation of `publishedBooksMessage` depends on `author.books`, so it will update any bindings that depend on `publishedBooksMessage` when `author.books` changes.
+Computed property apne reactive dependencies ko automatically track karta hai. Vue ko pata hai ki `publishedBooksMessage` ka calculation `author.books` par depend karta hai, isliye jab bhi `author.books` change hoga, related bindings automatically update ho jaayenge.
 
-See also: [Typing Computed](/guide/typescript/composition-api#typing-computed) <sup class="vt-badge ts" />
+Aur dekho: [Typing Computed](/guide/typescript/composition-api#typing-computed) <sup class="vt-badge ts" />
 
 </div>
 
 ## Computed Caching vs. Methods {#computed-caching-vs-methods}
 
-You may have noticed we can achieve the same result by invoking a method in the expression:
+Aapne notice kiya hoga ki hum wahi result ek method ke through bhi le sakte hain:
 
 ```vue-html
 <p>{{ calculateBooksMessage() }}</p>
@@ -149,7 +149,7 @@ You may have noticed we can achieve the same result by invoking a method in the 
 <div class="options-api">
 
 ```js
-// in component
+// component ke andar
 methods: {
   calculateBooksMessage() {
     return this.author.books.length > 0 ? 'Yes' : 'No'
@@ -162,7 +162,7 @@ methods: {
 <div class="composition-api">
 
 ```js
-// in component
+// component ke andar
 function calculateBooksMessage() {
   return author.books.length > 0 ? 'Yes' : 'No'
 }
@@ -170,9 +170,9 @@ function calculateBooksMessage() {
 
 </div>
 
-Instead of a computed property, we can define the same function as a method. For the end result, the two approaches are indeed exactly the same. However, the difference is that **computed properties are cached based on their reactive dependencies.** A computed property will only re-evaluate when some of its reactive dependencies have changed. This means as long as `author.books` has not changed, multiple access to `publishedBooksMessage` will immediately return the previously computed result without having to run the getter function again.
+Computed property ki jagah, hum wahi function ek method ke roop mein define kar sakte hain. Dono approaches ka output toh same hota hai, lekin main difference yeh hai ki **computed properties apni reactive dependencies ke base par cache hoti hain.** Ek computed property tabhi re-calculate hoti hai jab uski reactive dependency change hoti hai. Iska matlab yeh hua ki jab tak `author.books` change nahi hota, `publishedBooksMessage` ko jitni baar bhi access karo, wo pehle se computed value hi return karega — bina getter ko dubara chalaye.
 
-This also means the following computed property will never update, because `Date.now()` is not a reactive dependency:
+Iska ek example yeh hai — neeche wala computed property kabhi update nahi hoga, kyunki `Date.now()` ek reactive dependency nahi hai:
 
 <div class="options-api">
 
@@ -194,13 +194,13 @@ const now = computed(() => Date.now())
 
 </div>
 
-In comparison, a method invocation will **always** run the function whenever a re-render happens.
+Wahin agar aap isko method ke through call karte ho, toh wo **har render pe** dubara execute hoga.
 
-Why do we need caching? Imagine we have an expensive computed property `list`, which requires looping through a huge array and doing a lot of computations. Then we may have other computed properties that in turn depend on `list`. Without caching, we would be executing `list`’s getter many more times than necessary! In cases where you do not want caching, use a method call instead.
+Ab caching zaroori kyu hai? Sochiye aapke paas ek heavy computed property hai `list`, jo ek bade array ko loop karke kuch heavy calculation karta hai. Ab agar dusri computed properties bhi `list` pe dependent hain, toh bina caching ke, har bar wo costly `list` computation bar-bar chalega. Isliye, jahan caching nahi chahiye, wahan method use karna better hai.
 
 ## Writable Computed {#writable-computed}
 
-Computed properties are by default getter-only. If you attempt to assign a new value to a computed property, you will receive a runtime warning. In the rare cases where you need a "writable" computed property, you can create one by providing both a getter and a setter:
+By default, computed properties sirf read-only hoti hain. Agar aap kisi computed property ko assign karne ki koshish karte ho, toh runtime warning milti hai. Lekin kuch rare cases mein agar aapko ek "writable" computed property chahiye, toh aap uske liye ek getter aur setter dono define kar sakte ho:
 
 <div class="options-api">
 
@@ -220,15 +220,15 @@ export default {
       },
       // setter
       set(newValue) {
-        // Note: we are using destructuring assignment syntax here.
-        [this.firstName, this.lastName] = newValue.split(' ')
+        // Yahan hum destructuring assignment ka use kar rahe hain
+        ;[this.firstName, this.lastName] = newValue.split(' ')
       }
     }
   }
 }
 ```
 
-Now when you run `this.fullName = 'John Doe'`, the setter will be invoked and `this.firstName` and `this.lastName` will be updated accordingly.
+Ab jab aap `this.fullName = 'John Doe'` likhoge, toh setter call hoga aur `firstName` aur `lastName` update ho jayenge.
 
 </div>
 
@@ -248,29 +248,27 @@ const fullName = computed({
   },
   // setter
   set(newValue) {
-    // Note: we are using destructuring assignment syntax here.
-    [firstName.value, lastName.value] = newValue.split(' ')
+    // Yahan hum destructuring assignment ka use kar rahe hain
+    ;[firstName.value, lastName.value] = newValue.split(' ')
   }
 })
 </script>
 ```
 
-Now when you run `fullName.value = 'John Doe'`, the setter will be invoked and `firstName` and `lastName` will be updated accordingly.
+Ab jab aap `fullName.value = 'John Doe'` likhoge, toh setter call hoga aur `firstName` aur `lastName` update ho jayenge.
 
 </div>
 
 ## Getting the Previous Value {#previous}
 
-- Only supported in 3.4+
+- Sirf Vue 3.4+ mein supported hai
 
 <p class="options-api">
-In case you need it, you can get the previous value returned by the computed property accessing
-the second argument of the getter:
+Agar aapko zarurat pade, toh computed property ke getter ke dusre argument se previous value le sakte ho:
 </p>
 
 <p class="composition-api">
-In case you need it, you can get the previous value returned by the computed property accessing
-the first argument of the getter:
+Agar aapko zarurat pade, toh computed property ke getter ke pehle argument se previous value le sakte ho:
 </p>
 
 <div class="options-api">
@@ -283,9 +281,9 @@ export default {
     }
   },
   computed: {
-    // This computed will return the value of count when it's less or equal to 3.
-    // When count is >=4, the last value that fulfilled our condition will be returned
-    // instead until count is less or equal to 3
+    // Ye computed tab tak count ki value return karega jab tak wo 3 ya usse kam hai.
+    // Jab count 4 ya usse zyada ho jata hai, toh pehle wali value return hoti hai
+    // jab tak count wapas 3 ya usse kam na ho jaye
     alwaysSmall(_, previous) {
       if (this.count <= 3) {
         return this.count
@@ -296,6 +294,7 @@ export default {
   }
 }
 ```
+
 </div>
 
 <div class="composition-api">
@@ -306,9 +305,9 @@ import { ref, computed } from 'vue'
 
 const count = ref(2)
 
-// This computed will return the value of count when it's less or equal to 3.
-// When count is >=4, the last value that fulfilled our condition will be returned
-// instead until count is less or equal to 3
+// Ye computed tab tak count ki value return karega jab tak wo 3 ya usse kam hai.
+// Jab count 4 ya usse zyada ho jata hai, toh pehle wali value return hoti hai
+// jab tak count wapas 3 ya usse kam na ho jaye
 const alwaysSmall = computed((previous) => {
   if (count.value <= 3) {
     return count.value
@@ -318,9 +317,10 @@ const alwaysSmall = computed((previous) => {
 })
 </script>
 ```
+
 </div>
 
-In case you're using a writable computed:
+Agar aap writable computed ka use kar rahe ho:
 
 <div class="options-api">
 
@@ -338,7 +338,7 @@ export default {
           return this.count
         }
 
-        return previous;
+        return previous
       },
       set(newValue) {
         this.count = newValue * 2
@@ -374,13 +374,12 @@ const alwaysSmall = computed({
 
 </div>
 
-
 ## Best Practices {#best-practices}
 
-### Getters should be side-effect free {#getters-should-be-side-effect-free}
+### Getters side-effect se free hone chahiye {#getters-should-be-side-effect-free}
 
-It is important to remember that computed getter functions should only perform pure computation and be free of side effects. For example, **don't mutate other state, make async requests, or mutate the DOM inside a computed getter!** Think of a computed property as declaratively describing how to derive a value based on other values - its only responsibility should be computing and returning that value. Later in the guide we will discuss how we can perform side effects in reaction to state changes with [watchers](./watchers).
+Ye yaad rakhna zaroori hai ki computed getter functions sirf pure calculation karein aur side effects se free ho. Jaise ki **kisi aur state ko mutate mat karo, async requests mat bhejo, ya computed getter ke andar DOM mutate mat karo!** Computed property ka kaam ye batana hai ki kisi value ko dusri values ke base pe kaise derive karein — iska sirf yehi kaam hona chahiye. Aage guide mein hum dekhenge ki state change hone par side effects kaise handle karein using [watchers](./watchers).
 
-### Avoid mutating computed value {#avoid-mutating-computed-value}
+### Computed value ko mutate mat karo {#avoid-mutating-computed-value}
 
-The returned value from a computed property is derived state. Think of it as a temporary snapshot - every time the source state changes, a new snapshot is created. It does not make sense to mutate a snapshot, so a computed return value should be treated as read-only and never be mutated - instead, update the source state it depends on to trigger new computations.
+Computed property ka return value ek derived state hota hai. Use ek temporary snapshot ki tarah samjho — har baar jab source state change hoti hai, ek naya snapshot ban jaata hai. Is snapshot ko mutate karne ka koi matlab nahi banta, isliye computed value ko read-only treat karo. Agar kuchh change karna ho, toh us source state ko update karo jisse computed value depend karti hai, taki wo automatic re-calculate ho jaaye.
