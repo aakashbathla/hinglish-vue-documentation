@@ -1,18 +1,18 @@
 # Template Refs {#template-refs}
 
-While Vue's declarative rendering model abstracts away most of the direct DOM operations for you, there may still be cases where we need direct access to the underlying DOM elements. To achieve this, we can use the special `ref` attribute:
+Jabki Vue ka declarative rendering model aapke liye mostly direct DOM operations ko abstract kar deta hai, kuch cases me aise scenarios ho sakte hain jahan humein underlying DOM elements ka direct access chahiye hota hai. Aise situations me hum special `ref` attribute ka use kar sakte hain:
 
 ```vue-html
 <input ref="input">
 ```
 
-`ref` is a special attribute, similar to the `key` attribute discussed in the `v-for` chapter. It allows us to obtain a direct reference to a specific DOM element or child component instance after it's mounted. This may be useful when you want to, for example, programmatically focus an input on component mount, or initialize a 3rd party library on an element.
+`ref` ek special attribute hai, jo `v-for` chapter me discuss kiye gaye `key` attribute ki tarah hota hai. Ye humein ek specific DOM element ya child component instance ka direct reference provide karta hai, jab wo mount ho jaata hai. Ye tab kaam aata hai jab aap chahein ki jaise hi component mount ho, koi input field automatically focus ho jaaye, ya kisi element par koi 3rd party library initialize ki jaaye.
 
 ## Accessing the Refs {#accessing-the-refs}
 
 <div class="composition-api">
 
-To obtain the reference with Composition API, we can use the [`useTemplateRef()`](/api/composition-api-helpers#usetemplateref) <sup class="vt-badge" data-text="3.5+" /> helper:
+Composition API ke saath reference ko access karne ke liye, hum [`useTemplateRef()`](/api/composition-api-helpers#usetemplateref) <sup class="vt-badge" data-text="3.5+" /> helper ka use kar sakte hain:
 
 ```vue
 <script setup>
@@ -31,12 +31,12 @@ onMounted(() => {
 </template>
 ```
 
-When using TypeScript, Vue's IDE support and `vue-tsc` will automatically infer the type of `input.value` based on what element or component the matching `ref` attribute is used on.
+Jab aap TypeScript ka use karte hain, toh Vue ka IDE support aur `vue-tsc` automatically `input.value` ka type infer kar leta hai based on ki `ref` attribute kis element ya component par laga hai.
 
 <details>
-<summary>Usage before 3.5</summary>
+<summary>3.5 se pehle ka usage</summary>
 
-In versions before 3.5 where `useTemplateRef()` was not introduced, we need to declare a ref with a name that matches the template ref attribute's value:
+Un versions me jo 3.5 se pehle ke hain, jahan `useTemplateRef()` introduce nahi hua tha, wahan humein ek aisa ref declare karna padta tha jiska naam template ke `ref` attribute ke value se match karta ho:
 
 ```vue
 <script setup>
@@ -56,7 +56,7 @@ onMounted(() => {
 </template>
 ```
 
-If not using `<script setup>`, make sure to also return the ref from `setup()`:
+Agar aap `<script setup>` ka use nahi kar rahe hain, toh ensure karein ki aap `ref` ko `setup()` function se return bhi karein:
 
 ```js{6}
 export default {
@@ -75,7 +75,7 @@ export default {
 </div>
 <div class="options-api">
 
-The resulting ref is exposed on `this.$refs`:
+Jo ref aap define karte ho, wo `this.$refs` ke through access hota hai:
 
 ```vue
 <script>
@@ -93,11 +93,11 @@ export default {
 
 </div>
 
-Note that you can only access the ref **after the component is mounted.** If you try to access <span class="options-api">`$refs.input`</span><span class="composition-api">`input`</span> in a template expression, it will be <span class="options-api">`undefined`</span><span class="composition-api">`null`</span> on the first render. This is because the element doesn't exist until after the first render!
+Dhyan dein ki aap ref ko tabhi access kar sakte hain jab **component mount ho chuka ho.** Agar aap <span class="options-api">`$refs.input`</span><span class="composition-api">`input`</span> ko kisi template expression me access karne ki koshish karte hain, toh ye <span class="options-api">`undefined`</span><span class="composition-api">`null`</span> hoga pehle render par. Aisa isliye hota hai kyunki wo element tab tak exist hi nahi karta jab tak pehla render complete nahi ho jaata!
 
 <div class="composition-api">
 
-If you are trying to watch the changes of a template ref, make sure to account for the case where the ref has `null` value:
+Agar aap template ref me hone wale changes ko watch karne ki koshish kar rahe hain, toh ye ensure karein ki aap us case ka bhi dhyan rakhein jahan ref ka value `null` ho sakta hai:
 
 ```js
 watchEffect(() => {
@@ -115,9 +115,9 @@ See also: [Typing Template Refs](/guide/typescript/composition-api#typing-templa
 
 ## Ref on Component {#ref-on-component}
 
-> This section assumes knowledge of [Components](/guide/essentials/component-basics). Feel free to skip it and come back later.
+> Ye section maan ke chalta hai ki aapko [Components](/guide/essentials/component-basics) ki knowledge hai. Agar nahi hai toh isse skip karke baad me wapas aa sakte hain.
 
-`ref` can also be used on a child component. In this case the reference will be that of a component instance:
+`ref` ko aap child component par bhi use kar sakte hain. Is case me reference ek component instance ka hoga:
 
 <div class="composition-api">
 
@@ -184,11 +184,11 @@ export default {
 
 </div>
 
-<span class="composition-api">If the child component is using Options API or not using `<script setup>`, the</span><span class="options-api">The</span> referenced instance will be identical to the child component's `this`, which means the parent component will have full access to every property and method of the child component. This makes it easy to create tightly coupled implementation details between the parent and the child, so component refs should be only used when absolutely needed - in most cases, you should try to implement parent / child interactions using the standard props and emit interfaces first.
+<span class="composition-api">Agar child component Options API ka use kar raha hai ya `<script setup>` ka use nahi kar raha, toh</span><span class="options-api">Referenced instance</span> child component ke `this` ke barabar hoti hai — iska matlab hai parent component child ke har property aur method ko directly access kar sakta hai. Ye parent-child ke beech tightly coupled implementation details banana bahut easy bana deta hai, isliye component refs sirf tabhi use karne chahiye jab zarurat ho — zyadatar cases me aapko props aur emit interfaces ke through parent-child interactions implement karne chahiye.
 
 <div class="composition-api">
 
-An exception here is that components using `<script setup>` are **private by default**: a parent component referencing a child component using `<script setup>` won't be able to access anything unless the child component chooses to expose a public interface using the `defineExpose` macro:
+Ek exception ye hai ki `<script setup>` use karne wale components **by default private** hote hain: agar parent component kisi `<script setup>` component ko reference karta hai, toh wo kuch bhi access nahi kar paayega jab tak child component `defineExpose` macro ka use karke koi public interface expose nahi karta:
 
 ```vue
 <script setup>
@@ -205,16 +205,16 @@ defineExpose({
 </script>
 ```
 
-When a parent gets an instance of this component via template refs, the retrieved instance will be of the shape `{ a: number, b: number }` (refs are automatically unwrapped just like on normal instances).
+Jab parent component is component ka instance template refs ke through access karta hai, toh jo instance milta hai uska shape `{ a: number, b: number }` hoga (refs automatically unwrap ho jaate hain, bilkul normal instances ki tarah).
 
-Note that defineExpose must be called before any await operation. Otherwise, properties and methods exposed after the await operation will not be accessible. 
+Dhyan dein ki `defineExpose` ko kisi bhi `await` operation se pehle call karna zaroori hai. Agar aap `await` ke baad koi property ya method expose karte ho, toh wo accessible nahi hogi.
 
 See also: [Typing Component Template Refs](/guide/typescript/composition-api#typing-component-template-refs) <sup class="vt-badge ts" />
 
 </div>
 <div class="options-api">
 
-The `expose` option can be used to limit the access to a child instance:
+`expose` option ka use child component ke instance access ko limit karne ke liye kiya ja sakta hai:
 
 ```js
 export default {
@@ -236,17 +236,17 @@ export default {
 }
 ```
 
-In the above example, a parent referencing this component via template ref will only be able to access `publicData` and `publicMethod`.
+Upar wale example me, agar koi parent component is component ko template ref ke through reference karta hai, toh wo sirf `publicData` aur `publicMethod` ko hi access kar paayega.
 
 </div>
 
 ## Refs inside `v-for` {#refs-inside-v-for}
 
-> Requires v3.5 or above
+> Ye feature v3.5 ya uske baad ke versions me available hai
 
 <div class="composition-api">
 
-When `ref` is used inside `v-for`, the corresponding ref should contain an Array value, which will be populated with the elements after mount:
+Jab `ref` ko `v-for` ke andar use kiya jaata hai, toh us ref ka value ek Array hota hai, jo component ke mount hone ke baad uss loop ke elements se populate hota hai:
 
 ```vue
 <script setup>
@@ -275,7 +275,7 @@ onMounted(() => console.log(itemRefs.value))
 <details>
 <summary>Usage before 3.5</summary>
 
-In versions before 3.5 where `useTemplateRef()` was not introduced, we need to declare a ref with a name that matches the template ref attribute's value. The ref should also contain an array value:
+Un versions me jo 3.5 se pehle ke hain, jahan `useTemplateRef()` introduce nahi hua tha, wahan humein ek aisa ref declare karna padta tha jiska naam template ke `ref` attribute ke value se match karta ho. Saath hi, us ref ka value bhi ek array hona chahiye:
 
 ```vue
 <script setup>
@@ -304,7 +304,7 @@ onMounted(() => console.log(itemRefs.value))
 </div>
 <div class="options-api">
 
-When `ref` is used inside `v-for`, the resulting ref value will be an array containing the corresponding elements:
+Jab `ref` ko `v-for` ke andar use kiya jaata hai, toh jo ref value milti hai wo ek array hoti hai jismein corresponding elements included hote hain:
 
 ```vue
 <script>
@@ -335,14 +335,14 @@ export default {
 
 </div>
 
-It should be noted that the ref array does **not** guarantee the same order as the source array.
+Dhyan rahe ki ref array ka order **source array ke order se guaranteed match nahi karta**.
 
 ## Function Refs {#function-refs}
 
-Instead of a string key, the `ref` attribute can also be bound to a function, which will be called on each component update and gives you full flexibility on where to store the element reference. The function receives the element reference as the first argument:
+String key ke bajay, `ref` attribute ko ek function se bhi bind kiya ja sakta hai. Ye function har component update par call hota hai aur aapko ye pura control deta hai ki aap element reference ko kahan store karna chahte hain. Function ko element reference first argument ke roop me milta hai:
 
 ```vue-html
 <input :ref="(el) => { /* assign el to a property or ref */ }">
 ```
 
-Note we are using a dynamic `:ref` binding so we can pass it a function instead of a ref name string. When the element is unmounted, the argument will be `null`. You can, of course, use a method instead of an inline function.
+Dhyan dein ki hum dynamic `:ref` binding ka use kar rahe hain taaki hum ek function pass kar sakein ref name string ke bajay. Jab element unmount hota hai, toh us function ka argument `null` hota hai. Aap chahein toh inline function ki jagah ek method ka bhi use kar sakte hain.
