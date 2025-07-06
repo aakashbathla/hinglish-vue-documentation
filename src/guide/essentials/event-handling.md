@@ -10,17 +10,16 @@
 
 ## Listening to Events {#listening-to-events}
 
-We can use the `v-on` directive, which we typically shorten to the `@` symbol, to listen to DOM events and run some JavaScript when they're triggered. The usage would be `v-on:click="handler"` or with the shortcut, `@click="handler"`.
+Hum `v-on` directive ka use karte hain, jise aam taur par `@` symbol se shorten kiya jata hai, DOM events ko sunne ke liye aur jab woh trigger ho tab JavaScript run karne ke liye. Iska use hota hai `v-on:click="handler"` ya shortcut ke roop mein `@click="handler"`.
 
-The handler value can be one of the following:
+Handler value inme se koi bhi ho sakti hai:
 
-1. **Inline handlers:** Inline JavaScript to be executed when the event is triggered (similar to the native `onclick` attribute).
-
-2. **Method handlers:** A property name or path that points to a method defined on the component.
+1. **Inline handlers:** Inline JavaScript jo event trigger hone par execute hoti hai (jaise native `onclick` attribute).
+2. **Method handlers:** Ek property name ya path jo component mein define ki gayi method ko point karta hai.
 
 ## Inline Handlers {#inline-handlers}
 
-Inline handlers are typically used in simple cases, for example:
+Inline handlers aam taur par simple cases mein use ki jaati hain, jaise:
 
 <div class="composition-api">
 
@@ -59,7 +58,7 @@ data() {
 
 ## Method Handlers {#method-handlers}
 
-The logic for many event handlers will be more complex though, and likely isn't feasible with inline handlers. That's why `v-on` can also accept the name or path of a component method you'd like to call.
+Kaafi events ka logic complex hota hai, jise inline likhna feasible nahi hota. Isi wajah se `v-on` component method ka naam ya path bhi accept karta hai, jise aap call karna chahte ho.
 
 For example:
 
@@ -116,7 +115,7 @@ methods: {
 
 </div>
 
-A method handler automatically receives the native DOM Event object that triggers it - in the example above, we are able to access the element dispatching the event via `event.target`.
+A method handler ko automatically woh native DOM Event object milta hai jo usse trigger karta hai — upar wale example mein, hum us element ko access kar pa rahe hain jo event dispatch kar raha hai via `event.target`.
 
 <div class="composition-api">
 
@@ -131,11 +130,11 @@ See also: [Typing Event Handlers](/guide/typescript/options-api#typing-event-han
 
 ### Method vs. Inline Detection {#method-vs-inline-detection}
 
-The template compiler detects method handlers by checking whether the `v-on` value string is a valid JavaScript identifier or property access path. For example, `foo`, `foo.bar` and `foo['bar']` are treated as method handlers, while `foo()` and `count++` are treated as inline handlers.
+Template compiler method handlers ko detect karta hai by checking agar `v-on` ka value string ek valid JavaScript identifier ya property access path hai. Jaise ki `foo`, `foo.bar` aur `foo['bar']` method handlers ke roop mein treat kiye jaate hain, jabki `foo()` aur `count++` inline handlers maane jaate hain.
 
 ## Calling Methods in Inline Handlers {#calling-methods-in-inline-handlers}
 
-Instead of binding directly to a method name, we can also call methods in an inline handler. This allows us to pass the method custom arguments instead of the native event:
+Ek method name ko directly bind karne ke bajaye, hum inline handler ke andar method ko call bhi kar sakte hain. Isse hume method ko native event ke bajaye custom arguments pass karne ki flexibility milti hai:
 
 <div class="composition-api">
 
@@ -176,7 +175,7 @@ methods: {
 
 ## Accessing Event Argument in Inline Handlers {#accessing-event-argument-in-inline-handlers}
 
-Sometimes we also need to access the original DOM event in an inline handler. You can pass it into a method using the special `$event` variable, or use an inline arrow function:
+Kabhi-kabhi hume inline handler ke andar original DOM event ko bhi access karne ki zarurat hoti hai. Aap isse method mein special `$event` variable ke through pass kar sakte ho, ya ek inline arrow function ka use kar sakte ho:
 
 ```vue-html
 <!-- using $event special variable -->
@@ -221,9 +220,9 @@ methods: {
 
 ## Event Modifiers {#event-modifiers}
 
-It is a very common need to call `event.preventDefault()` or `event.stopPropagation()` inside event handlers. Although we can do this easily inside methods, it would be better if the methods can be purely about data logic rather than having to deal with DOM event details.
+Yeh kaafi common requirement hoti hai ki hum `event.preventDefault()` ya `event.stopPropagation()` ko event handlers ke andar call karein. Halanki yeh methods ke andar easily kiya ja sakta hai, lekin yeh behtar hota agar methods sirf data logic tak simit rahte, bina DOM event details ko handle kiye.
 
-To address this problem, Vue provides **event modifiers** for `v-on`. Recall that modifiers are directive postfixes denoted by a dot.
+Is problem ko solve karne ke liye, Vue `v-on` ke liye **event modifiers** provide karta hai. Yaad rahe ki modifiers directive ke postfix hote hain jo dot (`.`) se denote kiye jaate hain.
 
 - `.stop`
 - `.prevent`
@@ -251,56 +250,56 @@ To address this problem, Vue provides **event modifiers** for `v-on`. Recall tha
 ```
 
 ::: tip
-Order matters when using modifiers because the relevant code is generated in the same order. Therefore using `@click.prevent.self` will prevent **click's default action on the element itself and its children**, while `@click.self.prevent` will only prevent click's default action on the element itself.
+Modifiers ka order matter karta hai kyunki relevant code bhi usi order mein generate hota hai. Isliye agar aap `@click.prevent.self` likhte ho, toh yeh **element aur uske children** par click ka default action prevent karega. Wahi agar aap `@click.self.prevent` likhte ho, toh yeh sirf element ke upar click ka default action prevent karega.
 :::
 
-The `.capture`, `.once`, and `.passive` modifiers mirror the [options of the native `addEventListener` method](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#options):
+`.capture`, `.once`, aur `.passive` modifiers native [`addEventListener` method](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#options) ke options ko mirror karte hain:
 
-```vue-html
-<!-- use capture mode when adding the event listener     -->
-<!-- i.e. an event targeting an inner element is handled -->
-<!-- here before being handled by that element           -->
+````vue-html
+<!-- capture mode ka use jab aap event listener add karte ho -->
+<!-- yani ek event jo kisi inner element ko target karta hai  -->
+<!-- usse pehle yahan handle kiya jaayega                    -->
 <div @click.capture="doThis">...</div>
 
-<!-- the click event will be triggered at most once -->
+<!-- click event sirf ek baar trigger hoga -->
 <a @click.once="doThis"></a>
 
-<!-- the scroll event's default behavior (scrolling) will happen -->
-<!-- immediately, instead of waiting for `onScroll` to complete  -->
-<!-- in case it contains `event.preventDefault()`                -->
+<!-- scroll event ka default behavior (scroll karna) turant hoga -->
+<!-- bina `onScroll` ke complete hone ka wait kiye               -->
+<!-- agar usme `event.preventDefault()` likha ho to bhi          -->
 <div @scroll.passive="onScroll">...</div>
-```
 
-The `.passive` modifier is typically used with touch event listeners for [improving performance on mobile devices](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#improving_scroll_performance_using_passive_listeners).
+
+`.passive` modifier ko aam taur par touch event listeners ke saath use kiya jata hai [mobile devices par performance improve karne ke liye](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#improving_scroll_performance_using_passive_listeners).
 
 ::: tip
-Do not use `.passive` and `.prevent` together, because `.passive` already indicates to the browser that you _do not_ intend to prevent the event's default behavior, and you will likely see a warning from the browser if you do so.
+`.passive` aur `.prevent` ko ek saath use na karein, kyunki `.passive` browser ko pehle se hi yeh batata hai ki aap event ka default behavior prevent **nahi** karna chahte. Agar aap aisa karte hain to browser warning bhi de sakta hai.
 :::
+
 
 ## Key Modifiers {#key-modifiers}
 
-When listening for keyboard events, we often need to check for specific keys. Vue allows adding key modifiers for `v-on` or `@` when listening for key events:
+Jab hum keyboard events ke liye listen karte hain, to aksar hume specific keys ko check karna padta hai. Vue allow karta hai `v-on` ya `@` ke saath key modifiers add karna jab aap key events sun rahe ho:
 
 ```vue-html
-<!-- only call `submit` when the `key` is `Enter` -->
+<!-- sirf tab `submit` call hoga jab `key` ho `Enter` -->
 <input @keyup.enter="submit" />
-```
 
-You can directly use any valid key names exposed via [`KeyboardEvent.key`](https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values) as modifiers by converting them to kebab-case.
+
+Aap kisi bhi valid key name ko — jo [`KeyboardEvent.key`](https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values) ke through milte hain — modifiers ke roop mein directly use kar sakte ho, bas unhe kebab-case mein convert karna hota hai.
 
 ```vue-html
 <input @keyup.page-down="onPageDown" />
 ```
-
-In the above example, the handler will only be called if `$event.key` is equal to `'PageDown'`.
+Upar wale example mein, handler sirf tabhi call hoga jab `$event.key` ki value `'PageDown'` ke barabar ho.
 
 ### Key Aliases {#key-aliases}
 
-Vue provides aliases for the most commonly used keys:
+Vue kuch commonly used keys ke liye predefined aliases provide karta hai:
 
 - `.enter`
 - `.tab`
-- `.delete` (captures both "Delete" and "Backspace" keys)
+- `.delete` (yeh "Delete" aur "Backspace" dono keys ko capture karta hai)
 - `.esc`
 - `.space`
 - `.up`
@@ -310,7 +309,7 @@ Vue provides aliases for the most commonly used keys:
 
 ### System Modifier Keys {#system-modifier-keys}
 
-You can use the following modifiers to trigger mouse or keyboard event listeners only when the corresponding modifier key is pressed:
+Aap neeche diye gaye modifiers ka use kar sakte ho taaki mouse ya keyboard event listeners sirf tab trigger ho jab corresponding modifier key press ho:
 
 - `.ctrl`
 - `.alt`
@@ -318,7 +317,7 @@ You can use the following modifiers to trigger mouse or keyboard event listeners
 - `.meta`
 
 ::: tip Note
-On Macintosh keyboards, meta is the command key (⌘). On Windows keyboards, meta is the Windows key (⊞). On Sun Microsystems keyboards, meta is marked as a solid diamond (◆). On certain keyboards, specifically MIT and Lisp machine keyboards and successors, such as the Knight keyboard, space-cadet keyboard, meta is labeled “META”. On Symbolics keyboards, meta is labeled “META” or “Meta”.
+Macintosh keyboards par meta ka matlab hota hai command key (⌘). Windows keyboards par yeh Windows key (⊞) hoti hai. Sun Microsystems keyboards par meta ek solid diamond (◆) se mark kiya jata hai. Kuch specific keyboards, jaise MIT aur Lisp machine keyboards (jaise Knight ya space-cadet keyboard) mein meta ko “META” label diya jata hai. Symbolics keyboards par bhi yeh “META” ya “Meta” ke roop mein dikhai deta hai.
 :::
 
 For example:
@@ -332,30 +331,41 @@ For example:
 ```
 
 ::: tip
-Note that modifier keys are different from regular keys and when used with `keyup` events, they have to be pressed when the event is emitted. In other words, `keyup.ctrl` will only trigger if you release a key while holding down `ctrl`. It won't trigger if you release the `ctrl` key alone.
+Yaad rahe ki modifier keys regular keys se alag hoti hain, aur jab aap unhe `keyup` events ke saath use karte ho, toh unhe press kiya hua hona chahiye jab event emit ho. Dusre shabdon mein, `keyup.ctrl` sirf tab trigger karega jab aap kisi aur key ko release karo jab `ctrl` press ho. Agar aap sirf `ctrl` key ko release karte ho, toh yeh trigger nahi karega.
 :::
 
 ### `.exact` Modifier {#exact-modifier}
 
-The `.exact` modifier allows control of the exact combination of system modifiers needed to trigger an event.
+`.exact` modifier aapko yeh control dene ke liye hota hai ki kaunse exact system modifier keys hone chahiye event ko trigger karne ke liye.
+
 
 ```vue-html
-<!-- this will fire even if Alt or Shift is also pressed -->
+<!-- ye tab bhi chalega jab Alt ya Shift bhi press ho -->
 <button @click.ctrl="onClick">A</button>
 
-<!-- this will only fire when Ctrl and no other keys are pressed -->
+<!-- ye tabhi chalega jab sirf Ctrl press ho, aur koi aur key nahi -->
 <button @click.ctrl.exact="onCtrlClick">A</button>
 
-<!-- this will only fire when no system modifiers are pressed -->
+<!-- ye tabhi chalega jab koi bhi system modifier press na ho -->
 <button @click.exact="onClick">A</button>
 ```
-
 ## Mouse Button Modifiers {#mouse-button-modifiers}
 
 - `.left`
 - `.right`
 - `.middle`
 
-These modifiers restrict the handler to events triggered by a specific mouse button.
+Ye modifiers event handler ko sirf ek specific mouse button ke trigger hone par hi chalne dete hain.
 
-Note, however, that `.left`, `.right`, and `.middle` modifier names are based on the typical right-handed mouse layout, but in fact represent "main", "secondary", and "auxiliary" pointing device event triggers, respectively, and not the actual physical buttons. So that for a left-handed mouse layout the "main" button might physically be the right one but would trigger the `.left` modifier handler. Or a trackpad might trigger the `.left` handler with a one-finger tap, the `.right` handler with a two-finger tap, and the `.middle` handler with a three-finger tap. Similarly, other devices and event sources generating "mouse" events might have trigger modes that are not related to "left" and "right" whatsoever.
+Lekin dhyan rahe, `.left`, `.right`, aur `.middle` modifiers ke naam typical right-handed mouse layout par based hote hain — asal mein ye "main", "secondary", aur "auxiliary" pointing device event triggers ko represent karte hain, na ki actual physical buttons ko.
+
+Iska matlab:
+
+- Agar aap left-handed mouse layout use kar rahe hain, toh "main" button physically right side ka ho sakta hai, lekin fir bhi `.left` modifier trigger hoga.
+- Ek trackpad par:
+  - one-finger tap `.left` trigger karta hai
+  - two-finger tap `.right` trigger karta hai
+  - three-finger tap `.middle` trigger karta hai
+- Aur kuch devices ya event sources jo "mouse" events generate karte hain, wo triggers aise bhi ho sakte hain jo "left" ya "right" buttons se directly related na ho.
+
+````
