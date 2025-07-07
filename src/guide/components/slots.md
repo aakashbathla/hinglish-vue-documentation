@@ -1,14 +1,14 @@
 # Slots {#slots}
 
-> This page assumes you've already read the [Components Basics](/guide/essentials/component-basics). Read that first if you are new to components.
+> Is page ka assumption hai ki aap pehle hi [Components Basics](/guide/essentials/component-basics) padh chuke ho. Agar aap components ke liye naye ho, to pehle wo padho.
 
 <VueSchoolLink href="https://vueschool.io/lessons/vue-3-component-slots" title="Free Vue.js Slots Lesson"/>
 
-## Slot Content and Outlet {#slot-content-and-outlet}
+## Slot Content aur Outlet {#slot-content-and-outlet}
 
-We have learned that components can accept props, which can be JavaScript values of any type. But how about template content? In some cases, we may want to pass a template fragment to a child component, and let the child component render the fragment within its own template.
+Humne seekha ki components props accept karte hain, jo kisi bhi type ke JavaScript values ho sakte hain. Lekin template content ka kya? Kuch cases mein, hum chahte hain ki ek template fragment child component ko pass karein, aur child component us fragment ko apne template ke andar render kare.
 
-For example, we may have a `<FancyButton>` component that supports usage like this:
+Maan lo humare paas ek `<FancyButton>` component hai jiska use kuch is tarah hota hai:
 
 ```vue-html{2}
 <FancyButton>
@@ -16,7 +16,7 @@ For example, we may have a `<FancyButton>` component that supports usage like th
 </FancyButton>
 ```
 
-The template of `<FancyButton>` looks like this:
+`<FancyButton>` ka template kuch is tarah dikhta hai:
 
 ```vue-html{2}
 <button class="fancy-btn">
@@ -24,7 +24,7 @@ The template of `<FancyButton>` looks like this:
 </button>
 ```
 
-The `<slot>` element is a **slot outlet** that indicates where the parent-provided **slot content** should be rendered.
+`<slot>` element ek **slot outlet** hai jo batata hai ki parent dwara diya gaya **slot content** kahan render hoga.
 
 ![slot diagram](./images/slots.png)
 
@@ -47,15 +47,15 @@ And the final rendered DOM:
 
 </div>
 
-With slots, the `<FancyButton>` is responsible for rendering the outer `<button>` (and its fancy styling), while the inner content is provided by the parent component.
+Slots ke saath, `<FancyButton>` outer `<button>` (aur uski fancy styling) render karne ke liye responsible hota hai, jabki andar ka content parent component se aata hai.
 
-Another way to understand slots is by comparing them to JavaScript functions:
+Slots ko samajhne ka ek aur tareeka hai unko JavaScript functions se compare karna:
 
 ```js
-// parent component passing slot content
+// parent component slot content pass kar raha hai
 FancyButton('Click me!')
 
-// FancyButton renders slot content in its own template
+// FancyButton apne template mein slot content ko render karta hai
 function FancyButton(slotContent) {
   return `<button class="fancy-btn">
       ${slotContent}
@@ -63,7 +63,7 @@ function FancyButton(slotContent) {
 }
 ```
 
-Slot content is not just limited to text. It can be any valid template content. For example, we can pass in multiple elements, or even other components:
+Slot content sirf text tak hi limited nahi hota. Ye koi bhi valid template content ho sakta hai. Maan lo hum multiple elements ya doosre components bhi pass kar rahe ho:
 
 ```vue-html
 <FancyButton>
@@ -83,28 +83,28 @@ Slot content is not just limited to text. It can be any valid template content. 
 
 </div>
 
-By using slots, our `<FancyButton>` is more flexible and reusable. We can now use it in different places with different inner content, but all with the same fancy styling.
+Slots ka use karke humara `<FancyButton>` zyada flexible aur reusable ban jaata hai. Ab hum ise alag-alag jagah par alag-alag inner content ke saath use kar sakte hain, lekin sabhi mein same fancy styling milegi.
 
-Vue components' slot mechanism is inspired by the [native Web Component `<slot>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot), but with additional capabilities that we will see later.
+Vue components ka slot mechanism [native Web Component `<slot>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot) se inspire hua hai, lekin isme extra capabilities bhi hain jo hum aage dekhenge.
 
 ## Render Scope {#render-scope}
 
-Slot content has access to the data scope of the parent component, because it is defined in the parent. For example:
+Slot content ko parent component ke data scope tak access hota hai, kyunki ye parent mein hi define hota hai. Jaise ki:
 
 ```vue-html
 <span>{{ message }}</span>
 <FancyButton>{{ message }}</FancyButton>
 ```
 
-Here both <span v-pre>`{{ message }}`</span> interpolations will render the same content.
+Yahaan dono <span v-pre>`{{ message }}`</span> interpolations same content render karenge.
 
-Slot content does **not** have access to the child component's data. Expressions in Vue templates can only access the scope it is defined in, consistent with JavaScript's lexical scoping. In other words:
+Slot content **child component** ke data tak access nahi kar sakta. Vue templates mein expressions sirf us scope ko access kar sakti hain jahan wo define hui hain, bilkul JavaScript ke lexical scoping ki tarah. Dusre shabdon mein:
 
-> Expressions in the parent template only have access to the parent scope; expressions in the child template only have access to the child scope.
+> Parent template ke expressions sirf parent scope ko access karte hain; child template ke expressions sirf child scope ko.
 
 ## Fallback Content {#fallback-content}
 
-There are cases when it's useful to specify fallback (i.e. default) content for a slot, to be rendered only when no content is provided. For example, in a `<SubmitButton>` component:
+Kabhi-kabhi aisa hota hai jab kisi slot ke liye fallback (yaani default) content define karna useful hota hai, jo tab render ho jab parent koi content na de. Jaise ki `<SubmitButton>` component mein:
 
 ```vue-html
 <button type="submit">
@@ -112,7 +112,7 @@ There are cases when it's useful to specify fallback (i.e. default) content for 
 </button>
 ```
 
-We might want the text "Submit" to be rendered inside the `<button>` if the parent didn't provide any slot content. To make "Submit" the fallback content, we can place it in between the `<slot>` tags:
+Hum chaahte hain ki agar parent slot content na de to `<button>` ke andar "Submit" text render ho. "Submit" ko fallback content banane ke liye, hum usse `<slot>` tags ke beech daal sakte hain:
 
 ```vue-html{3}
 <button type="submit">
@@ -122,25 +122,25 @@ We might want the text "Submit" to be rendered inside the `<button>` if the pare
 </button>
 ```
 
-Now when we use `<SubmitButton>` in a parent component, providing no content for the slot:
+Ab jab hum `<SubmitButton>` parent component mein use karte hain bina koi content diye:
 
 ```vue-html
 <SubmitButton />
 ```
 
-This will render the fallback content, "Submit":
+To fallback content "Submit" render hoga:
 
 ```html
 <button type="submit">Submit</button>
 ```
 
-But if we provide content:
+Lekin agar hum content provide karte hain:
 
 ```vue-html
 <SubmitButton>Save</SubmitButton>
 ```
 
-Then the provided content will be rendered instead:
+To diya gaya content render hoga:
 
 ```html
 <button type="submit">Save</button>
@@ -159,23 +159,23 @@ Then the provided content will be rendered instead:
 
 ## Named Slots {#named-slots}
 
-There are times when it's useful to have multiple slot outlets in a single component. For example, in a `<BaseLayout>` component with the following template:
+Kabhi-kabhi aisa hota hai jab hume ek hi component ke andar multiple slot outlets ki zarurat hoti hai. Jaise ki ek `<BaseLayout>` component ke template mein:
 
 ```vue-html
 <div class="container">
   <header>
-    <!-- We want header content here -->
+    <!-- Hume yahan header ka content chahiye -->
   </header>
   <main>
-    <!-- We want main content here -->
+    <!-- Hume yahan main content chahiye -->
   </main>
   <footer>
-    <!-- We want footer content here -->
+    <!-- Hume yahan footer ka content chahiye -->
   </footer>
 </div>
 ```
 
-For these cases, the `<slot>` element has a special attribute, `name`, which can be used to assign a unique ID to different slots so you can determine where content should be rendered:
+Aise cases ke liye `<slot>` element mein ek special attribute hota hai `name`, jise use karke alag-alag slots ko unique ID de sakte hain taaki decide kar sake ki kaunsa content kahaan render hoga:
 
 ```vue-html
 <div class="container">
@@ -191,46 +191,46 @@ For these cases, the `<slot>` element has a special attribute, `name`, which can
 </div>
 ```
 
-A `<slot>` outlet without `name` implicitly has the name "default".
+Jo `<slot>` outlet `name` ke bina hota hai, uska naam default hota hai.
 
-In a parent component using `<BaseLayout>`, we need a way to pass multiple slot content fragments, each targeting a different slot outlet. This is where **named slots** come in.
+Jab hum parent component mein `<BaseLayout>` use karte hain, hume multiple slot content fragments pass karne padte hain, jo alag-alag slot outlets ko target karte hain. Yahan **named slots** ka use hota hai.
 
-To pass a named slot, we need to use a `<template>` element with the `v-slot` directive, and then pass the name of the slot as an argument to `v-slot`:
+Named slot pass karne ke liye hum `<template>` element ka use karte hain `v-slot` directive ke saath, aur `v-slot` ko argument ke roop mein slot ka naam dete hain:
 
 ```vue-html
 <BaseLayout>
   <template v-slot:header>
-    <!-- content for the header slot -->
+    <!-- header slot ke liye content -->
   </template>
 </BaseLayout>
 ```
 
-`v-slot` has a dedicated shorthand `#`, so `<template v-slot:header>` can be shortened to just `<template #header>`. Think of it as "render this template fragment in the child component's 'header' slot".
+`v-slot` ka ek shorthand bhi hota hai `#`, to `<template v-slot:header>` ko hum chhota karke `<template #header>` likh sakte hain. Iska matlab hai "is template fragment ko child component ke 'header' slot mein render karo".
 
 ![named slots diagram](./images/named-slots.png)
 
 <!-- https://www.figma.com/file/2BhP8gVZevttBu9oUmUUyz/named-slot -->
 
-Here's the code passing content for all three slots to `<BaseLayout>` using the shorthand syntax:
+Yeh raha code jisme hum teeno slots ke liye content pass kar rahe hain `<BaseLayout>` ko shorthand syntax ke saath:
 
 ```vue-html
 <BaseLayout>
   <template #header>
-    <h1>Here might be a page title</h1>
+    <h1>Yahaan ho sakta hai ek page title</h1>
   </template>
 
   <template #default>
-    <p>A paragraph for the main content.</p>
-    <p>And another one.</p>
+    <p>Main content ke liye ek paragraph.</p>
+    <p>Aur ek aur paragraph.</p>
   </template>
 
   <template #footer>
-    <p>Here's some contact info</p>
+    <p>Yeh raha kuch contact info</p>
   </template>
 </BaseLayout>
 ```
 
-When a component accepts both a default slot and named slots, all top-level non-`<template>` nodes are implicitly treated as content for the default slot. So the above can also be written as:
+Jab ek component default slot aur named slots dono accept karta hai, to jitne bhi top-level `<template>` ke bina wale nodes hote hain unhe implicitly default slot ka content maan liya jaata hai. To upar wale example ko aise bhi likh sakte hain:
 
 ```vue-html
 <BaseLayout>
@@ -248,19 +248,19 @@ When a component accepts both a default slot and named slots, all top-level non-
 </BaseLayout>
 ```
 
-Now everything inside the `<template>` elements will be passed to the corresponding slots. The final rendered HTML will be:
+Ab `<template>` elements ke andar jo bhi hai, woh corresponding slots ko pass kar diya jaayega. Final rendered HTML kuch is tarah dikhega:
 
 ```html
 <div class="container">
   <header>
-    <h1>Here might be a page title</h1>
+    <h1>Yahaan ho sakta hai ek page title</h1>
   </header>
   <main>
-    <p>A paragraph for the main content.</p>
-    <p>And another one.</p>
+    <p>Main content ke liye ek paragraph.</p>
+    <p>Aur ek aur paragraph.</p>
   </main>
   <footer>
-    <p>Here's some contact info</p>
+    <p>Yeh raha kuch contact info</p>
   </footer>
 </div>
 ```
@@ -276,7 +276,7 @@ Now everything inside the `<template>` elements will be passed to the correspond
 
 </div>
 
-Again, it may help you understand named slots better using the JavaScript function analogy:
+Dubara, named slots ko samajhne mein madad mil sakti hai agar aap ise JavaScript function ke analogy se dekhein:
 
 ```js
 // passing multiple slot fragments with different names
@@ -298,12 +298,13 @@ function BaseLayout(slots) {
 
 ## Conditional Slots {#conditional-slots}
 
-Sometimes you want to render something based on whether or not content has been passed to a slot. 
+Kabhi-kabhi aap chahte ho ki koi cheez tabhi render ho jab slot ke andar koi content pass kiya gaya ho.
 
-You can use the [$slots](/api/component-instance.html#slots) property in combination with a [v-if](/guide/essentials/conditional.html#v-if) to achieve this.
+Iske liye aap [$slots](/api/component-instance.html#slots) property ka use kar sakte ho, `v-if` directive ke saath combine karke.
 
-In the example below we define a Card component with three conditional slots: `header`, `footer` and the `default` one.
-When content for the header / footer / default is present, we want to wrap it to provide additional styling:
+Niche ke example mein hum ek `Card` component define kar rahe hain jisme teen conditional slots hain: `header`, `footer` aur ek `default` slot.
+
+Jab bhi header / footer / default ke liye content diya gaya ho, hum uss content ko ek wrapper mein daal ke thoda aur styling provide karna chahenge:
 
 ```vue-html
 <template>
@@ -311,11 +312,11 @@ When content for the header / footer / default is present, we want to wrap it to
     <div v-if="$slots.header" class="card-header">
       <slot name="header" />
     </div>
-    
+
     <div v-if="$slots.default" class="card-content">
       <slot />
     </div>
-    
+
     <div v-if="$slots.footer" class="card-footer">
       <slot name="footer" />
     </div>
@@ -327,7 +328,7 @@ When content for the header / footer / default is present, we want to wrap it to
 
 ## Dynamic Slot Names {#dynamic-slot-names}
 
-[Dynamic directive arguments](/guide/essentials/template-syntax.md#dynamic-arguments) also work on `v-slot`, allowing the definition of dynamic slot names:
+[Dynamic directive arguments](/guide/essentials/template-syntax.md#dynamic-arguments) `v-slot` ke saath bhi kaam karte hain, jisse aap dynamic slot names define kar sakte ho:
 
 ```vue-html
 <base-layout>
@@ -335,22 +336,22 @@ When content for the header / footer / default is present, we want to wrap it to
     ...
   </template>
 
-  <!-- with shorthand -->
+  <!-- shorthand ke saath -->
   <template #[dynamicSlotName]>
     ...
   </template>
 </base-layout>
 ```
 
-Do note the expression is subject to the [syntax constraints](/guide/essentials/template-syntax.md#dynamic-argument-syntax-constraints) of dynamic directive arguments.
+Dhyan rahe ki yeh expression dynamic directive arguments ke [syntax constraints](/guide/essentials/template-syntax.md#dynamic-argument-syntax-constraints) ko follow kare.
 
 ## Scoped Slots {#scoped-slots}
 
-As discussed in [Render Scope](#render-scope), slot content does not have access to state in the child component.
+Jaise ki humne [Render Scope](#render-scope) mein discuss kiya, slot content ko child component ke state ka access nahi hota.
 
-However, there are cases where it could be useful if a slot's content can make use of data from both the parent scope and the child scope. To achieve that, we need a way for the child to pass data to a slot when rendering it.
+Lekin kuch cases mein yeh useful ho sakta hai agar slot ka content parent aur child dono scopes ke data ka use kar sake. Iske liye hume ek aisa tarika chahiye jisse child slot render karte waqt data ko slot mein bhej sake.
 
-In fact, we can do exactly that - we can pass attributes to a slot outlet just like passing props to a component:
+Aur hum aisa kar bhi sakte hain — hum slot outlet ko attributes pass kar sakte hain bilkul waise hi jaise hum props component ko pass karte hain:
 
 ```vue-html
 <!-- <MyComponent> template -->
@@ -359,7 +360,7 @@ In fact, we can do exactly that - we can pass attributes to a slot outlet just l
 </div>
 ```
 
-Receiving the slot props is a bit different when using a single default slot vs. using named slots. We are going to show how to receive props using a single default slot first, by using `v-slot` directly on the child component tag:
+Slot props ko receive karne ka tareeka thoda alag hota hai jab aap single default slot use kar rahe ho vs. named slots. Sabse pehle hum default slot ke saath prop receive karna dikhate hain, jisme `v-slot` directly child component ke tag par lagta hai:
 
 ```vue-html
 <MyComponent v-slot="slotProps">
@@ -382,13 +383,13 @@ Receiving the slot props is a bit different when using a single default slot vs.
 
 </div>
 
-The props passed to the slot by the child are available as the value of the corresponding `v-slot` directive, which can be accessed by expressions inside the slot.
+Child ke dwara slot mein pass kiye gaye props, `v-slot` directive ke corresponding value ke roop mein available hote hain, jise slot ke andar expressions se access kiya ja sakta hai.
 
-You can think of a scoped slot as a function being passed into the child component. The child component then calls it, passing props as arguments:
+Aap scoped slot ko ek function ki tarah samajh sakte ho jo child component ko pass kiya jata hai. Phir child component usse call karta hai aur props ko arguments ke roop mein pass karta hai:
 
 ```js
 MyComponent({
-  // passing the default slot, but as a function
+  // default slot ko as a function pass kar rahe hain
   default: (slotProps) => {
     return `${slotProps.text} ${slotProps.count}`
   }
@@ -397,15 +398,15 @@ MyComponent({
 function MyComponent(slots) {
   const greetingMessage = 'hello'
   return `<div>${
-    // call the slot function with props!
+    // slot function ko props ke saath call karo!
     slots.default({ text: greetingMessage, count: 1 })
   }</div>`
 }
 ```
 
-In fact, this is very close to how scoped slots are compiled, and how you would use scoped slots in manual [render functions](/guide/extras/render-function).
+Ye kaafi close hai us tarike se jisme scoped slots compile hote hain, aur manual [render functions](/guide/extras/render-function) mein use kiye jaate hain.
 
-Notice how `v-slot="slotProps"` matches the slot function signature. Just like with function arguments, we can use destructuring in `v-slot`:
+Note karo ki `v-slot="slotProps"` slot function signature ko match karta hai. Bilkul function arguments ki tarah, hum `v-slot` mein destructuring ka bhi use kar sakte hain:
 
 ```vue-html
 <MyComponent v-slot="{ text, count }">
@@ -415,7 +416,7 @@ Notice how `v-slot="slotProps"` matches the slot function signature. Just like w
 
 ### Named Scoped Slots {#named-scoped-slots}
 
-Named scoped slots work similarly - slot props are accessible as the value of the `v-slot` directive: `v-slot:name="slotProps"`. When using the shorthand, it looks like this:
+Named scoped slots bhi isi tarah kaam karte hain - slot props `v-slot` directive ke value ke roop mein accessible hote hain: `v-slot:name="slotProps"`. Jab shorthand use karte hain, to ye kuch aisa dikhta hai:
 
 ```vue-html
 <MyComponent>
@@ -433,15 +434,15 @@ Named scoped slots work similarly - slot props are accessible as the value of th
 </MyComponent>
 ```
 
-Passing props to a named slot:
+Named slot ko props pass karna:
 
 ```vue-html
 <slot name="header" message="hello"></slot>
 ```
 
-Note the `name` of a slot won't be included in the props because it is reserved - so the resulting `headerProps` would be `{ message: 'hello' }`.
+Dhyan rahe ki slot ka `name` props mein include nahi hota kyunki yeh reserved hota hai - to final `headerProps` hoga `{ message: 'hello' }`.
 
-If you are mixing named slots with the default scoped slot, you need to use an explicit `<template>` tag for the default slot. Attempting to place the `v-slot` directive directly on the component will result in a compilation error. This is to avoid any ambiguity about the scope of the props of the default slot. For example:
+Agar aap named slots ko default scoped slot ke saath mix kar rahe ho, to aapko default slot ke liye explicit `<template>` tag ka use karna padega. Agar aap `v-slot` directive ko directly component par lagane ki koshish karenge to compilation error aayega. Ye isliye hota hai taaki default slot ke props ke scope ko lekar koi confusion na ho. Jaise ki:
 
 ```vue-html
 <!-- <MyComponent> template -->
@@ -452,21 +453,21 @@ If you are mixing named slots with the default scoped slot, you need to use an e
 ```
 
 ```vue-html
-<!-- This template won't compile -->
+<!-- Ye template compile nahi hoga -->
 <MyComponent v-slot="{ message }">
   <p>{{ message }}</p>
   <template #footer>
-    <!-- message belongs to the default slot, and is not available here -->
+    <!-- message sirf default slot mein available hai, yahan nahi -->
     <p>{{ message }}</p>
   </template>
 </MyComponent>
 ```
 
-Using an explicit `<template>` tag for the default slot helps to make it clear that the `message` prop is not available inside the other slot:
+Default slot ke liye explicit `<template>` tag use karne se ye clear hota hai ki `message` prop doosre slot mein available nahi hai:
 
 ```vue-html
 <MyComponent>
-  <!-- Use explicit default slot -->
+  <!-- Explicit default slot use karo -->
   <template #default="{ message }">
     <p>{{ message }}</p>
   </template>
@@ -479,7 +480,7 @@ Using an explicit `<template>` tag for the default slot helps to make it clear t
 
 ### Fancy List Example {#fancy-list-example}
 
-You may be wondering what would be a good use case for scoped slots. Here's an example: imagine a `<FancyList>` component that renders a list of items - it may encapsulate the logic for loading remote data, using the data to display a list, or even advanced features like pagination or infinite scrolling. However, we want it to be flexible with how each item looks and leave the styling of each item to the parent component consuming it. So the desired usage may look like this:
+Aap soch rahe honge ki scoped slots ka achha use case kya ho sakta hai. Yahan ek example hai: sochiye ek `<FancyList>` component hai jo items ki list render karta hai - ismein remote data load karne ka logic ho sakta hai, ya pagination/infinite scroll jaise features bhi. Lekin hum chahte hain ki har item ka layout parent component define kare jahan yeh component use ho raha hai. To usage kuch aisa hoga:
 
 ```vue-html
 <FancyList :api-url="url" :per-page="10">
@@ -492,7 +493,7 @@ You may be wondering what would be a good use case for scoped slots. Here's an e
 </FancyList>
 ```
 
-Inside `<FancyList>`, we can render the same `<slot>` multiple times with different item data (notice we are using `v-bind` to pass an object as slot props):
+Aur `<FancyList>` ke andar hum same `<slot>` ko multiple baar render kar sakte hain har item data ke saath (dhyan de ki hum `v-bind` ka use kar rahe hain object ko slot props ke roop mein pass karne ke liye):
 
 ```vue-html
 <ul>
@@ -515,11 +516,11 @@ Inside `<FancyList>`, we can render the same `<slot>` multiple times with differ
 
 ### Renderless Components {#renderless-components}
 
-The `<FancyList>` use case we discussed above encapsulates both reusable logic (data fetching, pagination etc.) and visual output, while delegating part of the visual output to the consumer component via scoped slots.
+Jo `<FancyList>` use case humne upar discuss kiya tha, usme reusable logic (jaise data fetching, pagination etc.) aur visual output dono ko encapsulate kiya gaya hai, jabki visual output ka ek hissa consumer component ko scoped slots ke through delegate kiya gaya hai.
 
-If we push this concept a bit further, we can come up with components that only encapsulate logic and do not render anything by themselves - visual output is fully delegated to the consumer component with scoped slots. We call this type of component a **Renderless Component**.
+Agar hum is concept ko thoda aur aage le jaayein, to hum aise components create kar sakte hain jo sirf logic ko encapsulate karte hain aur khud kuch render nahi karte - visual output poori tarah consumer component ke upar chhod diya jaata hai via scoped slots. Is tarah ke components ko hum **Renderless Component** kehte hain.
 
-An example renderless component could be one that encapsulates the logic of tracking the current mouse position:
+Ek example renderless component aisa ho sakta hai jo mouse ke current position ko track karne ka logic handle kare:
 
 ```vue-html
 <MouseTracker v-slot="{ x, y }">
@@ -529,15 +530,15 @@ An example renderless component could be one that encapsulates the logic of trac
 
 <div class="composition-api">
 
-[Try it in the Playground](https://play.vuejs.org/#eNqNUcFqhDAQ/ZUhF12w2rO4Cz301t5aaCEX0dki1SQko6uI/96J7i4qLPQQmHmZ9+Y9ZhQvxsRdiyIVmStsZQgcUmtOUlWN0ZbgXbcOP2xe/KKFs9UNBHGyBj09kCpLFj4zuSFsTJ0T+o6yjUb35GpNRylG6CMYYJKCpwAkzWNQOcgphZG/YZoiX/DQNAttFjMrS+6LRCT2rh6HGsHiOQKtmKIIS19+qmZpYLrmXIKxM1Vo5Yj9HD0vfD7ckGGF3LDWlOyHP/idYPQCfdzldTtjscl/8MuDww78lsqHVHdTYXjwCpdKlfoS52X52qGit8oRKrRhwHYdNrrDILouPbCNVZCtgJ1n/6Xx8JYAmT8epD3fr5cC0oGLQYpkd4zpD27R0vA=)
+[Playground mein try karo](https://play.vuejs.org/#eNqNUcFqhDAQ/ZUhF12w2rO4Cz301t5aaCEX0dki1SQko6uI/96J7i4qLPQQmHmZ9+Y9ZhQvxsRdiyIVmStsZQgcUmtOUlWN0ZbgXbcOP2xe/KKFs9UNBHGyBj09kCpLFj4zuSFsTJ0T+o6yjUb35GpNRylG6CMYYJKCpwAkzWNQOcgphZG/YZoiX/DQNAttFjMrS+6LRCT2rh6HGsHiOQKtmKIIS19+qmZpYLrmXIKxM1Vo5Yj9HD0vfD7ckGGF3LDWlOyHP/idYPQCfdzldTtjscl/8MuDww78lsqHVHdTYXjwCpdKlfoS52X52qGit8oRKrRhwHYdNrrDILouPbCNVZCtgJ1n/6Xx8JYAmT8epD3fr5cC0oGLQYpkd4zpD27R0vA=)
 
 </div>
 <div class="options-api">
 
-[Try it in the Playground](https://play.vuejs.org/#eNqVUU1rwzAM/SvCl7SQJTuHdLDDbttthw18MbW6hjW2seU0oeS/T0lounQfUDBGepaenvxO4tG5rIkoClGGra8cPUhT1c56ghcbA756tf1EDztva0iy/Ds4NCbSAEiD7diicafigeA0oFvLPAYNhWICYEE5IL00fMp8Hs0JYe0OinDIqFyIaO7CwdJGihO0KXTcLriK59NYBlUARTyMn6Hv0yHgIp7ARAvl3FXm8yCRiuu1Fv/x23JakVqtz3t5pOjNOQNoC7hPz0nHyRSzEr7Ghxppb/XlZ6JjRlzhTAlA+ypkLWwAM6c+8G2BdzP+/pPbRkOoL/KOldH2mCmtnxr247kKhAb9KuHKgLVtMEkn2knG+sIVzV9sfmy8hfB/swHKwV0oWja4lQKKjoNOivzKrf4L/JPqaQ==)
+[Playground mein try karo](https://play.vuejs.org/#eNqVUU1rwzAM/SvCl7SQJTuHdLDDbttthw18MbW6hjW2seU0oeS/T0lounQfUDBGepaenvxO4tG5rIkoClGGra8cPUhT1c56ghcbA756tf1EDztva0iy/Ds4NCbSAEiD7diicafigeA0oFvLPAYNhWICYEE5IL00fMp8Hs0JYe0OinDIqFyIaO7CwdJGihO0KXTcLriK59NYBlUARTyMn6Hv0yHgIp7ARAvl3FXm8yCRiuu1Fv/x23JakVqtz3t5pOjNOQNoC7hPz0nHyRSzEr7Ghxppb/XlZ6JjRlzhTAlA+ypkLWwAM6c+8G2BdzP+/pPbRkOoL/KOldH2mCmtnxr247kKhAb9KuHKgLVtMEkn2knG+sIVzV9sfmy8hfB/swHKwV0oWja4lQKKjoNOivzKrf4L/JPqaQ==)
 
 </div>
 
-While an interesting pattern, most of what can be achieved with Renderless Components can be achieved in a more efficient fashion with Composition API, without incurring the overhead of extra component nesting. Later, we will see how we can implement the same mouse tracking functionality as a [Composable](/guide/reusability/composables).
+Yeh ek interesting pattern hai, lekin jitna kuch Renderless Components se achieve kiya ja sakta hai, wo Composition API se aur bhi efficient tareeke se kiya ja sakta hai, bina extra component nesting ka overhead laaye. Baad mein hum dekhenge ki kaise wahi mouse tracking functionality ko ek [Composable](/guide/reusability/composables) ke roop mein implement kiya ja sakta hai.
 
-That said, scoped slots are still useful in cases where we need to both encapsulate logic **and** compose visual output, like in the `<FancyList>` example.
+Lekin, scoped slots ab bhi useful hain un cases mein jahan hume logic ko encapsulate karna hota hai **aur** visual output ko bhi compose karna hota hai, jaise ki `<FancyList>` example mein.
