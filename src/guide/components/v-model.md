@@ -1,16 +1,16 @@
 # Component v-model {#component-v-model}
 
 <ScrimbaLink href="https://scrimba.com/links/vue-component-v-model" title="Free Vue.js Component v-model Lesson" type="scrimba">
-  Watch an interactive video lesson on Scrimba
+  Scrimba par ek interactive video lesson dekhein
 </ScrimbaLink>
 
 ## Basic Usage {#basic-usage}
 
-`v-model` can be used on a component to implement a two-way binding.
+`v-model` ko ek component par two-way binding banane ke liye use kiya ja sakta hai.
 
 <div class="composition-api">
 
-Starting in Vue 3.4, the recommended approach to achieve this is using the [`defineModel()`](/api/sfc-script-setup#definemodel) macro:
+Vue 3.4 se shuru hoke, isse achieve karne ka recommended tareeka hai [`defineModel()`](/api/sfc-script-setup#definemodel) macro ka use:
 
 ```vue
 <!-- Child.vue -->
@@ -23,24 +23,24 @@ function update() {
 </script>
 
 <template>
-  <div>Parent bound v-model is: {{ model }}</div>
+  <div>Parent bound v-model hai: {{ model }}</div>
   <button @click="update">Increment</button>
 </template>
 ```
 
-The parent can then bind a value with `v-model`:
+Parent fir `v-model` ke saath value bind kar sakta hai:
 
 ```vue-html
 <!-- Parent.vue -->
 <Child v-model="countModel" />
 ```
 
-The value returned by `defineModel()` is a ref. It can be accessed and mutated like any other ref, except that it acts as a two-way binding between a parent value and a local one:
+`defineModel()` se milne wali value ek ref hoti hai. Isse kisi bhi aur ref ki tarah access aur mutate kiya ja sakta hai, bas fark yeh hai ki yeh parent value aur local value ke beech two-way binding banata hai:
 
-- Its `.value` is synced with the value bound by the parent `v-model`;
-- When it is mutated by the child, it causes the parent bound value to be updated as well.
+- Iska `.value` parent `v-model` se bind ki gayi value ke saath synced hota hai;
+- Jab child isse mutate karta hai, to parent ki bind ki gayi value bhi update ho jati hai.
 
-This means you can also bind this ref to a native input element with `v-model`, making it straightforward to wrap native input elements while providing the same `v-model` usage:
+Iska matlab yeh bhi hai ki aap is ref ko ek native input element ke saath bhi `v-model` se bind kar sakte ho, jisse ki native input elements ko wrap karna simple ho jata hai aur wahi `v-model` usage milta hai:
 
 ```vue
 <script setup>
@@ -52,16 +52,16 @@ const model = defineModel()
 </template>
 ```
 
-[Try it in the playground](https://play.vuejs.org/#eNqFUtFKwzAU/ZWYl06YLbK30Q10DFSYigq+5KW0t11mmoQknZPSf/cm3eqEsT0l555zuefmpKV3WsfbBuiUpjY3XDtiwTV6ziSvtTKOLNZcFKQ0qiZRnATkG6JB0BIDJen2kp5iMlfSOlLbisw8P4oeQAhFPpURxVV0zWSa9PNwEgIHtRaZA0SEpOvbeduG5q5LE0Sh2jvZ3tSqADFjFHlGSYJkmhz10zF1FseXvIo3VklcrfX9jOaq1lyAedGOoz1GpyQwnsvQ3fdTqDnTwPhQz9eQf52ob+zO1xh9NWDBbIHRgXOZqcD19PL9GXZ4H0h03whUnyHfwCrReI+97L6RBdo+0gW3j+H9uaw+7HLnQNrDUt6oV3ZBzyhmsjiz+p/dSTwJfUx2+IpD1ic+xz5enwQGXEDJJaw8Gl2I1upMzlc/hEvdOBR6SNKAjqP1J6P/o6XdL11L5h4=)
+[Playground mein try karein](https://play.vuejs.org/#eNqFUtFKwzAU/ZWYl06YLbK30Q10DFSYigq+5KW0t11mmoQknZPSf/cm3eqEsT0l555zuefmpKV3WsfbBuiUpjY3XDtiwTV6ziSvtTKOLNZcFKQ0qiZRnATkG6JB0BIDJen2kp5iMlfSOlLbisw8P4oeQAhFPpURxVV0zWSa9PNwEgIHtRaZA0SEpOvbeduG5q5LE0Sh2jvZ3tSqADFjFHlGSYJkmhz10zF1FseXvIo3VklcrfX9jOaq1lyAedGOoz1GpyQwnsvQ3fdTqDnTwPhQz9eQf52ob+zO1xh9NWDBbIHRgXOZqcD19PL9GXZ4H0h03whUnyHfwCrReI+97L6RBdo+0gW3j+H9uaw+7HLnQNrDUt6oV3ZBzyhmsjiz+p/dSTwJfUx2+IpD1ic+xz5enwQGXEDJJaw8Gl2I1upMzlc/hEvdOBR6SNKAjqP1J6P/o6XdL11L5h4=)
 
 ### Under the Hood {#under-the-hood}
 
-`defineModel` is a convenience macro. The compiler expands it to the following:
+`defineModel` ek convenience macro hai. Compiler ise expand karta hai kuch is tarah:
 
-- A prop named `modelValue`, which the local ref's value is synced with;
-- An event named `update:modelValue`, which is emitted when the local ref's value is mutated.
+- Ek prop jiska naam `modelValue` hota hai, jisse local ref ki value sync hoti hai;
+- Ek event jiska naam `update:modelValue` hota hai, jo tab emit hota hai jab local ref ki value mutate hoti hai.
 
-This is how you would implement the same child component shown above prior to 3.4:
+Yeh hai wohi child component ka implementation jo upar diya gaya hai, lekin Vue 3.4 se pehle:
 
 ```vue
 <!-- Child.vue -->
@@ -78,7 +78,7 @@ const emit = defineEmits(['update:modelValue'])
 </template>
 ```
 
-Then, `v-model="foo"` in the parent component will be compiled to:
+Phir, parent component mein likha gaya `v-model="foo"` compile hoke banega:
 
 ```vue-html
 <!-- Parent.vue -->
@@ -88,9 +88,9 @@ Then, `v-model="foo"` in the parent component will be compiled to:
 />
 ```
 
-As you can see, it is quite a bit more verbose. However, it is helpful to understand what is happening under the hood.
+Jaise ki aap dekh sakte ho, yeh kaafi verbose hai. Lekin samajhna zaroori hai ki parde ke peeche kya ho raha hai.
 
-Because `defineModel` declares a prop, you can therefore declare the underlying prop's options by passing it to `defineModel`:
+Kyuki `defineModel` ek prop declare karta hai, aap iske underlying prop ke options bhi usme pass kar sakte ho:
 
 ```js
 // making the v-model required
@@ -101,7 +101,9 @@ const model = defineModel({ default: 0 })
 ```
 
 :::warning
-If you have a `default` value for `defineModel` prop and you don't provide any value for this prop from the parent component, it can cause a de-synchronization between parent and child components. In the example below, the parent's `myRef` is undefined, but the child's `model` is 1:
+Agar aap `defineModel` prop ke liye koi `default` value set karte ho aur parent component se koi value pass nahi karte, to parent aur child ke beech mein sync mismatch ho sakta hai.
+
+Neeche ke example mein parent ka `myRef` undefined hai, lekin child ka `model` 1 hai:
 
 **Child component:**
 
@@ -125,13 +127,13 @@ const myRef = ref()
 
 <div class="options-api">
 
-First let's revisit how `v-model` is used on a native element:
+Chalo pehle dekhte hain native element par `v-model` kaise kaam karta hai:
 
 ```vue-html
 <input v-model="searchText" />
 ```
 
-Under the hood, the template compiler expands `v-model` to the more verbose equivalent for us. So the above code does the same as the following:
+Peeche ke ender, template compiler `v-model` ko ek zyada verbose equivalent mein expand karta hai. Toh upar diya gaya code neeche wale code ke barabar hai:
 
 ```vue-html
 <input
@@ -140,7 +142,7 @@ Under the hood, the template compiler expands `v-model` to the more verbose equi
 />
 ```
 
-When used on a component, `v-model` instead expands to this:
+Component par use karne par `v-model` is tarah expand hota hai:
 
 ```vue-html
 <CustomInput
@@ -149,12 +151,12 @@ When used on a component, `v-model` instead expands to this:
 />
 ```
 
-For this to actually work though, the `<CustomInput>` component must do two things:
+Is functionality ko sahi tarah se kaam karwane ke liye `<CustomInput>` component ko do kaam karne padte hain:
 
-1. Bind the `value` attribute of a native `<input>` element to the `modelValue` prop
-2. When a native `input` event is triggered, emit an `update:modelValue` custom event with the new value
+1. `input` element ke `value` ko `modelValue` prop se bind karo
+2. Jab `input` event aaye, to `update:modelValue` event emit karo updated value ke saath
 
-Here's that in action:
+Example:
 
 ```vue
 <!-- CustomInput.vue -->
@@ -173,15 +175,15 @@ export default {
 </template>
 ```
 
-Now `v-model` should work perfectly with this component:
+Ab `v-model` bilkul sahi kaam karega:
 
 ```vue-html
 <CustomInput v-model="searchText" />
 ```
 
-[Try it in the Playground](https://play.vuejs.org/#eNqFkctqwzAQRX9lEAEn4Np744aWrvoD3URdiHiSGvRCHpmC8b93JDfGKYGCkJjXvTrSJF69r8aIohHtcA69p6O0vfEuELzFgZx5tz4SXIIzUFT1JpfGCmmlxe/c3uFFRU0wSQtwdqxh0dLQwHSnNJep3ilS+8PSCxCQYrC3CMDgMKgrNlB8odaOXVJ2TgdvvNp6vSwHhMZrRcgRQLs1G5+M61A/S/ErKQXUR5immwXMWW1VEKX4g3j3Mo9QfXCeKU9FtvpQmp/lM0Oi6RP/qYieebHZNvyL0acLLODNmGYSxCogxVJ6yW1c2iWz/QOnEnY48kdUpMIVGSllD8t8zVZb+PkHqPG4iw==)
+[Playground mein try karo](https://play.vuejs.org/#eNqFkctqwzAQRX9lEAEn4Np744aWrvoD3URdiHiSGvRCHpmC8b93JDfGKYGCkJjXvTrSJF69r8aIohHtcA69p6O0vfEuELzFgZx5tz4SXIIzUFT1JpfGCmmlxe/c3uFFRU0wSQtwdqxh0dLQwHSnNJep3ilS+8PSCxCQYrC3CMDgMKgrNlB8odaOXVJ2TgdvvNp6vSwHhMZrRcgRQLs1G5+M61A/S/ErKQXUR5immwXMWW1VEKX4g3j3Mo9QfXCeKU9FtvpQmp/lM0Oi6RP/qYieebHZNvyL0acLLODNmGYSxCogxVJ6yW1c2iWz/QOnEnY48kdUpMIVGSllD8t8zVZb+PkHqPG4iw==)
 
-Another way of implementing `v-model` within this component is to use a writable `computed` property with both a getter and a setter. The `get` method should return the `modelValue` property and the `set` method should emit the corresponding event:
+Ek aur tareeka `v-model` ko is component ke andar implement karne ka yeh hai ki ek writable `computed` property banai jaye jisme getter aur setter dono ho. `get` method `modelValue` property ko return karega aur `set` method corresponding event emit karega:
 
 ```vue
 <!-- CustomInput.vue -->
@@ -211,7 +213,7 @@ export default {
 
 ## `v-model` Arguments {#v-model-arguments}
 
-`v-model` on a component can also accept an argument:
+Component par `v-model` ek argument bhi le sakta hai:
 
 ```vue-html
 <MyComponent v-model:title="bookTitle" />
@@ -219,7 +221,7 @@ export default {
 
 <div class="composition-api">
 
-In the child component, we can support the corresponding argument by passing a string to `defineModel()` as its first argument:
+Child component mein hum ye argument string ke roop mein `defineModel()` ke first argument ke roop mein pass kar sakte hain:
 
 ```vue
 <!-- MyComponent.vue -->
@@ -295,9 +297,9 @@ export default {
 
 ## Multiple `v-model` Bindings {#multiple-v-model-bindings}
 
-By leveraging the ability to target a particular prop and event as we learned before with [`v-model` arguments](#v-model-arguments), we can now create multiple `v-model` bindings on a single component instance.
+Jaise ki humne pehle [`v-model` arguments](#v-model-arguments) ke saath seekha tha ki kaise kisi specific prop aur event ko target kiya ja sakta hai, usi ability ka use karke ab hum ek single component instance par multiple `v-model` bindings create kar sakte hain.
 
-Each `v-model` will sync to a different prop, without the need for extra options in the component:
+Har `v-model` ek alag prop ke saath sync hoga, bina component mein extra options define kiye:
 
 ```vue-html
 <UserName
@@ -386,9 +388,9 @@ export default {
 
 ## Handling `v-model` Modifiers {#handling-v-model-modifiers}
 
-When we were learning about form input bindings, we saw that `v-model` has [built-in modifiers](/guide/essentials/forms#modifiers) - `.trim`, `.number` and `.lazy`. In some cases, you might also want the `v-model` on your custom input component to support custom modifiers.
+Jab hum form input bindings ke baare mein seekh rahe the, tab humne dekha ki `v-model` mein [built-in modifiers](/guide/essentials/forms#modifiers) hote hain - `.trim`, `.number` aur `.lazy`. Kuch cases mein, aap chahenge ki aapke custom input component mein bhi `v-model` ke custom modifiers ka support ho.
 
-Let's create an example custom modifier, `capitalize`, that capitalizes the first letter of the string provided by the `v-model` binding:
+Chaliye ek example custom modifier banate hain, `capitalize`, jo `v-model` binding se milne wale string ka pehla letter capitalize karta hai:
 
 ```vue-html
 <MyComponent v-model.capitalize="myText" />
@@ -396,7 +398,7 @@ Let's create an example custom modifier, `capitalize`, that capitalizes the firs
 
 <div class="composition-api">
 
-Modifiers added to a component `v-model` can be accessed in the child component by destructuring the `defineModel()` return value like this:
+Component `v-model` mein jo modifiers add kiye jaate hain, unhe child component ke andar `defineModel()` ke return value ko destructure karke access kiya ja sakta hai, kuch is tarah:
 
 ```vue{4}
 <script setup>
@@ -410,7 +412,7 @@ console.log(modifiers) // { capitalize: true }
 </template>
 ```
 
-To conditionally adjust how the value should be read / written based on modifiers, we can pass `get` and `set` options to `defineModel()`. These two options receive the value on get / set of the model ref and should return a transformed value. This is how we can use the `set` option to implement the `capitalize` modifier:
+Modifiers ke base par value ko kaise read / write karna hai usse conditionally adjust karne ke liye, hum `defineModel()` ko `get` aur `set` options ke saath pass kar sakte hain. Ye dono options model ref ke get / set par value receive karte hain aur ek transformed value return karni chahiye. Yaha hum `capitalize` modifier implement karne ke liye `set` option kaise use karte hain wo dikhaya gaya hai:
 
 ```vue{6-8}
 <script setup>
@@ -464,7 +466,7 @@ function emitValue(e) {
 
 <div class="options-api">
 
-Modifiers added to a component `v-model` will be provided to the component via the `modelModifiers` prop. In the below example, we have created a component that contains a `modelModifiers` prop that defaults to an empty object:
+Component ke `v-model` ke saath jo modifiers add kiye jaate hain, wo component ko `modelModifiers` prop ke through milte hain. Neeche wale example mein, humne ek component banaya hai jisme ek `modelModifiers` prop hai jo default mein ek empty object hai:
 
 ```vue{11}
 <script>
@@ -491,9 +493,9 @@ export default {
 </template>
 ```
 
-Notice the component's `modelModifiers` prop contains `capitalize` and its value is `true` - due to it being set on the `v-model` binding `v-model.capitalize="myText"`.
+Dhyan do ki component ka `modelModifiers` prop `capitalize` contain karta hai aur uski value `true` hai – kyunki ye `v-model.capitalize="myText"` binding mein set kiya gaya hai.
 
-Now that we have our prop set up, we can check the `modelModifiers` object keys and write a handler to change the emitted value. In the code below we will capitalize the string whenever the `<input />` element fires an `input` event.
+Ab jab humne apna prop setup kar liya hai, hum `modelModifiers` object ke keys ko check kar sakte hain aur ek handler likh sakte hain jo emitted value ko modify kare. Neeche ke code mein, jab bhi `<input />` element `input` event fire karta hai, hum string ko capitalize kar denge.
 
 ```vue{13-15}
 <script>
@@ -526,17 +528,17 @@ export default {
 
 </div>
 
-### Modifiers for `v-model` with Arguments {#modifiers-for-v-model-with-arguments}
+### `v-model` ke Arguments ke saath Modifiers {#modifiers-for-v-model-with-arguments}
 
 <div class="options-api">
 
-For `v-model` bindings with both argument and modifiers, the generated prop name will be `arg + "Modifiers"`. For example:
+Agar `v-model` binding mein argument aur modifiers dono hain, toh jo generated prop ka naam hoga wo `arg + "Modifiers"` hoga. Jaise ki:
 
 ```vue-html
 <MyComponent v-model:title.capitalize="myText">
 ```
 
-The corresponding declarations should be:
+Jo corresponding declarations honi chahiye wo ye hongi:
 
 ```js
 export default {
@@ -550,7 +552,7 @@ export default {
 
 </div>
 
-Here's another example of using modifiers with multiple `v-model` with different arguments:
+Yahaan ek aur example hai jisme multiple `v-model` ke saath different arguments aur modifiers use kiye gaye hain:
 
 ```vue-html
 <UserName

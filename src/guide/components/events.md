@@ -4,7 +4,7 @@ import { onMounted } from 'vue'
 if (typeof window !== 'undefined') {
   const hash = window.location.hash
 
-  // The docs for v-model used to be part of this page. Attempt to redirect outdated links.
+  // Pehle v-model ka documentation isi page mein tha. Purane links ko redirect karne ki koshish.
   if ([
     '#usage-with-v-model',
     '#v-model-arguments',
@@ -20,7 +20,7 @@ if (typeof window !== 'undefined') {
 
 # Component Events {#component-events}
 
-> This page assumes you've already read the [Components Basics](/guide/essentials/component-basics). Read that first if you are new to components.
+> Ye page maan ke chalta hai ki aap pehle hi [Components Basics](/guide/essentials/component-basics) padh chuke ho. Agar aap components mein naye ho toh pehle usse padh lena.
 
 <div class="options-api">
   <VueSchoolLink href="https://vueschool.io/lessons/defining-custom-events-emits" title="Free Vue.js Lesson on Defining Custom Events"/>
@@ -28,7 +28,7 @@ if (typeof window !== 'undefined') {
 
 ## Emitting and Listening to Events {#emitting-and-listening-to-events}
 
-A component can emit custom events directly in template expressions (e.g. in a `v-on` handler) using the built-in `$emit` method:
+Ek component directly apne template expressions (jaise `v-on` handler) mein `$emit` method ka use karke custom events emit kar sakta hai:
 
 ```vue-html
 <!-- MyComponent -->
@@ -37,7 +37,7 @@ A component can emit custom events directly in template expressions (e.g. in a `
 
 <div class="options-api">
 
-The `$emit()` method is also available on the component instance as `this.$emit()`:
+`$emit()` method component instance par `this.$emit()` ke roop mein bhi available hota hai:
 
 ```js
 export default {
@@ -51,27 +51,27 @@ export default {
 
 </div>
 
-The parent can then listen to it using `v-on`:
+Parent component isse `v-on` ke through sun sakta hai:
 
 ```vue-html
 <MyComponent @some-event="callback" />
 ```
 
-The `.once` modifier is also supported on component event listeners:
+`.once` modifier bhi component event listeners par kaam karta hai:
 
 ```vue-html
 <MyComponent @some-event.once="callback" />
 ```
 
-Like components and props, event names provide an automatic case transformation. Notice we emitted a camelCase event, but can listen for it using a kebab-cased listener in the parent. As with [props casing](/guide/components/props#prop-name-casing), we recommend using kebab-cased event listeners in templates.
+Jaise components aur props ke saath hota hai, waise hi event names mein bhi automatic case transformation hoti hai. Dhyan do ki humne camelCase event emit kiya, lekin parent mein kebab-case listener use kiya. Jaise [props casing](/guide/components/props#prop-name-casing) mein suggest kiya gaya hai, templates mein kebab-case event listeners use karna recommended hai.
 
 :::tip
-Unlike native DOM events, component emitted events do **not** bubble. You can only listen to the events emitted by a direct child component. If there is a need to communicate between sibling or deeply nested components, use an external event bus or a [global state management solution](/guide/scaling-up/state-management).
+Native DOM events ke unlike, component-emitted events **bubble nahi karte**. Aap sirf direct child component ke emit kiye gaye events ko sun sakte ho. Agar sibling ya deeply nested components ke beech communication chahiye, toh external event bus ya [global state management solution](/guide/scaling-up/state-management) ka use karo.
 :::
 
 ## Event Arguments {#event-arguments}
 
-It's sometimes useful to emit a specific value with an event. For example, we may want the `<BlogPost>` component to be in charge of how much to enlarge the text by. In those cases, we can pass extra arguments to `$emit` to provide this value:
+Kabhi-kabhi kisi specific value ko event ke saath emit karna useful hota hai. Jaise ki, hum chahte hain ki `<BlogPost>` component decide kare ki text kitna bada karna hai. Aise cases mein hum `$emit` ko extra arguments ke saath call kar sakte hain:
 
 ```vue-html
 <button @click="$emit('increaseBy', 1)">
@@ -79,19 +79,19 @@ It's sometimes useful to emit a specific value with an event. For example, we ma
 </button>
 ```
 
-Then, when we listen to the event in the parent, we can use an inline arrow function as the listener, which allows us to access the event argument:
+Phir, jab parent component mein event ko sunte hain, toh inline arrow function listener ke roop mein use karke hum argument ko access kar sakte hain:
 
 ```vue-html
 <MyButton @increase-by="(n) => count += n" />
 ```
 
-Or, if the event handler is a method:
+Ya agar event handler ek method hai:
 
 ```vue-html
 <MyButton @increase-by="increaseCount" />
 ```
 
-Then the value will be passed as the first parameter of that method:
+Toh value us method ka pehla parameter ban jaayegi:
 
 <div class="options-api">
 
@@ -115,12 +115,12 @@ function increaseCount(n) {
 </div>
 
 :::tip
-All extra arguments passed to `$emit()` after the event name will be forwarded to the listener. For example, with `$emit('foo', 1, 2, 3)` the listener function will receive three arguments.
+Event name ke baad `$emit()` mein jitne bhi extra arguments diye jaate hain, wo sab listener function tak forward ho jaate hain. Jaise ki, `$emit('foo', 1, 2, 3)` mein listener ko teen arguments milenge.
 :::
 
 ## Declaring Emitted Events {#declaring-emitted-events}
 
-A component can explicitly declare the events it will emit using the <span class="composition-api">[`defineEmits()`](/api/sfc-script-setup#defineprops-defineemits) macro</span><span class="options-api">[`emits`](/api/options-state#emits) option</span>:
+Ek component explicitly batata hai ki wo kaunse events emit karega, ye declare kiya ja sakta hai <span class="composition-api">[`defineEmits()`](/api/sfc-script-setup#defineprops-defineemits) macro</span> ya <span class="options-api">[`emits`](/api/options-state#emits) option</span> ke through:
 
 <div class="composition-api">
 
@@ -130,7 +130,7 @@ defineEmits(['inFocus', 'submit'])
 </script>
 ```
 
-The `$emit` method that we used in the `<template>` isn't accessible within the `<script setup>` section of a component, but `defineEmits()` returns an equivalent function that we can use instead:
+Jo `$emit` method humne `<template>` mein use kiya tha, wo `<script setup>` ke andar directly accessible nahi hota. Lekin `defineEmits()` ek equivalent function return karta hai jo hum use kar sakte hain:
 
 ```vue
 <script setup>
@@ -142,9 +142,9 @@ function buttonClick() {
 </script>
 ```
 
-The `defineEmits()` macro **cannot** be used inside a function, it must be placed directly within `<script setup>`, as in the example above.
+`defineEmits()` macro ko kisi function ke andar use nahi kiya ja sakta, use seedha `<script setup>` ke andar likhna hota hai.
 
-If you're using an explicit `setup` function instead of `<script setup>`, events should be declared using the [`emits`](/api/options-state#emits) option, and the `emit` function is exposed on the `setup()` context:
+Agar aap `<script setup>` ke bajay explicit `setup` function use kar rahe ho, toh events ko [`emits`](/api/options-state#emits) option ke through declare kiya jaata hai, aur `emit` function `setup()` ke context mein available hota hai:
 
 ```js
 export default {
@@ -155,7 +155,7 @@ export default {
 }
 ```
 
-As with other properties of the `setup()` context, `emit` can safely be destructured:
+Baaki `setup()` context properties ki tarah, `emit` ko destructure bhi kiya ja sakta hai:
 
 ```js
 export default {
@@ -177,22 +177,22 @@ export default {
 
 </div>
 
-The `emits` option and `defineEmits()` macro also support an object syntax. If using TypeScript you can type arguments, which allows us to perform runtime validation of the payload of the emitted events:
+`emits` option aur `defineEmits()` macro object syntax bhi support karte hain. Agar aap TypeScript use kar rahe ho toh aap arguments ko type bhi kar sakte ho, jisse emitted events ke payload ka runtime validation possible hota hai:
 
 <div class="composition-api">
 
 ```vue
 <script setup lang="ts">
 const emit = defineEmits({
-  submit(payload: { email: string, password: string }) {
-    // return `true` or `false` to indicate
-    // validation pass / fail
+  submit(payload: { email: string; password: string }) {
+    // true ya false return karo batane ke liye
+    // validation pass hua ya nahi
   }
 })
 </script>
 ```
 
-If you are using TypeScript with `<script setup>`, it's also possible to declare emitted events using pure type annotations:
+Agar aap TypeScript ke saath `<script setup>` use kar rahe ho, toh aap type annotations ke through events declare bhi kar sakte ho:
 
 ```vue
 <script setup lang="ts">
@@ -203,7 +203,7 @@ const emit = defineEmits<{
 </script>
 ```
 
-More details: [Typing Component Emits](/guide/typescript/composition-api#typing-component-emits) <sup class="vt-badge ts" />
+Zyada details: [Typing Component Emits](/guide/typescript/composition-api#typing-component-emits) <sup class="vt-badge ts" />
 
 </div>
 <div class="options-api">
@@ -212,38 +212,38 @@ More details: [Typing Component Emits](/guide/typescript/composition-api#typing-
 export default {
   emits: {
     submit(payload: { email: string, password: string }) {
-      // return `true` or `false` to indicate
-      // validation pass / fail
+      // true ya false return karo batane ke liye
+      // validation pass hua ya nahi
     }
   }
 }
 ```
 
-See also: [Typing Component Emits](/guide/typescript/options-api#typing-component-emits) <sup class="vt-badge ts" />
+Dekho bhi: [Typing Component Emits](/guide/typescript/options-api#typing-component-emits) <sup class="vt-badge ts" />
 
 </div>
 
-Although optional, it is recommended to define all emitted events in order to better document how a component should work. It also allows Vue to exclude known listeners from [fallthrough attributes](/guide/components/attrs#v-on-listener-inheritance), avoiding edge cases caused by DOM events manually dispatched by 3rd party code.
+Yeh optional hai, lekin recommended hai ki aap har emit hone wale event ko define karo, taaki component ka usage achhi tarah document ho sake. Isse Vue ko known listeners ko [fallthrough attributes](/guide/components/attrs#v-on-listener-inheritance) se alag karne mein bhi help milti hai, aur third-party code ke manual DOM events se hone wale edge cases se bachav hota hai.
 
 :::tip
-If a native event (e.g., `click`) is defined in the `emits` option, the listener will now only listen to component-emitted `click` events and no longer respond to native `click` events.
+Agar koi native event (jaise `click`) `emits` option mein define kiya gaya hai, toh listener sirf component-emitted `click` events ko sunega, native `click` events ko nahi.
 :::
 
 ## Events Validation {#events-validation}
 
-Similar to prop type validation, an emitted event can be validated if it is defined with the object syntax instead of the array syntax.
+Props ke tarah, emitted event ko bhi validate kiya ja sakta hai agar wo array syntax ke bajay object syntax mein define kiya gaya ho.
 
-To add validation, the event is assigned a function that receives the arguments passed to the <span class="options-api">`this.$emit`</span><span class="composition-api">`emit`</span> call and returns a boolean to indicate whether the event is valid or not.
+Validation ke liye, event ko ek function assign kiya jaata hai jo <span class="options-api">`this.$emit`</span><span class="composition-api">`emit`</span> call ke arguments ko leta hai aur batata hai ki event valid hai ya nahi (boolean return karta hai).
 
 <div class="composition-api">
 
 ```vue
 <script setup>
 const emit = defineEmits({
-  // No validation
+  // koi validation nahi
   click: null,
 
-  // Validate submit event
+  // submit event ko validate karo
   submit: ({ email, password }) => {
     if (email && password) {
       return true
@@ -266,10 +266,10 @@ function submitForm(email, password) {
 ```js
 export default {
   emits: {
-    // No validation
+    // koi validation nahi
     click: null,
 
-    // Validate submit event
+    // submit event ko validate karo
     submit: ({ email, password }) => {
       if (email && password) {
         return true

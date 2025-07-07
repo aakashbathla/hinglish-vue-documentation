@@ -1,6 +1,6 @@
 # Props {#props}
 
-> This page assumes you've already read the [Components Basics](/guide/essentials/component-basics). Read that first if you are new to components.
+> Is page ka assume hai ki aapne already [Components Basics](/guide/essentials/component-basics) padh liya hai. Agar aap components mein naye ho, toh pehle woh padh lo.
 
 <div class="options-api">
   <VueSchoolLink href="https://vueschool.io/lessons/vue-3-reusable-components-with-props" title="Free Vue.js Props Lesson"/>
@@ -8,11 +8,11 @@
 
 ## Props Declaration {#props-declaration}
 
-Vue components require explicit props declaration so that Vue knows what external props passed to the component should be treated as fallthrough attributes (which will be discussed in [its dedicated section](/guide/components/attrs)).
+Vue components mein explicitly props declare karne padte hain taaki Vue samajh sake ki kaunse external props ko fallthrough attributes ke roop mein treat karna hai (jo ki [is section](/guide/components/attrs) mein discuss kiya gaya hai).
 
 <div class="composition-api">
 
-In SFCs using `<script setup>`, props can be declared using the `defineProps()` macro:
+Agar aap SFCs mein `<script setup>` use kar rahe ho, toh props ko `defineProps()` macro se declare kar sakte ho:
 
 ```vue
 <script setup>
@@ -22,31 +22,31 @@ console.log(props.foo)
 </script>
 ```
 
-In non-`<script setup>` components, props are declared using the [`props`](/api/options-state#props) option:
+Agar aap non-`<script setup>` component use kar rahe ho, toh props ko [`props`](/api/options-state#props) option se declare kiya jaata hai:
 
 ```js
 export default {
   props: ['foo'],
   setup(props) {
-    // setup() receives props as the first argument.
+    // setup() function ko props first argument ke roop mein milte hain
     console.log(props.foo)
   }
 }
 ```
 
-Notice the argument passed to `defineProps()` is the same as the value provided to the `props` options: the same props options API is shared between the two declaration styles.
+Dhyan do ki `defineProps()` mein jo argument diya gaya hai, wohi `props` option mein diya gaya value hota hai: dono declaration styles same props API share karte hain.
 
 </div>
 
 <div class="options-api">
 
-Props are declared using the [`props`](/api/options-state#props) option:
+Props ko declare karne ke liye [`props`](/api/options-state#props) option use hota hai:
 
 ```js
 export default {
   props: ['foo'],
   created() {
-    // props are exposed on `this`
+    // props `this` par available hote hain
     console.log(this.foo)
   }
 }
@@ -54,7 +54,7 @@ export default {
 
 </div>
 
-In addition to declaring props using an array of strings, we can also use the object syntax:
+Strings ki array ke alawa aap object syntax ka bhi use kar sakte ho props declare karne ke liye:
 
 <div class="options-api">
 
@@ -71,7 +71,7 @@ export default {
 <div class="composition-api">
 
 ```js
-// in <script setup>
+// agar aap <script setup> use kar rahe ho
 defineProps({
   title: String,
   likes: Number
@@ -79,7 +79,7 @@ defineProps({
 ```
 
 ```js
-// in non-<script setup>
+// agar aap non-<script setup> use kar rahe ho
 export default {
   props: {
     title: String,
@@ -90,9 +90,9 @@ export default {
 
 </div>
 
-For each property in the object declaration syntax, the key is the name of the prop, while the value should be the constructor function of the expected type.
+Object syntax mein har property ka key hota hai prop ka naam, aur value hota hai expected type ka constructor function.
 
-This not only documents your component, but will also warn other developers using your component in the browser console if they pass the wrong type. We will discuss more details about [prop validation](#prop-validation) further down this page.
+Yeh na sirf aapke component ko document karta hai, balki agar koi galat type ka prop pass karega toh browser console mein warning bhi dikhayi jaayegi. Hum [prop validation](#prop-validation) ke baare mein aur detail mein neeche discuss karenge.
 
 <div class="options-api">
 
@@ -102,7 +102,7 @@ See also: [Typing Component Props](/guide/typescript/options-api#typing-componen
 
 <div class="composition-api">
 
-If you are using TypeScript with `<script setup>`, it's also possible to declare props using pure type annotations:
+Agar aap TypeScript ke saath `<script setup>` use kar rahe ho, toh aap pure type annotations se bhi props declare kar sakte ho:
 
 ```vue
 <script setup lang="ts">
@@ -121,21 +121,21 @@ More details: [Typing Component Props](/guide/typescript/composition-api#typing-
 
 ## Reactive Props Destructure <sup class="vt-badge" data-text="3.5+" /> \*\* {#reactive-props-destructure}
 
-Vue's reactivity system tracks state usage based on property access. E.g. when you access `props.foo` in a computed getter or a watcher, the `foo` prop gets tracked as a dependency.
+Vue ka reactivity system state usage ko track karta hai based on property access. Matlab agar aap `props.foo` ko kisi computed getter ya watcher mein access karte ho, toh `foo` prop ek dependency ke roop mein track ho jaata hai.
 
-So, given the following code:
+Toh maan lo aapne yeh code likha:
 
 ```js
 const { foo } = defineProps(['foo'])
 
 watchEffect(() => {
-  // runs only once before 3.5
-  // re-runs when the "foo" prop changes in 3.5+
+  // Vue 3.5 se pehle sirf ek baar chalega
+  // 3.5+ mein "foo" prop change hote hi dubara chalega
   console.log(foo)
 })
 ```
 
-In version 3.4 and below, `foo` is an actual constant and will never change. In version 3.5 and above, Vue's compiler automatically prepends `props.` when code in the same `<script setup>` block accesses variables destructured from `defineProps`. Therefore the code above becomes equivalent to the following:
+Version 3.4 ya usse pehle mein, `foo` ek constant hota hai jo kabhi change nahi hota. Lekin version 3.5 se Vue ka compiler automatically `props.` add kar deta hai jab `<script setup>` block ke andar destructured variable ko access kiya jaata hai. Isliye upar wala code compiler ke liye kuch aise ban jaata hai:
 
 ```js {5}
 const props = defineProps(['foo'])
@@ -146,39 +146,39 @@ watchEffect(() => {
 })
 ```
 
-In addition, you can use JavaScript's native default value syntax to declare default values for the props. This is particularly useful when using the type-based props declaration:
+Aap JavaScript ka native default value syntax bhi use kar sakte ho props ke liye default values declare karne ke liye. Yeh especially tab useful hota hai jab aap type-based props declaration use kar rahe ho:
 
 ```ts
 const { foo = 'hello' } = defineProps<{ foo?: string }>()
 ```
 
-If you prefer to have more visual distinction between destructured props and normal variables in your IDE, Vue's VSCode extension provides a setting to enable inlay-hints for destructured props.
+Agar aapko apne IDE mein destructured props aur normal variables ke beech visual difference chahiye, toh Vue ka VSCode extension ek setting provide karta hai jisse aap inlay-hints enable kar sakte ho.
 
 ### Passing Destructured Props into Functions {#passing-destructured-props-into-functions}
 
-When we pass a destructured prop into a function, e.g.:
+Jab hum ek destructured prop ko function mein pass karte hain, jaise ki:
 
 ```js
 const { foo } = defineProps(['foo'])
 
-watch(foo, /* ... */)
+watch(foo /* ... */)
 ```
 
-This will not work as expected because it is equivalent to `watch(props.foo, ...)` - we are passing a value instead of a reactive data source to `watch`. In fact, Vue's compiler will catch such cases and throw a warning.
+Toh yeh expected tarike se kaam nahi karega, kyunki yeh `watch(props.foo, ...)` ke barabar hota hai — hum yahan reactive source ki jagah ek value pass kar rahe hain. Vue ka compiler aise cases ko pakad lega aur warning dega.
 
-Similar to how we can watch a normal prop with `watch(() => props.foo, ...)`, we can watch a destructured prop also by wrapping it in a getter:
+Jaise hum normal prop ko `watch(() => props.foo, ...)` ke through watch karte hain, waise hi destructured prop ko bhi getter mein wrap karke watch kar sakte hain:
 
 ```js
-watch(() => foo, /* ... */)
+watch(() => foo /* ... */)
 ```
 
-In addition, this is the recommended approach when we need to pass a destructured prop into an external function while retaining reactivity:
+Yeh approach recommended hai jab hume ek destructured prop ko kisi external function mein pass karna ho aur reactivity ko maintain rakhna ho:
 
 ```js
 useComposable(() => foo)
 ```
 
-The external function can call the getter (or normalize it with [toValue](/api/reactivity-utilities.html#tovalue)) when it needs to track changes of the provided prop, e.g. in a computed or watcher getter.
+External function jab bhi us prop ke changes track karna chahe, toh woh is getter ko call kar sakta hai (ya use [toValue](/api/reactivity-utilities.html#tovalue) se normalize kar sakta hai), jaise computed ya watcher ke andar.
 
 </div>
 
@@ -186,7 +186,7 @@ The external function can call the getter (or normalize it with [toValue](/api/r
 
 ### Prop Name Casing {#prop-name-casing}
 
-We declare long prop names using camelCase because this avoids having to use quotes when using them as property keys, and allows us to reference them directly in template expressions because they are valid JavaScript identifiers:
+Hum lambaa prop name camelCase mein declare karte hain kyunki isse property keys mein quotes lagane ki zarurat nahi padti, aur template expressions mein directly refer bhi kar sakte hain — kyunki ye valid JavaScript identifiers hote hain.
 
 <div class="composition-api">
 
@@ -213,91 +213,87 @@ export default {
 <span>{{ greetingMessage }}</span>
 ```
 
-Technically, you can also use camelCase when passing props to a child component (except in [in-DOM templates](/guide/essentials/component-basics#in-dom-template-parsing-caveats)). However, the convention is using kebab-case in all cases to align with HTML attributes:
+Technically, aap camelCase props ko child component mein pass karte waqt bhi use kar sakte ho (bas in-DOM templates ke alawa). Lekin convention ye hai ki hum hamesha kebab-case ka use karein taaki HTML attributes ke saath alignment bana rahe:
 
 ```vue-html
 <MyComponent greeting-message="hello" />
 ```
 
-We use [PascalCase for component tags](/guide/components/registration#component-name-casing) when possible because it improves template readability by differentiating Vue components from native elements. However, there isn't as much practical benefit in using camelCase when passing props, so we choose to follow each language's conventions.
+Hum PascalCase use karte hain component tags ke liye jab possible ho, taaki readability better ho aur native HTML elements se clearly differentiate ho jaye. Lekin props pass karte waqt camelCase use karne ka itna practical benefit nahi hai, isliye hum language-specific conventions follow karte hain.
 
 ### Static vs. Dynamic Props {#static-vs-dynamic-props}
 
-So far, you've seen props passed as static values, like in:
+Ab tak aapne dekha ki props ko static value ke saath kaise pass kiya jaata hai, jaise:
 
 ```vue-html
 <BlogPost title="My journey with Vue" />
 ```
 
-You've also seen props assigned dynamically with `v-bind` or its `:` shortcut, such as in:
+Aur aapne yeh bhi dekha ki props ko dynamically `v-bind` ya `:` shortcut ke through assign kiya ja sakta hai:
 
 ```vue-html
-<!-- Dynamically assign the value of a variable -->
+<!-- Variable ki value dynamically assign karna -->
 <BlogPost :title="post.title" />
 
-<!-- Dynamically assign the value of a complex expression -->
+<!-- Ek complex expression ki value dynamically assign karna -->
 <BlogPost :title="post.title + ' by ' + post.author.name" />
 ```
 
-### Passing Different Value Types {#passing-different-value-types}
+### Alag-Alag Value Types Pass Karna {#passing-different-value-types}
 
-In the two examples above, we happen to pass string values, but _any_ type of value can be passed to a prop.
+Upar ke examples mein humne string values use ki, lekin Vue mein aap kisi bhi type ki value prop ke through bhej sakte ho.
 
 #### Number {#number}
 
 ```vue-html
-<!-- Even though `42` is static, we need v-bind to tell Vue that -->
-<!-- this is a JavaScript expression rather than a string.       -->
+<!-- Chahe `42` static ho, Vue ko batana padta hai ki yeh JS expression hai, string nahi -->
 <BlogPost :likes="42" />
 
-<!-- Dynamically assign to the value of a variable. -->
+<!-- Variable ki value dynamically pass karna -->
 <BlogPost :likes="post.likes" />
 ```
 
 #### Boolean {#boolean}
 
 ```vue-html
-<!-- Including the prop with no value will imply `true`. -->
+<!-- Agar prop ko bina value ke likho, toh default `true` maana jaata hai -->
 <BlogPost is-published />
 
-<!-- Even though `false` is static, we need v-bind to tell Vue that -->
-<!-- this is a JavaScript expression rather than a string.          -->
+<!-- Chahe `false` static ho, v-bind lagana zaroori hai -->
 <BlogPost :is-published="false" />
 
-<!-- Dynamically assign to the value of a variable. -->
+<!-- Variable ki value dynamically pass karna -->
 <BlogPost :is-published="post.isPublished" />
 ```
 
 #### Array {#array}
 
 ```vue-html
-<!-- Even though the array is static, we need v-bind to tell Vue that -->
-<!-- this is a JavaScript expression rather than a string.            -->
+<!-- Static array ko bhi v-bind se JS expression batana padta hai -->
 <BlogPost :comment-ids="[234, 266, 273]" />
 
-<!-- Dynamically assign to the value of a variable. -->
+<!-- Variable ke through dynamically array pass karna -->
 <BlogPost :comment-ids="post.commentIds" />
 ```
 
 #### Object {#object}
 
 ```vue-html
-<!-- Even though the object is static, we need v-bind to tell Vue that -->
-<!-- this is a JavaScript expression rather than a string.             -->
+<!-- Static object ke liye bhi v-bind zaroori hai -->
 <BlogPost
   :author="{
     name: 'Veronica',
     company: 'Veridian Dynamics'
   }"
- />
+/>
 
-<!-- Dynamically assign to the value of a variable. -->
+<!-- Variable ke through dynamically object pass karna -->
 <BlogPost :author="post.author" />
 ```
 
-### Binding Multiple Properties Using an Object {#binding-multiple-properties-using-an-object}
+### Ek Object ke Multiple Properties ko ek saath Bind Karna {#binding-multiple-properties-using-an-object}
 
-If you want to pass all the properties of an object as props, you can use [`v-bind` without an argument](/guide/essentials/template-syntax#dynamically-binding-multiple-attributes) (`v-bind` instead of `:prop-name`). For example, given a `post` object:
+Agar aap ek object ke saare properties ko ek hi baar mein as props pass karna chahte ho, toh aap `v-bind` bina kisi argument ke use kar sakte ho. Jaise agar aapke paas ek `post` object hai:
 
 <div class="options-api">
 
@@ -340,9 +336,9 @@ Will be equivalent to:
 
 ## One-Way Data Flow {#one-way-data-flow}
 
-All props form a **one-way-down binding** between the child property and the parent one: when the parent property updates, it will flow down to the child, but not the other way around. This prevents child components from accidentally mutating the parent's state, which can make your app's data flow harder to understand.
+Saare props ek **one-way-down binding** banate hain child component ke property aur parent ke property ke beech: jab parent property update hoti hai, tab woh value child tak flow karti hai — lekin child se wapas parent tak nahi jaati. Yeh system isliye rakha gaya hai taaki child components galti se parent ka state mutate na kar dein, jo ki aapke app ka data flow samajhne mein dikkat daal sakta hai.
 
-In addition, every time the parent component is updated, all props in the child component will be refreshed with the latest value. This means you should **not** attempt to mutate a prop inside a child component. If you do, Vue will warn you in the console:
+Iske alawa, jab bhi parent component update hota hai, child component ke saare props latest value ke saath refresh ho jaate hain. Iska matlab yeh hai ki aapko child component ke andar kisi bhi prop ko mutate karne ki koshish **nahi** karni chahiye. Agar aap aisa karte ho, toh Vue aapko console mein warning dega.
 
 <div class="composition-api">
 
@@ -368,9 +364,9 @@ export default {
 
 </div>
 
-There are usually two cases where it's tempting to mutate a prop:
+Aksar do cases hote hain jahan prop ko mutate karne ka mann karta hai:
 
-1. **The prop is used to pass in an initial value; the child component wants to use it as a local data property afterwards.** In this case, it's best to define a local data property that uses the prop as its initial value:
+1. **Prop ka use ek initial value ke roop mein hota hai; child component baad mein use apne local data property ke roop mein use karna chahta hai.** Is case mein, best yeh hai ki ek local data property define ki jaye jo prop ko apni initial value ke roop mein use kare:
 
    <div class="composition-api">
 
@@ -400,7 +396,7 @@ There are usually two cases where it's tempting to mutate a prop:
 
    </div>
 
-2. **The prop is passed in as a raw value that needs to be transformed.** In this case, it's best to define a computed property using the prop's value:
+2. **Prop ek raw value ke roop mein pass kiya gaya hai jise transform karne ki zarurat hai.** Is case mein, best yeh hai ki prop ke value ko use karke ek computed property define ki jaye:
 
    <div class="composition-api">
 
@@ -430,15 +426,15 @@ There are usually two cases where it's tempting to mutate a prop:
 
 ### Mutating Object / Array Props {#mutating-object-array-props}
 
-When objects and arrays are passed as props, while the child component cannot mutate the prop binding, it **will** be able to mutate the object or array's nested properties. This is because in JavaScript objects and arrays are passed by reference, and it is unreasonably expensive for Vue to prevent such mutations.
+Jab objects aur arrays props ke roop mein pass kiye jaate hain, to child component prop binding ko mutate nahi kar sakta, lekin **wo object ya array ke nested properties ko mutate kar sakta hai.** Ye isliye hota hai kyunki JavaScript mein objects aur arrays reference ke through pass hote hain, aur Vue ke liye aisi mutations ko prevent karna kaafi mehenga process hota.
 
-The main drawback of such mutations is that it allows the child component to affect parent state in a way that isn't obvious to the parent component, potentially making it more difficult to reason about the data flow in the future. As a best practice, you should avoid such mutations unless the parent and child are tightly coupled by design. In most cases, the child should [emit an event](/guide/components/events) to let the parent perform the mutation.
+Is tarah ki mutation ka main nuksan ye hai ki child component parent state ko bina uski knowledge ke change kar sakta hai, jo future mein data flow ko samajhna mushkil bana deta hai. Best practice ke taur pe, aise mutations ko avoid karna chahiye jab tak parent aur child component ka design tightly coupled na ho. Aksar cases mein, child component ko [event emit karna chahiye](/guide/components/events) taaki parent mutation perform kare.
 
 ## Prop Validation {#prop-validation}
 
-Components can specify requirements for their props, such as the types you've already seen. If a requirement is not met, Vue will warn you in the browser's JavaScript console. This is especially useful when developing a component that is intended to be used by others.
+Components apne props ke liye kuch requirements specify kar sakte hain, jaise ki types jo aap pehle dekh chuke hain. Agar koi requirement match nahi hoti, to Vue browser ke JavaScript console mein warning deta hai. Ye especially tab useful hota hai jab aap ek aisa component develop kar rahe hote hain jo dusre developers use karne wale hain.
 
-To specify prop validations, you can provide an object with validation requirements to the <span class="composition-api">`defineProps()` macro</span><span class="options-api">`props` option</span>, instead of an array of strings. For example:
+Prop validations specify karne ke liye, aap <span class="composition-api">`defineProps()` macro</span><span class="options-api">`props` option</span> ko ek object ke roop mein validation requirements ke saath de sakte hain, strings ke array ke bajaye. Jaise ki:
 
 <div class="composition-api">
 
@@ -495,7 +491,7 @@ defineProps({
 ```
 
 :::tip
-Code inside the `defineProps()` argument **cannot access other variables declared in `<script setup>`**, because the entire expression is moved to an outer function scope when compiled.
+`defineProps()` ke andar diya gaya code **kisi bhi dusre variable ko access nahi kar sakta jo `<script setup>` mein declare kiya gaya ho**, kyunki compilation ke time par ye pura expression ek outer function scope mein move ho jaata hai.
 :::
 
 </div>
@@ -557,34 +553,35 @@ export default {
 
 </div>
 
-Additional details:
+### Additional Details (Hinglish mein):
 
-- All props are optional by default, unless `required: true` is specified.
+- By default, **saare props optional hote hain**, jab tak aap explicitly `required: true` specify na karo.
 
-- An absent optional prop other than `Boolean` will have `undefined` value.
+- Agar koi optional prop present nahi hai aur wo `Boolean` nahi hai, to uska value `undefined` hoga.
 
-- The `Boolean` absent props will be cast to `false`. You can change this by setting a `default` for it — i.e.: `default: undefined` to behave as a non-Boolean prop.
+- Lekin agar prop `Boolean` type ka hai aur absent hai, to Vue usse automatically `false` maan lega. Aap is behavior ko change kar sakte ho by setting a `default` — jaise `default: undefined` likhne par wo ek non-Boolean prop ki tarah behave karega.
 
-- If a `default` value is specified, it will be used if the resolved prop value is `undefined` - this includes both when the prop is absent, or an explicit `undefined` value is passed.
+- Agar koi `default` value specify ki gayi hai, to wo tab use hoti hai jab final resolved prop value `undefined` ho — chahe prop absent ho ya usme explicitly `undefined` pass kiya gaya ho.
 
-When prop validation fails, Vue will produce a console warning (if using the development build).
+Agar prop validation fail ho jaati hai, to Vue console mein ek warning show karega (sirf development build mein).
 
 <div class="composition-api">
 
-If using [Type-based props declarations](/api/sfc-script-setup#type-only-props-emit-declarations) <sup class="vt-badge ts" />, Vue will try its best to compile the type annotations into equivalent runtime prop declarations. For example, `defineProps<{ msg: string }>` will be compiled into `{ msg: { type: String, required: true }}`.
+Agar aap [Type-based props declarations](/api/sfc-script-setup#type-only-props-emit-declarations) <sup class="vt-badge ts" /> use kar rahe ho, to Vue try karta hai ki wo type annotations ko runtime prop declarations mein compile kar de. Jaise `defineProps<{ msg: string }>` compile ho jaata hai `{ msg: { type: String, required: true }}` mein.
 
 </div>
+
 <div class="options-api">
 
 ::: tip Note
-Note that props are validated **before** a component instance is created, so instance properties (e.g. `data`, `computed`, etc.) will not be available inside `default` or `validator` functions.
+Dhyan rahe ki props validate hote hain **component instance create hone se pehle**, to aap `default` ya `validator` functions ke andar `data`, `computed`, ya kisi bhi instance property ko access nahi kar sakte.
 :::
 
 </div>
 
 ### Runtime Type Checks {#runtime-type-checks}
 
-The `type` can be one of the following native constructors:
+`type` ka value in native constructors mein se koi bhi ho sakta hai:
 
 - `String`
 - `Number`
@@ -596,7 +593,7 @@ The `type` can be one of the following native constructors:
 - `Symbol`
 - `Error`
 
-In addition, `type` can also be a custom class or constructor function and the assertion will be made with an `instanceof` check. For example, given the following class:
+Iske alawa, `type` koi custom class ya constructor function bhi ho sakta hai — us case mein Vue `instanceof` check use karta hai. Jaise agar aap ke paas yeh class hai:
 
 ```js
 class Person {
@@ -630,11 +627,11 @@ export default {
 
 </div>
 
-Vue will use `instanceof Person` to validate whether the value of the `author` prop is indeed an instance of the `Person` class.
+Vue `instanceof Person` ka use karega yeh validate karne ke liye ki `author` prop ka value sach mein `Person` class ka instance hai ya nahi.
 
 ### Nullable Type {#nullable-type}
 
-If the type is required but nullable, you can use the array syntax that includes `null`:
+Agar type required hai lekin nullable bhi ho sakta hai, to aap array syntax ka use kar sakte ho jisme `null` included ho:
 
 <div class="composition-api">
 
@@ -663,11 +660,11 @@ export default {
 
 </div>
 
-Note that if `type` is just `null` without using the array syntax, it will allow any type.
+Dhyan rahe ki agar `type` sirf `null` diya gaya ho bina array syntax ke use kiye, to yeh kisi bhi type ko allow karega.
 
 ## Boolean Casting {#boolean-casting}
 
-Props with `Boolean` type have special casting rules to mimic the behavior of native boolean attributes. Given a `<MyComponent>` with the following declaration:
+`Boolean` type waale props ke paas special casting rules hote hain jisse yeh native boolean attributes jaise behave kare. Maan lo ek `<MyComponent>` hai jiska declaration kuch aisa hai:
 
 <div class="composition-api">
 
@@ -690,17 +687,17 @@ export default {
 
 </div>
 
-The component can be used like this:
+Component ko kuch is tarah se use kiya ja sakta hai:
 
 ```vue-html
-<!-- equivalent of passing :disabled="true" -->
+<!-- ye :disabled="true" pass karne ke barabar hai -->
 <MyComponent disabled />
 
-<!-- equivalent of passing :disabled="false" -->
+<!-- ye :disabled="false" pass karne ke barabar hai -->
 <MyComponent />
 ```
 
-When a prop is declared to allow multiple types, the casting rules for `Boolean` will also be applied. However, there is an edge when both `String` and `Boolean` are allowed - the Boolean casting rule only applies if Boolean appears before String:
+Jab ek prop ko multiple types allow ki jati hain, tab bhi `Boolean` ke casting rules apply hote hain. Lekin ek special case hota hai jab `String` aur `Boolean` dono allow kiye jaate hain — Boolean casting rule sirf tab apply hoga jab `Boolean` pehle aata hai `String` se:
 
 <div class="composition-api">
 

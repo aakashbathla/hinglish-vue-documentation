@@ -1,14 +1,14 @@
 # Component Registration {#component-registration}
 
-> This page assumes you've already read the [Components Basics](/guide/essentials/component-basics). Read that first if you are new to components.
+> Ye page assume karta hai ki aap pehle hi [Components Basics](/guide/essentials/component-basics) padh chuke ho. Agar aap components ke liye naye ho, toh pehle wo padhein.
 
 <VueSchoolLink href="https://vueschool.io/lessons/vue-3-global-vs-local-vue-components" title="Free Vue.js Component Registration Lesson"/>
 
-A Vue component needs to be "registered" so that Vue knows where to locate its implementation when it is encountered in a template. There are two ways to register components: global and local.
+Ek Vue component ko "register" karna padta hai taaki Vue ko pata chale ki jab template mein wo component mile, toh uski implementation kahan se leni hai. Components ko register karne ke do tareeke hote hain: global aur local.
 
 ## Global Registration {#global-registration}
 
-We can make components available globally in the current [Vue application](/guide/essentials/application) using the `.component()` method:
+Hum components ko globally available bana sakte hain current [Vue application](/guide/essentials/application) mein `.component()` method ka use karke:
 
 ```js
 import { createApp } from 'vue'
@@ -25,15 +25,13 @@ app.component(
 )
 ```
 
-If using SFCs, you will be registering the imported `.vue` files:
+Agar aap SFCs (Single File Components) use kar rahe ho, toh aapko import ki gayi `.vue` files ko register karna padega:
 
 ```js
 import MyComponent from './App.vue'
-
-app.component('MyComponent', MyComponent)
 ```
 
-The `.component()` method can be chained:
+.component() method ko chain bhi kiya ja sakta hai:
 
 ```js
 app
@@ -42,30 +40,30 @@ app
   .component('ComponentC', ComponentC)
 ```
 
-Globally registered components can be used in the template of any component within this application:
+Globally registered components ko is application ke kisi bhi component ke template mein use kiya ja sakta hai:
 
 ```vue-html
-<!-- this will work in any component inside the app -->
+<!-- yeh kisi bhi component ke andar kaam karega -->
 <ComponentA/>
 <ComponentB/>
 <ComponentC/>
 ```
 
-This even applies to all subcomponents, meaning all three of these components will also be available _inside each other_.
+Yeh rule subcomponents par bhi apply hota hai, iska matlab yeh tino components _ek dusre ke andar bhi_ available honge.
 
 ## Local Registration {#local-registration}
 
-While convenient, global registration has a few drawbacks:
+Jabki global registration kaafi convenient hai, iske kuch drawbacks bhi hain:
 
-1. Global registration prevents build systems from removing unused components (a.k.a "tree-shaking"). If you globally register a component but end up not using it anywhere in your app, it will still be included in the final bundle.
+1. Global registration ke wajah se build systems unused components ko remove nahi kar paate (isse "tree-shaking" kehte hain). Agar aapne koi component globally register kiya lekin usse kahin use nahi kiya, toh bhi woh final bundle mein include ho jayega.
 
-2. Global registration makes dependency relationships less explicit in large applications. It makes it difficult to locate a child component's implementation from a parent component using it. This can affect long-term maintainability similar to using too many global variables.
+2. Global registration se large applications mein dependencies ka structure less explicit ho jaata hai. Parent component ke liye yeh samajhna mushkil ho jaata hai ki child component kahan se aa raha hai. Yeh long-term maintainability ko impact karta hai, bilkul jaise bahut saare global variables ka use karna.
 
-Local registration scopes the availability of the registered components to the current component only. It makes the dependency relationship more explicit, and is more tree-shaking friendly.
+Local registration mein, component sirf us current component ke scope mein available hota hai. Isse dependency relationships zyada clear ho jaate hain, aur yeh tree-shaking ke liye bhi better hota hai.
 
 <div class="composition-api">
 
-When using SFC with `<script setup>`, imported components can be locally used without registration:
+Jab aap `<script setup>` ke saath SFC use karte ho, toh imported components ko bina explicitly register kiye directly use kiya ja sakta hai:
 
 ```vue
 <script setup>
@@ -77,7 +75,7 @@ import ComponentA from './ComponentA.vue'
 </template>
 ```
 
-In non-`<script setup>`, you will need to use the `components` option:
+Agar aap non-`<script setup>` use kar rahe ho, toh aapko `components` option ka use karna padega:
 
 ```js
 import ComponentA from './ComponentA.js'
@@ -95,7 +93,7 @@ export default {
 </div>
 <div class="options-api">
 
-Local registration is done using the `components` option:
+Local registration `components` option ke through hoti hai:
 
 ```vue
 <script>
@@ -115,7 +113,7 @@ export default {
 
 </div>
 
-For each property in the `components` object, the key will be the registered name of the component, while the value will contain the implementation of the component. The above example is using the ES2015 property shorthand and is equivalent to:
+`components` object ke andar jitni bhi properties hoti hain, unka key hota hai component ka registered name, aur value hoti hai component ka implementation. Upar diya gaya example ES2015 shorthand ka use karta hai, jo iske barabar hai:
 
 ```js
 export default {
@@ -126,16 +124,16 @@ export default {
 }
 ```
 
-Note that **locally registered components are _not_ also available in descendant components**. In this case, `ComponentA` will be made available to the current component only, not any of its child or descendant components.
+Yeh dhyan dena zaroori hai ki **locally registered components _descendant components_ mein available nahi hote**. Is example mein `ComponentA` sirf current component mein hi accessible hoga, uske kisi bhi child ya nested component mein nahi.
 
 ## Component Name Casing {#component-name-casing}
 
-Throughout the guide, we are using PascalCase names when registering components. This is because:
+Is guide mein hum mostly PascalCase component names ka use kar rahe hain. Aisa karne ke kuch reasons hain:
 
-1. PascalCase names are valid JavaScript identifiers. This makes it easier to import and register components in JavaScript. It also helps IDEs with auto-completion.
+1. PascalCase JavaScript identifiers ke liye valid hote hain. Isse JavaScript mein components ko import aur register karna easy ho jaata hai. IDEs bhi auto-complete better kar paate hain.
 
-2. `<PascalCase />` makes it more obvious that this is a Vue component instead of a native HTML element in templates. It also differentiates Vue components from custom elements (web components).
+2. `<PascalCase />` template mein clearly dikhata hai ki yeh ek Vue component hai, na ki koi native HTML element. Isse Vue components aur custom web components mein differentiation easy ho jaata hai.
 
-This is the recommended style when working with SFC or string templates. However, as discussed in [in-DOM Template Parsing Caveats](/guide/essentials/component-basics#in-dom-template-parsing-caveats), PascalCase tags are not usable in in-DOM templates.
+Yeh style tab recommend kiya jaata hai jab aap SFC ya string templates ka use kar rahe ho. Lekin jaise humne [in-DOM Template Parsing Caveats](/guide/essentials/component-basics#in-dom-template-parsing-caveats) mein discuss kiya, PascalCase tags in-DOM templates mein kaam nahi karte.
 
-Luckily, Vue supports resolving kebab-case tags to components registered using PascalCase. This means a component registered as `MyComponent` can be referenced inside a Vue template (or inside an HTML element rendered by Vue) via both `<MyComponent>` and `<my-component>`. This allows us to use the same JavaScript component registration code regardless of template source.
+Good news yeh hai ki Vue kebab-case tags ko bhi PascalCase registered components ke saath resolve kar leta hai. Matlab agar aapne `MyComponent` naam ka component register kiya hai, toh aap usse Vue template mein `<MyComponent>` ya `<my-component>` dono tarah se use kar sakte ho. Isse aapko JavaScript registration code har template type ke liye alag-alag likhne ki zarurat nahi padti.
