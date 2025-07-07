@@ -1,18 +1,18 @@
 # Provide / Inject {#provide-inject}
 
-> This page assumes you've already read the [Components Basics](/guide/essentials/component-basics). Read that first if you are new to components.
+> Yeh page assume karta hai ki aap pehle hi [Components Basics](/guide/essentials/component-basics) padh chuke ho. Agar aap components ke liye naye ho to pehle woh padho.
 
 ## Prop Drilling {#prop-drilling}
 
-Usually, when we need to pass data from the parent to a child component, we use [props](/guide/components/props). However, imagine the case where we have a large component tree, and a deeply nested component needs something from a distant ancestor component. With only props, we would have to pass the same prop across the entire parent chain:
+Aksar jab humein parent se child component tak data bhejna hota hai, to hum [props](/guide/components/props) ka use karte hain. Lekin socho agar ek bade component tree mein koi deeply nested component ko ek dur ke ancestor component se kuch data chahiye ho. Sirf props ke zariye, humein wohi prop poore parent chain mein pass karna padega:
 
 ![prop drilling diagram](./images/prop-drilling.png)
 
 <!-- https://www.figma.com/file/yNDTtReM2xVgjcGVRzChss/prop-drilling -->
 
-Notice although the `<Footer>` component may not care about these props at all, it still needs to declare and pass them along just so `<DeepChild>` can access them. If there is a longer parent chain, more components would be affected along the way. This is called "props drilling" and definitely isn't fun to deal with.
+Dhyan do ki `<Footer>` component ko shayad un props se koi matlab na ho, phir bhi use declare karke aage pass karna padega sirf isliye taaki `<DeepChild>` unko access kar sake. Agar parent chain aur lambi ho to aur bhi components is process mein affect honge. Isko hi "props drilling" kehte hain aur yeh kaafi annoying ho sakta hai.
 
-We can solve props drilling with `provide` and `inject`. A parent component can serve as a **dependency provider** for all its descendants. Any component in the descendant tree, regardless of how deep it is, can **inject** dependencies provided by components up in its parent chain.
+Hum is props drilling ko `provide` aur `inject` ke zariye solve kar sakte hain. Ek parent component apne sabhi descendants ke liye ek **dependency provider** ki tarah kaam kar sakta hai. Koi bhi component descendant tree mein, chahe jitna bhi deep ho, **inject** kar sakta hai woh dependency jo parent chain mein kisi component ne provide ki ho.
 
 ![Provide/inject scheme](./images/provide-inject.png)
 
@@ -22,7 +22,7 @@ We can solve props drilling with `provide` and `inject`. A parent component can 
 
 <div class="composition-api">
 
-To provide data to a component's descendants, use the [`provide()`](/api/composition-api-dependency-injection#provide) function:
+Agar aapko apne component ke descendants ko data provide karna hai, to [`provide()`](/api/composition-api-dependency-injection#provide) function ka use karo:
 
 ```vue
 <script setup>
@@ -32,7 +32,7 @@ provide(/* key */ 'message', /* value */ 'hello!')
 </script>
 ```
 
-If not using `<script setup>`, make sure `provide()` is called synchronously inside `setup()`:
+Agar aap `<script setup>` use nahi kar rahe ho, to ensure karo ki `provide()` synchronously `setup()` ke andar call ho:
 
 ```js
 import { provide } from 'vue'
@@ -44,9 +44,9 @@ export default {
 }
 ```
 
-The `provide()` function accepts two arguments. The first argument is called the **injection key**, which can be a string or a `Symbol`. The injection key is used by descendant components to lookup the desired value to inject. A single component can call `provide()` multiple times with different injection keys to provide different values.
+`provide()` function do arguments leta hai. Pehla argument hota hai **injection key**, jo ek string ya `Symbol` ho sakta hai. Descendant components isi injection key se desired value ko lookup karte hain. Ek hi component multiple `provide()` calls kar sakta hai alag-alag keys ke saath alag-alag values dene ke liye.
 
-The second argument is the provided value. The value can be of any type, including reactive state such as refs:
+Dusra argument hota hai provide ki gayi value. Yeh kisi bhi type ka ho sakta hai, including reactive state jaise `refs`:
 
 ```js
 import { ref, provide } from 'vue'
@@ -55,13 +55,13 @@ const count = ref(0)
 provide('key', count)
 ```
 
-Providing reactive values allows the descendant components using the provided value to establish a reactive connection to the provider component.
+Reactive values provide karne se descendant components reactive connection establish kar lete hain provider component ke saath.
 
 </div>
 
 <div class="options-api">
 
-To provide data to a component's descendants, use the [`provide`](/api/options-composition#provide) option:
+Agar aapko apne component ke descendants ko data provide karna hai, to [`provide`](/api/options-composition#provide) option ka use karo:
 
 ```js
 export default {
@@ -71,9 +71,9 @@ export default {
 }
 ```
 
-For each property in the `provide` object, the key is used by child components to locate the correct value to inject, while the value is what ends up being injected.
+`provide` object mein har property ka key use hota hai child components ke liye correct value locate karne ke liye, aur value wahi hoti hai jo inject ki jaati hai.
 
-If we need to provide per-instance state, for example data declared via the `data()`, then `provide` must use a function value:
+Agar aapko per-instance state provide karna ho, jaise `data()` ke through declare kiya gaya data, to `provide` function ke form mein likhna padega:
 
 ```js{7-12}
 export default {
@@ -83,7 +83,7 @@ export default {
     }
   },
   provide() {
-    // use function syntax so that we can access `this`
+    // function syntax use karo taaki `this` access ho sake
     return {
       message: this.message
     }
@@ -91,13 +91,13 @@ export default {
 }
 ```
 
-However, do note this does **not** make the injection reactive. We will discuss [making injections reactive](#working-with-reactivity) below.
+Lekin dhyan rahe ki yeh injection **reactive nahi hoti**. Hum [injections ko reactive kaise banayein](#working-with-reactivity) woh neeche discuss karenge.
 
 </div>
 
 ## App-level Provide {#app-level-provide}
 
-In addition to providing data in a component, we can also provide at the app level:
+Sirf component level pe hi nahi, hum app level pe bhi provide kar sakte hain:
 
 ```js
 import { createApp } from 'vue'
@@ -107,13 +107,13 @@ const app = createApp({})
 app.provide(/* key */ 'message', /* value */ 'hello!')
 ```
 
-App-level provides are available to all components rendered in the app. This is especially useful when writing [plugins](/guide/reusability/plugins), as plugins typically wouldn't be able to provide values using components.
+App-level provides har component ke liye available hoti hain jo app mein render ho rahe hain. Yeh especially tab useful hota hai jab hum [plugins](/guide/reusability/plugins) likh rahe hote hain, kyunki plugins generally components ke through values provide nahi kar paate.
 
 ## Inject {#inject}
 
 <div class="composition-api">
 
-To inject data provided by an ancestor component, use the [`inject()`](/api/composition-api-dependency-injection#inject) function:
+Agar aapko kisi ancestor component se provided data ko use karna hai, to [`inject()`](/api/composition-api-dependency-injection#inject) function ka use karo:
 
 ```vue
 <script setup>
@@ -123,13 +123,13 @@ const message = inject('message')
 </script>
 ```
 
-If multiple parents provide data with the same key, inject will resolve to the value from the closest parent in component's parent chain.
+Agar multiple parents same key ke saath data provide kar rahe hain, to `inject` sabse kareeb parent ke value ko resolve karega component ke parent chain mein.
 
-If the provided value is a ref, it will be injected as-is and will **not** be automatically unwrapped. This allows the injector component to retain the reactivity connection to the provider component.
+Agar provided value ek ref hai, to woh as-is inject hogi aur **automatically unwrap nahi hogi**. Isse injector component provider ke saath reactive connection maintain kar sakta hai.
 
 [Full provide + inject Example with Reactivity](https://play.vuejs.org/#eNqFUUFugzAQ/MrKF1IpxfeIVKp66Kk/8MWFDXYFtmUbpArx967BhURRU9/WOzO7MzuxV+fKcUB2YlWovXYRAsbBvQije2d9hAk8Xo7gvB11gzDDxdseCuIUG+ZN6a7JjZIvVRIlgDCcw+d3pmvTglz1okJ499I0C3qB1dJQT9YRooVaSdNiACWdQ5OICj2WwtTWhAg9hiBbhHNSOxQKu84WT8LkNQ9FBhTHXyg1K75aJHNUROxdJyNSBVBp44YI43NvG+zOgmWWYGt7dcipqPhGZEe2ef07wN3lltD+lWN6tNkV/37+rdKjK2rzhRTt7f3u41xhe37/xJZGAL2PLECXa9NKdD/a6QTTtGnP88LgiXJtYv4BaLHhvg==)
 
-Again, if not using `<script setup>`, `inject()` should only be called synchronously inside `setup()`:
+Dubara dhyan do, agar aap `<script setup>` use nahi kar rahe ho, to `inject()` ko sirf synchronously `setup()` ke andar call karna chahiye:
 
 ```js
 import { inject } from 'vue'
@@ -146,7 +146,7 @@ export default {
 
 <div class="options-api">
 
-To inject data provided by an ancestor component, use the [`inject`](/api/options-composition#inject) option:
+Agar aapko ancestor component se provided data inject karna hai, to [`inject`](/api/options-composition#inject) option ka use karo:
 
 ```js
 export default {
@@ -157,29 +157,29 @@ export default {
 }
 ```
 
-Injections are resolved **before** the component's own state, so you can access injected properties in `data()`:
+Injections component ke apne state se **pehle** resolve hoti hain, isliye aap injected properties ko `data()` ke andar use kar sakte ho:
 
 ```js
 export default {
   inject: ['message'],
   data() {
     return {
-      // initial data based on injected value
+      // injected value ke basis pe initial data
       fullMessage: this.message
     }
   }
 }
 ```
 
-If multiple parents provide data with the same key, inject will resolve to the value from the closest parent in component's parent chain.
+Agar multiple parents same key ke saath data provide karte hain, to inject sabse kareeb parent ke value ko resolve karega component ke parent chain mein.
 
 [Full provide + inject example](https://play.vuejs.org/#eNqNkcFqwzAQRH9l0EUthOhuRKH00FO/oO7B2JtERZaEvA4F43+vZCdOTAIJCImRdpi32kG8h7A99iQKobs6msBvpTNt8JHxcTC2wS76FnKrJpVLZelKR39TSUO7qreMoXRA7ZPPkeOuwHByj5v8EqI/moZeXudCIBL30Z0V0FLXVXsqIA9krU8R+XbMR9rS0mqhS4KpDbZiSgrQc5JKQqvlRWzEQnyvuc9YuWbd4eXq+TZn0IvzOeKr8FvsNcaK/R6Ocb9Uc4FvefpE+fMwP0wH8DU7wB77nIo6x6a2hvNEME5D0CpbrjnHf+8excI=)
 
 ### Injection Aliasing \* {#injection-aliasing}
 
-When using the array syntax for `inject`, the injected properties are exposed on the component instance using the same key. In the example above, the property was provided under the key `"message"`, and injected as `this.message`. The local key is the same as the injection key.
+Jab aap `inject` ke liye array syntax use karte ho, to injected properties component instance pe usi key ke naam se expose hoti hain. Upar wale example mein property `"message"` ke naam se provide ki gayi thi, aur `this.message` ke roop mein inject ki gayi. Local key aur injection key same hoti hain.
 
-If we want to inject the property using a different local key, we need to use the object syntax for the `inject` option:
+Agar aap local key ko alag naam dena chahte ho, to `inject` option ka object syntax use karo:
 
 ```js
 export default {
@@ -191,31 +191,30 @@ export default {
 }
 ```
 
-Here, the component will locate a property provided with the key `"message"`, and then expose it as `this.localMessage`.
+Yahaan component `"message"` key se provided value ko locate karega, aur use `this.localMessage` ke naam se expose karega.
 
 </div>
 
 ### Injection Default Values {#injection-default-values}
 
-By default, `inject` assumes that the injected key is provided somewhere in the parent chain. In the case where the key is not provided, there will be a runtime warning.
+By default, `inject` maan ke chalta hai ki injected key parent chain mein kahin provide ki gayi hai. Agar key provide nahi ki gayi to runtime warning aayega.
 
-If we want to make an injected property work with optional providers, we need to declare a default value, similar to props:
+Agar aapko injected property ko optional banana hai, to aap default value declare kar sakte ho, bilkul props ke tarah:
 
 <div class="composition-api">
 
 ```js
-// `value` will be "default value"
-// if no data matching "message" was provided
+// Agar "message" provide nahi kiya gaya to `value` banega "default value"
 const value = inject('message', 'default value')
 ```
 
-In some cases, the default value may need to be created by calling a function or instantiating a new class. To avoid unnecessary computation or side effects in case the optional value is not used, we can use a factory function for creating the default value:
+Kabhi-kabhi default value ko create karne ke liye function ya naye class ka instance banana padta hai. Aise cases mein, jahan value ka use na bhi ho to unnecessary computation ya side effects se bacha jaaye, aap factory function ka use kar sakte ho:
 
 ```js
 const value = inject('key', () => new ExpensiveClass(), true)
 ```
 
-The third parameter indicates the default value should be treated as a factory function.
+Teesra parameter batata hai ki default value ko factory function ki tarah treat kiya jaaye.
 
 </div>
 
@@ -245,12 +244,12 @@ export default {
 
 <div class="composition-api">
 
-When using reactive provide / inject values, **it is recommended to keep any mutations to reactive state inside of the _provider_ whenever possible**. This ensures that the provided state and its possible mutations are co-located in the same component, making it easier to maintain in the future.
+Jab aap reactive provide / inject values ka use kar rahe ho, to **recommended yeh hai ki jitni bhi state mutations hain, wo provider component ke andar hi handle ki jayein**. Isse maintain karna easy hota hai future mein, kyunki state aur uski updates ek hi jagah pe defined hoti hain.
 
-There may be times when we need to update the data from an injector component. In such cases, we recommend providing a function that is responsible for mutating the state:
+Kuch situations mein injector component se bhi data update karna pad sakta hai. Aise cases mein, ek function provide karna sahi rahega jo state ko mutate kare:
 
 ```vue{7-9,13}
-<!-- inside provider component -->
+<!-- provider component ke andar -->
 <script setup>
 import { provide, ref } from 'vue'
 
@@ -268,7 +267,7 @@ provide('location', {
 ```
 
 ```vue{5}
-<!-- in injector component -->
+<!-- injector component ke andar -->
 <script setup>
 import { inject } from 'vue'
 
@@ -280,7 +279,7 @@ const { location, updateLocation } = inject('location')
 </template>
 ```
 
-Finally, you can wrap the provided value with [`readonly()`](/api/reactivity-core#readonly) if you want to ensure that the data passed through `provide` cannot be mutated by the injector component.
+Agar aap chaahte ho ki injector component provided data ko mutate na kar sake, to aap [`readonly()`](/api/reactivity-core#readonly) ka use karke value ko readonly bana sakte ho:
 
 ```vue
 <script setup>
@@ -295,7 +294,7 @@ provide('read-only-count', readonly(count))
 
 <div class="options-api">
 
-In order to make injections reactively linked to the provider, we need to provide a computed property using the [computed()](/api/reactivity-core#computed) function:
+Agar aap chahte ho ki injection reactive ho provider ke saath, to aapko [computed()](/api/reactivity-core#computed) function ka use karke computed property provide karni padegi:
 
 ```js{10}
 import { computed } from 'vue'
@@ -308,7 +307,7 @@ export default {
   },
   provide() {
     return {
-      // explicitly provide a computed property
+      // explicitly ek computed property provide kar rahe hain
       message: computed(() => this.message)
     }
   }
@@ -317,15 +316,15 @@ export default {
 
 [Full provide + inject Example with Reactivity](https://play.vuejs.org/#eNqNUctqwzAQ/JVFFyeQxnfjBEoPPfULqh6EtYlV9EKWTcH43ytZtmPTQA0CsdqZ2dlRT16tPXctkoKUTeWE9VeqhbLGeXirheRwc0ZBds7HKkKzBdBDZZRtPXIYJlzqU40/I4LjjbUyIKmGEWw0at8UgZrUh1PscObZ4ZhQAA596/RcAShsGnbHArIapTRBP74O8Up060wnOO5QmP0eAvZyBV+L5jw1j2tZqsMp8yWRUHhUVjKPoQIohQ460L0ow1FeKJlEKEnttFweijJfiORElhCf5f3umObb0B9PU/I7kk17PJj7FloN/2t7a2Pj/Zkdob+x8gV8ZlMs2de/8+14AXwkBngD9zgVqjg2rNXPvwjD+EdlHilrn8MvtvD1+Q==)
 
-The `computed()` function is typically used in Composition API components, but can also be used to complement certain use cases in Options API. You can learn more about its usage by reading the [Reactivity Fundamentals](/guide/essentials/reactivity-fundamentals) and [Computed Properties](/guide/essentials/computed) with the API Preference set to Composition API.
+`computed()` function mainly Composition API mein use hota hai, lekin kuch Options API ke cases mein bhi useful ho sakta hai. Iske use ko deeply samajhne ke liye [Reactivity Fundamentals](/guide/essentials/reactivity-fundamentals) aur [Computed Properties](/guide/essentials/computed) padh sakte ho, API Preference ko Composition API pe set karke.
 
 </div>
 
 ## Working with Symbol Keys {#working-with-symbol-keys}
 
-So far, we have been using string injection keys in the examples. If you are working in a large application with many dependency providers, or you are authoring components that are going to be used by other developers, it is best to use Symbol injection keys to avoid potential collisions.
+Ab tak hum examples mein string injection keys ka use kar rahe the. Lekin agar aap ek large application mein kaam kar rahe ho jahan multiple dependency providers hain, ya phir aap aise components bana rahe ho jo doosre developers bhi use karenge, to **Symbol injection keys ka use karna best practice hota hai**, taki key collisions avoid ho sakein.
 
-It's recommended to export the Symbols in a dedicated file:
+Recommend kiya jaata hai ki Symbols ko ek dedicated file mein export karo.
 
 ```js
 // keys.js
