@@ -2,7 +2,7 @@
 
 ## Introduction {#introduction}
 
-Plugins are self-contained code that usually add app-level functionality to Vue. This is how we install a plugin:
+Plugins self-contained code hote hain jo usually Vue me app-level functionality add karte hain. Aise hum ek plugin install karte hain:
 
 ```js
 import { createApp } from 'vue'
@@ -14,7 +14,7 @@ app.use(myPlugin, {
 })
 ```
 
-A plugin is defined as either an object that exposes an `install()` method, or simply a function that acts as the install function itself. The install function receives the [app instance](/api/application) along with additional options passed to `app.use()`, if any:
+Ek plugin ya to ek object hota hai jisme `install()` method hota hai, ya phir ek simple function jo install function ki tarah kaam karta hai. Install function ko [app instance](/api/application) milta hai saath hi wo additional options bhi jo `app.use()` ke through pass kiye jaate hain (agar diye gaye ho):
 
 ```js
 const myPlugin = {
@@ -24,21 +24,21 @@ const myPlugin = {
 }
 ```
 
-There is no strictly defined scope for a plugin, but common scenarios where plugins are useful include:
+Plugin ke liye koi strictly defined scope nahi hota, lekin common scenarios jaha plugins useful hote hain, unme shamil hain:
 
-1. Register one or more global components or custom directives with [`app.component()`](/api/application#app-component) and [`app.directive()`](/api/application#app-directive).
+1. Ek ya zyada global components ya custom directives register karna [`app.component()`](/api/application#app-component) aur [`app.directive()`](/api/application#app-directive) ke through.
 
-2. Make a resource [injectable](/guide/components/provide-inject) throughout the app by calling [`app.provide()`](/api/application#app-provide).
+2. Ek resource ko poore app me [injectable](/guide/components/provide-inject) banana [`app.provide()`](/api/application#app-provide) call karke.
 
-3. Add some global instance properties or methods by attaching them to [`app.config.globalProperties`](/api/application#app-config-globalproperties).
+3. Kuch global instance properties ya methods add karna, unhe [`app.config.globalProperties`](/api/application#app-config-globalproperties) me attach karke.
 
-4. A library that needs to perform some combination of the above (e.g. [vue-router](https://github.com/vuejs/vue-router-next)).
+4. Ek library jo inme se ek combination perform karti hai (jaise [vue-router](https://github.com/vuejs/vue-router-next)).
 
 ## Writing a Plugin {#writing-a-plugin}
 
-In order to better understand how to create your own Vue.js plugins, we will create a very simplified version of a plugin that displays `i18n` (short for [Internationalization](https://en.wikipedia.org/wiki/Internationalization_and_localization)) strings.
+Apna khud ka Vue.js plugin banane ko acche se samajhne ke liye, hum ek simplified version banayenge jo `i18n` (short for [Internationalization](https://en.wikipedia.org/wiki/Internationalization_and_localization)) strings display karega.
 
-Let's begin by setting up the plugin object. It is recommended to create it in a separate file and export it, as shown below to keep the logic contained and separate.
+Sabse pehle hum plugin object setup karte hain. Ye recommend kiya jata hai ki aap isse ek separate file me create aur export karo, taaki logic alag aur organized rahe.
 
 ```js [plugins/i18n.js]
 export default {
@@ -48,13 +48,13 @@ export default {
 }
 ```
 
-We want to create a translation function. This function will receive a dot-delimited `key` string, which we will use to look up the translated string in the user-provided options. This is the intended usage in templates:
+Hum ek translation function banana chahte hain. Ye function ek dot-delimited `key` string lega, jiska use hum user-provided options me se translated string lookup karne ke liye karenge. Ye hai intended usage templates me:
 
 ```vue-html
 <h1>{{ $translate('greetings.hello') }}</h1>
 ```
 
-Since this function should be globally available in all templates, we will make it so by attaching it to `app.config.globalProperties` in our plugin:
+Kyuki ye function sabhi templates me globally available hona chahiye, hum ise apne plugin me app.config.globalProperties ke sath attach karke globally available karenge:
 
 ```js{4-11}
 // plugins/i18n.js
@@ -72,9 +72,9 @@ export default {
 }
 ```
 
-Our `$translate` function will take a string such as `greetings.hello`, look inside the user provided configuration and return the translated value.
+Hamari `$translate` function ek string lega jaise `greetings.hello`, fir user-provided configuration ke andar dekhega aur uska translated value return karega.
 
-The object containing the translated keys should be passed to the plugin during installation via additional parameters to `app.use()`:
+Jo object translated keys contain karta hai, use plugin ko install karte time `app.use()` ke additional parameters ke through pass karna chahiye:
 
 ```js
 import i18nPlugin from './plugins/i18n'
@@ -86,17 +86,18 @@ app.use(i18nPlugin, {
 })
 ```
 
-Now, our initial expression `$translate('greetings.hello')` will be replaced by `Bonjour!` at runtime.
+Ab, hamara initial expression `$translate('greetings.hello')` runtime pe `Bonjour!` se replace ho jayega.
 
-See also: [Augmenting Global Properties](/guide/typescript/options-api#augmenting-global-properties) <sup class="vt-badge ts" />
+Aur dekho: [Augmenting Global Properties](/guide/typescript/options-api#augmenting-global-properties) <sup class="vt-badge ts" />
 
 :::tip
-Use global properties scarcely, since it can quickly become confusing if too many global properties injected by different plugins are used throughout an app.
+Global properties ko bahut kam use karo, kyunki agar bahut zyada global properties alag-alag plugins ke through inject ho jayein to app me confuse ho sakta hai.
 :::
 
 ### Provide / Inject with Plugins {#provide-inject-with-plugins}
 
-Plugins also allow us to use `provide` to give plugin users access to a function or attribute. For example, we can allow the application to have access to the `options` parameter to be able to use the translations object.
+Plugins hume `provide` use karne ka option bhi dete hain jisse hum plugin users ko koi function ya attribute access kara sakte hain.  
+For example, hum application ko `options` parameter provide kar sakte hain taaki wo translations object ko use kar sake.
 
 ```js{10} [plugins/i18n.js]
 export default {
@@ -106,7 +107,7 @@ export default {
 }
 ```
 
-Plugin users will now be able to inject the plugin options into their components using the `i18n` key:
+Ab plugin users apne components me `i18n` key use karke plugin options ko inject kar paayenge:
 
 <div class="composition-api">
 
@@ -134,6 +135,6 @@ export default {
 
 </div>
 
-### Bundle for NPM
+### NPM ke liye Bundle
 
-If you further want to build and publish your plugin for others to use, see [Vite's section on Library Mode](https://vitejs.dev/guide/build.html#library-mode).
+Agar aap apne plugin ko aur aage build karke dusre logon ke use ke liye publish karna chahte ho, toh [Vite ki Library Mode wali section](https://vitejs.dev/guide/build.html#library-mode) dekho.

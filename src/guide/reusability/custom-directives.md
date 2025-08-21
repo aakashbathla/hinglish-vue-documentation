@@ -21,11 +21,11 @@ const vHighlight = {
 
 ## Introduction {#introduction}
 
-In addition to the default set of directives shipped in core (like `v-model` or `v-show`), Vue also allows you to register your own custom directives.
+Core ke default directives (jaise `v-model` ya `v-show`) ke alawa, Vue aapko apne khud ke custom directives banane ki bhi facility deta hai.
 
-We have introduced two forms of code reuse in Vue: [components](/guide/essentials/component-basics) and [composables](./composables). Components are the main building blocks, while composables are focused on reusing stateful logic. Custom directives, on the other hand, are mainly intended for reusing logic that involves low-level DOM access on plain elements.
+Vue me humne do tarike ke code reuse dekhe hain: [components](/guide/essentials/component-basics) aur [composables](./composables). Components basic building blocks hote hain, aur composables ka focus stateful logic ko reuse karne par hota hai. Custom directives ka use mainly tab hota hai jab aapko plain elements par low-level DOM access se related logic reuse karna ho.
 
-A custom directive is defined as an object containing lifecycle hooks similar to those of a component. The hooks receive the element the directive is bound to. Here is an example of a directive that adds a class to an element when it is inserted into the DOM by Vue:
+Ek custom directive ko ek object ke form me define kiya jata hai jisme lifecycle hooks hote hain (component ke lifecycle hooks ke similar). Ye hooks us element ko receive karte hain jiske sath directive bind hota hai. Example: ek directive jo DOM me insert hote hi element ko ek class add kar de:
 
 <div class="composition-api">
 
@@ -73,9 +73,9 @@ export default {
 
 <div class="composition-api">
 
-In `<script setup>`, any camelCase variable that starts with the `v` prefix can be used as a custom directive. In the example above, `vHighlight` can be used in the template as `v-highlight`.
+`<script setup>` me, koi bhi camelCase variable jo `v` prefix se start hota hai, use custom directive ke roop me use kiya ja sakta hai. Upar wale example me, `vHighlight` ko template me `v-highlight` ke roop me use kar sakte ho.
 
-If you are not using `<script setup>`, custom directives can be registered using the `directives` option:
+Agar aap `<script setup>` use nahi kar rahe ho, toh custom directives ko `directives` option ke through register kiya ja sakta hai:
 
 ```js
 export default {
@@ -95,11 +95,11 @@ export default {
 
 <div class="options-api">
 
-Similar to components, custom directives must be registered so that they can be used in templates. In the example above, we are using local registration via the `directives` option.
+Components ki tarah, custom directives ko bhi register karna zaroori hai taaki unhe templates me use kiya ja sake. Upar wale example me, humne local registration `directives` option ke through ki hai.
 
 </div>
 
-It is also common to globally register custom directives at the app level:
+Ye bhi common hai ki custom directives ko globally app level par register kiya jaye:
 
 ```js
 const app = createApp({})
@@ -110,11 +110,11 @@ app.directive('highlight', {
 })
 ```
 
-## When to use custom directives {#when-to-use}
+## Kab use karein custom directives {#when-to-use}
 
-Custom directives should only be used when the desired functionality can only be achieved via direct DOM manipulation.
+Custom directives tabhi use karni chahiye jab aapko aisi functionality chahiye jo sirf direct DOM manipulation ke through possible ho.
 
-A common example of this is a `v-focus` custom directive that brings an element into focus.
+Iska ek common example hai `v-focus` custom directive jo element ko focus me le aata hai.
 
 <div class="composition-api">
 
@@ -154,13 +154,13 @@ export default {
 
 </div>
 
-This directive is more useful than the `autofocus` attribute because it works not just on page load - it also works when the element is dynamically inserted by Vue!
+Yeh directive `autofocus` attribute se zyada useful hai kyunki yeh sirf page load par hi nahi balki jab element ko Vue dynamically insert karta hai tab bhi kaam karta hai!
 
-Declarative templating with built-in directives such as `v-bind` is recommended when possible because they are more efficient and server-rendering friendly.
+Declarative templating ke saath built-in directives jaise `v-bind` use karna recommended hai jab bhi possible ho, kyunki yeh zyada efficient aur server-rendering friendly hote hain.
 
 ## Directive Hooks {#directive-hooks}
 
-A directive definition object can provide several hook functions (all optional):
+Ek directive definition object multiple hook functions provide kar sakta hai (sab optional hote hain):
 
 ```js
 const myDirective = {
@@ -188,29 +188,29 @@ const myDirective = {
 
 ### Hook Arguments {#hook-arguments}
 
-Directive hooks are passed these arguments:
+Directive hooks ko yeh arguments diye jaate hain:
 
-- `el`: the element the directive is bound to. This can be used to directly manipulate the DOM.
+- `el`: woh element jiske saath directive bound hai. Isse directly DOM manipulate kiya ja sakta hai.
 
-- `binding`: an object containing the following properties.
+- `binding`: ek object jisme following properties hoti hain:
 
-  - `value`: The value passed to the directive. For example in `v-my-directive="1 + 1"`, the value would be `2`.
-  - `oldValue`: The previous value, only available in `beforeUpdate` and `updated`. It is available whether or not the value has changed.
-  - `arg`: The argument passed to the directive, if any. For example in `v-my-directive:foo`, the arg would be `"foo"`.
-  - `modifiers`: An object containing modifiers, if any. For example in `v-my-directive.foo.bar`, the modifiers object would be `{ foo: true, bar: true }`.
-  - `instance`: The instance of the component where the directive is used.
-  - `dir`: the directive definition object.
+  - `value`: Directive ko jo value pass ki gayi hai. Jaise `v-my-directive="1 + 1"` me value `2` hogi.
+  - `oldValue`: Pichhli value, sirf `beforeUpdate` aur `updated` me available hoti hai. Yeh available hoti hai chahe value change hui ho ya nahi.
+  - `arg`: Argument jo directive ko pass kiya gaya hai (agar koi hai). Jaise `v-my-directive:foo` me arg `"foo"` hoga.
+  - `modifiers`: Ek object jo modifiers contain karta hai (agar diye gaye hain). Jaise `v-my-directive.foo.bar` me modifiers object `{ foo: true, bar: true }` hoga.
+  - `instance`: Component instance jisme directive use ho raha hai.
+  - `dir`: Directive definition object.
 
-- `vnode`: the underlying VNode representing the bound element.
-- `prevVnode`: the VNode representing the bound element from the previous render. Only available in the `beforeUpdate` and `updated` hooks.
+- `vnode`: woh underlying VNode jo bound element ko represent karta hai.
+- `prevVnode`: woh VNode jo pichhle render se bound element ko represent karta hai. Sirf `beforeUpdate` aur `updated` hooks me available hota hai.
 
-As an example, consider the following directive usage:
+Example ke liye, yeh directive usage consider karo:
 
 ```vue-html
 <div v-example:foo.bar="baz">
 ```
 
-The `binding` argument would be an object in the shape of:
+`binding` argument ek object hoga is shape me:
 
 ```js
 {
@@ -221,21 +221,22 @@ The `binding` argument would be an object in the shape of:
 }
 ```
 
-Similar to built-in directives, custom directive arguments can be dynamic. For example:
+Built-in directives ki tarah hi, custom directive arguments bhi dynamic ho sakte hain.  
+For example:
 
 ```vue-html
 <div v-example:[arg]="value"></div>
 ```
 
-Here the directive argument will be reactively updated based on `arg` property in our component state.
+Yahan directive ka argument reactively update hoga based on `arg` property jo humare component state me hai.
 
 :::tip Note
-Apart from `el`, you should treat these arguments as read-only and never modify them. If you need to share information across hooks, it is recommended to do so through element's [dataset](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset).
+`el` ke alawa, aapko in arguments ko read-only treat karna chahiye aur kabhi modify nahi karna chahiye. Agar aapko hooks ke beech information share karni ho, toh recommend hai ki aap element ke [dataset](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset) ka use karein.
 :::
 
 ## Function Shorthand {#function-shorthand}
 
-It's common for a custom directive to have the same behavior for `mounted` and `updated`, with no need for the other hooks. In such cases we can define the directive as a function:
+Aksar custom directive ka behavior `mounted` aur `updated` dono hooks ke liye same hota hai, aur baaki hooks ki zarurat nahi hoti. Aise cases me hum directive ko ek simple function ke roop me define kar sakte hain:
 
 ```vue-html
 <div v-color="color"></div>
@@ -250,7 +251,7 @@ app.directive('color', (el, binding) => {
 
 ## Object Literals {#object-literals}
 
-If your directive needs multiple values, you can also pass in a JavaScript object literal. Remember, directives can take any valid JavaScript expression.
+Agar aapki directive ko multiple values ki zarurat hai, toh aap ek JavaScript object literal bhi pass kar sakte ho. Dhyaan rahe, directives kisi bhi valid JavaScript expression ko accept kar sakti hain.
 
 ```vue-html
 <div v-demo="{ color: 'white', text: 'hello!' }"></div>
@@ -266,10 +267,10 @@ app.directive('demo', (el, binding) => {
 ## Usage on Components {#usage-on-components}
 
 :::warning Not recommended
-Using custom directives on components is not recommended. Unexpected behaviour may occur when a component has multiple root nodes.
+Components par custom directives use karna recommended nahi hai. Agar ek component ke multiple root nodes ho, toh unexpected behavior aa sakta hai.
 :::
 
-When used on components, custom directives will always apply to a component's root node, similar to [Fallthrough Attributes](/guide/components/attrs).
+Jab components par use kiya jata hai, custom directives hamesha component ke root node par apply hoti hain, bilkul waise hi jaise [Fallthrough Attributes](/guide/components/attrs).
 
 ```vue-html
 <MyComponent v-demo="test" />
@@ -283,4 +284,4 @@ When used on components, custom directives will always apply to a component's ro
 </div>
 ```
 
-Note that components can potentially have more than one root node. When applied to a multi-root component, a directive will be ignored and a warning will be thrown. Unlike attributes, directives can't be passed to a different element with `v-bind="$attrs"`.
+Note karein ki components ke paas kabhi-kabhi ek se zyada root nodes ho sakte hain. Agar directive ek multi-root component par apply kiya jaye, toh wo ignore ho jayegi aur ek warning throw hogi. Attributes ke opposite, directives ko kisi aur element par `v-bind="$attrs"` ke through pass nahi kiya ja sakta.
