@@ -2,15 +2,15 @@
 
  <VueSchoolLink href="https://vueschool.io/lessons/vue-3-teleport" title="Free Vue.js Teleport Lesson"/>
 
-`<Teleport>` is a built-in component that allows us to "teleport" a part of a component's template into a DOM node that exists outside the DOM hierarchy of that component.
+`<Teleport>` ek built-in component hai jo humein allow karta hai ki hum apne component ke template ka ek part kisi aise DOM node me "teleport" kar dein jo us component ki DOM hierarchy ke bahar exist karta ho.
 
 ## Basic Usage {#basic-usage}
 
-Sometimes a part of a component's template belongs to it logically, but from a visual standpoint, it should be displayed somewhere else in the DOM, perhaps even outside of the Vue application.
+Kabhi-kabhi ek component ke template ka kuch part logically usi ka hota hai, lekin visual perspective se usse DOM me kahin aur dikhana better hota hai, chahe wo Vue application ke bahar hi kyu na ho.
 
-The most common example of this is when building a full-screen modal. Ideally, we want the code for the modal's button and the modal itself to be written within the same single-file component, since they are both related to the open / close state of the modal. But that means the modal will be rendered alongside the button, deeply nested in the application's DOM hierarchy. This can create some tricky issues when positioning the modal via CSS.
+Iska sabse common example hota hai jab hum ek full-screen modal banate hain. Ideally, modal ka button aur modal ka code ek hi single-file component me likhna chahiye, kyunki dono ka relation open / close state se hai. Lekin iska matlab ye bhi hai ki modal button ke sath render hoga, application ke DOM hierarchy me deeply nested hokar. Ye CSS se modal ko position karte waqt tricky issues create kar sakta hai.
 
-Consider the following HTML structure.
+Socho niche wale HTML structure ko:
 
 ```vue-html
 <div class="outer">
@@ -21,7 +21,7 @@ Consider the following HTML structure.
 </div>
 ```
 
-And here is the implementation of `<MyModal>`:
+Aur yeh hai `<MyModal>` ka implementation:
 
 <div class="composition-api">
 
@@ -90,15 +90,15 @@ export default {
 
 </div>
 
-The component contains a `<button>` to trigger the opening of the modal, and a `<div>` with a class of `.modal`, which will contain the modal's content and a button to self-close.
+Component ke andar ek `<button>` hota hai jo modal ko open karne ke liye trigger karta hai, aur ek `<div>` hota hai jisme `.modal` class lagi hoti hai. Ye modal ka content rakhta hai aur ek button hota hai jisse modal khud close ho jata hai.
 
-When using this component inside the initial HTML structure, there are a number of potential issues:
+Jab hum is component ko initial HTML structure me use karte hain, to kuch potential issues aa sakte hain:
 
-- `position: fixed` only places the element relative to the viewport when no ancestor element has `transform`, `perspective` or `filter` property set. If, for example, we intend to animate the ancestor `<div class="outer">` with a CSS transform, it would break the modal layout!
+- `position: fixed` tabhi element ko viewport ke relative place karta hai jab koi ancestor element me `transform`, `perspective` ya `filter` property set na ho. Agar hum ancestor `<div class="outer">` ko CSS transform ke saath animate karna chahe, to modal ka layout toot jayega!
 
-- The modal's `z-index` is constrained by its containing elements. If there is another element that overlaps with `<div class="outer">` and has a higher `z-index`, it would cover our modal.
+- Modal ka `z-index` uske containing elements ke andar hi constrained rahega. Agar koi aur element ho jo `<div class="outer">` ke upar overlap kare aur uska `z-index` zyada ho, to wo hamare modal ko cover kar dega.
 
-`<Teleport>` provides a clean way to work around these, by allowing us to break out of the nested DOM structure. Let's modify `<MyModal>` to use `<Teleport>`:
+`<Teleport>` ek clean solution deta hai in problems ko solve karne ke liye, kyunki ye hume nested DOM structure se bahar nikalne ki flexibility deta hai. Ab chalo `<MyModal>` ko modify karte hain `<Teleport>` use karne ke liye:
 
 ```vue-html{3,8}
 <button @click="open = true">Open Modal</button>
@@ -111,9 +111,9 @@ When using this component inside the initial HTML structure, there are a number 
 </Teleport>
 ```
 
-The `to` target of `<Teleport>` expects a CSS selector string or an actual DOM node. Here, we are essentially telling Vue to "**teleport** this template fragment **to** the **`body`** tag".
+`<Teleport>` ka `to` target ek CSS selector string ya phir ek actual DOM node expect karta hai. Yaha hum basically Vue ko bol rahe hain: "**is template fragment ko teleport karo body tag ke andar**".
 
-You can click the button below and inspect the `<body>` tag via your browser's devtools:
+Aap niche diye gaye button ko click karke apne browser ke devtools me `<body>` tag inspect kar sakte ho:
 
 <script setup>
 import { ref } from 'vue'
@@ -147,21 +147,21 @@ const open = ref(false)
 }
 </style>
 
-You can combine `<Teleport>` with [`<Transition>`](./transition) to create animated modals - see [Example here](/examples/#modal).
+Aap `<Teleport>` ko [`<Transition>`](./transition) ke saath combine karke animated modals bana sakte ho - [example yaha dekho](/examples/#modal).
 
 :::tip
-The teleport `to` target must be already in the DOM when the `<Teleport>` component is mounted. Ideally, this should be an element outside the entire Vue application. If targeting another element rendered by Vue, you need to make sure that element is mounted before the `<Teleport>`.
+Teleport ka `to` target `<Teleport>` component mount hone se pehle hi DOM me present hona chahiye. Ideally, ye poore Vue application ke bahar ek element hona chahiye. Agar aap Vue ke kisi aur element ko target kar rahe ho, to ensure karo ki wo element `<Teleport>` se pehle mount ho jaye.  
 :::
 
 ## Using with Components {#using-with-components}
 
-`<Teleport>` only alters the rendered DOM structure - it does not affect the logical hierarchy of the components. That is to say, if `<Teleport>` contains a component, that component will remain a logical child of the parent component containing the `<Teleport>`. Props passing and event emitting will continue to work the same way.
+`<Teleport>` sirf rendered DOM structure ko alter karta hai - ye components ki logical hierarchy ko affect nahi karta. Matlab agar `<Teleport>` ke andar koi component hai, to wo hamesha us parent component ka logical child hi rahega jisme `<Teleport>` likha gaya hai. Props passing aur event emitting same tarike se kaam karte rahenge.
 
-This also means that injections from a parent component work as expected, and that the child component will be nested below the parent component in the Vue Devtools, instead of being placed where the actual content moved to.
+Iska matlab ye bhi hai ki parent component se aane wali injections expected tarike se work karengi, aur child component Vue Devtools me parent ke niche hi dikhai dega — na ki us jagah jaha content actually move hua hai.
 
 ## Disabling Teleport {#disabling-teleport}
 
-In some cases, we may want to conditionally disable `<Teleport>`. For example, we may want to render a component as an overlay for desktop, but inline on mobile. `<Teleport>` supports the `disabled` prop which can be dynamically toggled:
+Kabhi-kabhi hume `<Teleport>` ko conditionally disable karna padta hai. Jaise desktop par ek component overlay ke roop me render karna hai, lekin mobile par inline dikhana hai. `<Teleport>` is case me `disabled` prop support karta hai jise dynamically toggle kiya ja sakta hai.
 
 ```vue-html
 <Teleport :disabled="isMobile">
@@ -169,13 +169,13 @@ In some cases, we may want to conditionally disable `<Teleport>`. For example, w
 </Teleport>
 ```
 
-We could then dynamically update `isMobile`.
+Phir hum dynamically `isMobile` ko update kar sakte hain.
 
 ## Multiple Teleports on the Same Target {#multiple-teleports-on-the-same-target}
 
-A common use case would be a reusable `<Modal>` component, with the potential for multiple instances to be active at the same time. For this kind of scenario, multiple `<Teleport>` components can mount their content to the same target element. The order will be a simple append, with later mounts located after earlier ones, but all within the target element.
+Ek common use case hota hai ek reusable `<Modal>` component ka, jisme ek hi time par multiple instances active ho sakte hain. Aise scenario me multiple `<Teleport>` components apna content same target element me mount kar sakte hain. Order simple append hoga — jo baad me mount hoga wo pehle wale ke baad place hoga — lekin sabhi target element ke andar hi rahenge.
 
-Given the following usage:
+Niche diye gaye usage ko dekho:
 
 ```vue-html
 <Teleport to="#modals">
@@ -186,7 +186,7 @@ Given the following usage:
 </Teleport>
 ```
 
-The rendered result would be:
+Rendered result kuch is tarah hoga:
 
 ```html
 <div id="modals">
@@ -197,7 +197,7 @@ The rendered result would be:
 
 ## Deferred Teleport <sup class="vt-badge" data-text="3.5+" /> {#deferred-teleport}
 
-In Vue 3.5 and above, we can use the `defer` prop to defer the target resolving of a Teleport until other parts of the application have mounted. This allows the Teleport to target a container element that is rendered by Vue, but in a later part of the component tree:
+Vue 3.5 aur uske upar, hum `defer` prop ka use karke Teleport ka target resolving defer kar sakte hain jab tak application ke dusre parts mount nahi ho jate. Isse hume allow milta hai ki Teleport ek aise container element ko target kare jo Vue ke through render hota hai, lekin component tree ke later part me.
 
 ```vue-html
 <Teleport defer to="#late-div">...</Teleport>
@@ -206,7 +206,7 @@ In Vue 3.5 and above, we can use the `defer` prop to defer the target resolving 
 <div id="late-div"></div>
 ```
 
-Note that the target element must be rendered in the same mount / update tick with the Teleport - i.e. if the `<div>` is only mounted a second later, the Teleport will still report an error. The defer works similarly to the `mounted` lifecycle hook.
+Note karo ki target element ko Teleport ke sath hi same mount / update tick me render hona chahiye — matlab agar `<div>` ek second baad mount hota hai, to Teleport fir bhi error throw karega. `defer` kaam karta hai bilkul `mounted` lifecycle hook jaisa.
 
 ---
 

@@ -6,27 +6,27 @@ import ListStagger from './transition-demos/ListStagger.vue'
 
 # TransitionGroup {#transitiongroup}
 
-`<TransitionGroup>` is a built-in component designed for animating the insertion, removal, and order change of elements or components that are rendered in a list.
+`<TransitionGroup>` ek built-in component hai jo specially list me render hone wale elements ya components ke insertion, removal aur order change ko animate karne ke liye design kiya gaya hai.
 
-## Differences from `<Transition>` {#differences-from-transition}
+## `<Transition>` se Differences {#differences-from-transition}
 
-`<TransitionGroup>` supports the same props, CSS transition classes, and JavaScript hook listeners as `<Transition>`, with the following differences:
+`<TransitionGroup>` same props, CSS transition classes, aur JavaScript hook listeners ko support karta hai jaise `<Transition>`, lekin kuch differences hain:
 
-- By default, it doesn't render a wrapper element. But you can specify an element to be rendered with the `tag` prop.
+- By default, ye koi wrapper element render nahi karta. Lekin aap `tag` prop ke through ek element specify kar sakte ho jo render hoga.
 
-- [Transition modes](./transition#transition-modes) are not available, because we are no longer alternating between mutually exclusive elements.
+- [Transition modes](./transition#transition-modes) yaha available nahi hote, kyunki yaha hum mutually exclusive elements ke beech alternate nahi kar rahe hote.
 
-- Elements inside are **always required** to have a unique `key` attribute.
+- Andar ke elements ke liye ek unique `key` attribute **zaroori** hai.
 
-- CSS transition classes will be applied to individual elements in the list, **not** to the group / container itself.
+- CSS transition classes list ke individual elements par apply hongi, **group / container par nahi**.
 
 :::tip
-When used in [in-DOM templates](/guide/essentials/component-basics#in-dom-template-parsing-caveats), it should be referenced as `<transition-group>`.
+Jab [in-DOM templates](/guide/essentials/component-basics#in-dom-template-parsing-caveats) me use kiya jata hai, toh ise `<transition-group>` ke naam se reference karna chahiye.  
 :::
 
 ## Enter / Leave Transitions {#enter-leave-transitions}
 
-Here is an example of applying enter / leave transitions to a `v-for` list using `<TransitionGroup>`:
+Yaha ek example hai jisme hum `<TransitionGroup>` ka use karke ek `v-for` list par enter / leave transitions apply karte hain:
 
 ```vue-html
 <TransitionGroup name="list" tag="ul">
@@ -52,7 +52,7 @@ Here is an example of applying enter / leave transitions to a `v-for` list using
 
 ## Move Transitions {#move-transitions}
 
-The above demo has some obvious flaws: when an item is inserted or removed, its surrounding items instantly "jump" into place instead of moving smoothly. We can fix this by adding a few additional CSS rules:
+Upar wale demo me kuchh obvious flaws hain: jab koi item insert ya remove hota hai, to uske aas-paas ke items turant apni jagah par “jump” karke aa jaate hain, smoothly move nahi hote. Hum isse kuchh extra CSS rules add karke theek kar sakte hain.
 
 ```css{1,13-17}
 .list-move, /* apply transition to moving elements */
@@ -74,7 +74,7 @@ The above demo has some obvious flaws: when an item is inserted or removed, its 
 }
 ```
 
-Now it looks much better - even animating smoothly when the whole list is shuffled:
+Ab yeh kaafi behtar lag raha hai — poori list shuffle hone par bhi animation smoothly chalti hai.
 
 <ListMove />
 
@@ -82,11 +82,11 @@ Now it looks much better - even animating smoothly when the whole list is shuffl
 
 ### Custom TransitionGroup classes {#custom-transitiongroup-classes}
 
-You can also specify custom transition classes for the moving element by passing the `moveClass` prop to `<TransitionGroup>`, just like [custom transition classes on `<Transition>`](/guide/built-ins/transition.html#custom-transition-classes).
+Aap custom transition classes bhi specify kar sakte ho moving element ke liye `moveClass` prop pass karke `<TransitionGroup>` me, bilkul waise hi jaise [custom transition classes `<Transition>` par](/guide/built-ins/transition.html#custom-transition-classes) me hoti hain.
 
 ## Staggering List Transitions {#staggering-list-transitions}
 
-By communicating with JavaScript transitions through data attributes, it's also possible to stagger transitions in a list. First, we render the index of an item as a data attribute on the DOM element:
+JavaScript transitions ko data attributes ke through communicate karke, list me staggered transitions bhi possible hain. Sabse pehle, hum item ka index ek data attribute ke roop me DOM element par render karte hain:
 
 ```vue-html{11}
 <TransitionGroup
@@ -106,7 +106,7 @@ By communicating with JavaScript transitions through data attributes, it's also 
 </TransitionGroup>
 ```
 
-Then, in JavaScript hooks, we animate the element with a delay based on the data attribute. This example is using the [GSAP library](https://gsap.com/) to perform the animation:
+Phir, JavaScript hooks me, hum element ko animate karte hain ek delay ke sath jo data attribute par based hota hai. Ye example [GSAP library](https://gsap.com/) ka use karke animation perform karta hai:
 
 ```js{5}
 function onEnter(el, done) {

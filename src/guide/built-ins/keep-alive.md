@@ -4,25 +4,25 @@ import SwitchComponent from './keep-alive-demos/SwitchComponent.vue'
 
 # KeepAlive {#keepalive}
 
-`<KeepAlive>` is a built-in component that allows us to conditionally cache component instances when dynamically switching between multiple components.
+`<KeepAlive>` ek built-in component hai jo hume conditionally component instances ko cache karne deta hai jab hum dynamically multiple components ke beech switch karte hain.
 
 ## Basic Usage {#basic-usage}
 
-In the Component Basics chapter, we introduced the syntax for [Dynamic Components](/guide/essentials/component-basics#dynamic-components), using the `<component>` special element:
+Component Basics chapter me, humne [Dynamic Components](/guide/essentials/component-basics#dynamic-components) ka syntax introduce kiya tha, jisme `<component>` special element use hota hai:
 
 ```vue-html
 <component :is="activeComponent" />
 ```
 
-By default, an active component instance will be unmounted when switching away from it. This will cause any changed state it holds to be lost. When this component is displayed again, a new instance will be created with only the initial state.
+By default, jab aap ek active component instance se switch karte ho toh wo unmount ho jata hai. Iska matlab hai ki uske andar jo bhi changed state hai wo lost ho jayegi. Jab ye component dobara display hoga, ek naya instance banega jo sirf initial state ke sath aayega.
 
-In the example below, we have two stateful components - A contains a counter, while B contains a message synced with an input via `v-model`. Try updating the state of one of them, switch away, and then switch back to it:
+Niche diye gaye example me, humare paas do stateful components hain - A me ek counter hai, aur B me ek message hai jo input ke sath `v-model` ke through sync hota hai. Koshish karo ek ka state update karne ki, phir switch karo dusre pe, aur phir wapas aa jao:
 
 <SwitchComponent />
 
-You'll notice that when switched back, the previous changed state would have been reset.
+Aap notice karoge ki jab wapas aaye, toh pehle wala changed state reset ho gaya hai.
 
-Creating fresh component instance on switch is normally useful behavior, but in this case, we'd really like the two component instances to be preserved even when they are inactive. To solve this problem, we can wrap our dynamic component with the `<KeepAlive>` built-in component:
+Switch pe naya component instance create karna normally useful hota hai, lekin is case me hum chahte hain ki dono component instances preserve rahe, even jab wo inactive ho. Is problem ko solve karne ke liye, hum apne dynamic component ko `<KeepAlive>` built-in component ke andar wrap kar sakte hain:
 
 ```vue-html
 <!-- Inactive components will be cached! -->
@@ -31,7 +31,7 @@ Creating fresh component instance on switch is normally useful behavior, but in 
 </KeepAlive>
 ```
 
-Now, the state will be persisted across component switches:
+Ab, state component switches ke beech persist (bani) rahegi:
 
 <SwitchComponent use-KeepAlive />
 
@@ -47,12 +47,12 @@ Now, the state will be persisted across component switches:
 </div>
 
 :::tip
-When used in [in-DOM templates](/guide/essentials/component-basics#in-dom-template-parsing-caveats), it should be referenced as `<keep-alive>`.
+Jab [in-DOM templates](/guide/essentials/component-basics#in-dom-template-parsing-caveats) use kar rahe ho, tab ise `<keep-alive>` ke naam se reference karna chahiye.  
 :::
 
 ## Include / Exclude {#include-exclude}
 
-By default, `<KeepAlive>` will cache any component instance inside. We can customize this behavior via the `include` and `exclude` props. Both props can be a comma-delimited string, a `RegExp`, or an array containing either types:
+By default, `<KeepAlive>` andar ke saare component instances ko cache karega. Hum is behavior ko `include` aur `exclude` props ke through customize kar sakte hain. Dono props ek comma-separated string, `RegExp`, ya phir array ho sakte hain jisme types diye gaye ho.
 
 ```vue-html
 <!-- comma-delimited string -->
@@ -71,15 +71,15 @@ By default, `<KeepAlive>` will cache any component instance inside. We can custo
 </KeepAlive>
 ```
 
-The match is checked against the component's [`name`](/api/options-misc#name) option, so components that need to be conditionally cached by `KeepAlive` must explicitly declare a `name` option.
+Component ka match uske [`name`](/api/options-misc#name) option ke against check hota hai. Matlab jo components `KeepAlive` ke through conditionally cache karne hain, unka `name` option explicitly declare karna zaroori hai.
 
 :::tip
-Since version 3.2.34, a single-file component using `<script setup>` will automatically infer its `name` option based on the filename, removing the need to manually declare the name.
+Version 3.2.34 se, agar aap single-file component me `<script setup>` use karte ho to `name` option automatically filename se infer ho jata hai. Matlab manually declare karne ki zaroorat nahi hai.  
 :::
 
 ## Max Cached Instances {#max-cached-instances}
 
-We can limit the maximum number of component instances that can be cached via the `max` prop. When `max` is specified, `<KeepAlive>` behaves like an [LRU cache](<https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)>): if the number of cached instances is about to exceed the specified max count, the least recently accessed cached instance will be destroyed to make room for the new one.
+Hum `max` prop ke through cache hone wale component instances ki maximum limit define kar sakte hain. Jab `max` specify kiya jata hai, to `<KeepAlive>` ek [LRU cache](<https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)>) ki tarah behave karta hai: agar cached instances ki count `max` se zyada hone wali ho, to sabse purana (least recently accessed) instance destroy kar diya jata hai aur naye instance ke liye jagah banaayi jati hai.
 
 ```vue-html
 <KeepAlive :max="10">
@@ -89,11 +89,11 @@ We can limit the maximum number of component instances that can be cached via th
 
 ## Lifecycle of Cached Instance {#lifecycle-of-cached-instance}
 
-When a component instance is removed from the DOM but is part of a component tree cached by `<KeepAlive>`, it goes into a **deactivated** state instead of being unmounted. When a component instance is inserted into the DOM as part of a cached tree, it is **activated**.
+Jab ek component instance DOM se remove hota hai lekin wo `<KeepAlive>` ke cache kiya hua tree ka part hai, tab wo **deactivated** state me chala jata hai instead of unmounted hone ke. Aur jab ek component instance cached tree ka part hote hue wapas DOM me insert hota hai, tab wo **activated** ho jata hai.
 
 <div class="composition-api">
 
-A kept-alive component can register lifecycle hooks for these two states using [`onActivated()`](/api/composition-api-lifecycle#onactivated) and [`onDeactivated()`](/api/composition-api-lifecycle#ondeactivated):
+Ek kept-alive component in dono states ke liye lifecycle hooks register kar sakta hai [`onActivated()`](/api/composition-api-lifecycle#onactivated) aur [`onDeactivated()`](/api/composition-api-lifecycle#ondeactivated) ka use karke:
 
 ```vue
 <script setup>
@@ -114,7 +114,7 @@ onDeactivated(() => {
 </div>
 <div class="options-api">
 
-A kept-alive component can register lifecycle hooks for these two states using [`activated`](/api/options-lifecycle#activated) and [`deactivated`](/api/options-lifecycle#deactivated) hooks:
+Ek kept-alive component in dono states ke liye lifecycle hooks register kar sakta hai [`activated`](/api/options-lifecycle#activated) aur [`deactivated`](/api/options-lifecycle#deactivated) hooks ka use karke:
 
 ```js
 export default {
@@ -131,11 +131,12 @@ export default {
 
 </div>
 
-Note that:
+Note karo ki:
 
-- <span class="composition-api">`onActivated`</span><span class="options-api">`activated`</span> is also called on mount, and <span class="composition-api">`onDeactivated`</span><span class="options-api">`deactivated`</span> on unmount.
+- <span class="composition-api">`onActivated`</span><span class="options-api">`activated`</span> mount hone par bhi call hota hai, aur <span class="composition-api">`onDeactivated`</span><span class="options-api">`deactivated`</span> unmount hone par call hota hai.
 
-- Both hooks work for not only the root component cached by `<KeepAlive>`, but also the descendant components in the cached tree.
+- Ye dono hooks sirf root component (jo `<KeepAlive>` me cache hua hai) ke liye hi nahi, balki cached tree ke descendant components ke liye bhi kaam karte hain.
+
 ---
 
 **Related**
