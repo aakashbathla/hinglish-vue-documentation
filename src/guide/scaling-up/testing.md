@@ -29,37 +29,37 @@ import { VTCodeGroup, VTCodeGroupTab } from '@vue/theme'
 
 ## Why Test? {#why-test}
 
-Automated tests help you and your team build complex Vue applications quickly and confidently by preventing regressions and encouraging you to break apart your application into testable functions, modules, classes, and components. As with any application, your new Vue app can break in many ways, and it's important that you can catch these issues and fix them before releasing.
+Automated tests aap aur aapki team ko complex Vue applications ko jaldi aur confidently build karne me madad karte hain. Ye regressions ko prevent karte hain aur aapko encourage karte hain ki aap apne application ko chhoti-chhoti testable functions, modules, classes aur components me tod dein. Jaise har application ke saath hota hai, aapka naya Vue app bhi alag-alag tareeke se break ho sakta hai, aur ye zaroori hai ki aap un issues ko release karne se pehle catch aur fix kar sako.
 
-In this guide, we'll cover basic terminology and provide our recommendations on which tools to choose for your Vue 3 application.
+Is guide me hum basic terminology cover karenge aur recommend karenge ki kaunse tools aapke Vue 3 application ke liye best rahenge.
 
-There is one Vue-specific section covering composables. See [Testing Composables](#testing-composables) below for more details.
+Ek section Vue-specific hai jo composables cover karta hai. Details ke liye dekhein [Testing Composables](#testing-composables).
 
 ## When to Test {#when-to-test}
 
-Start testing early! We recommend you begin writing tests as soon as you can. The longer you wait to add tests to your application, the more dependencies your application will have, and the harder it will be to start.
+Testing jaldi shuru karo! Hum recommend karte hain ki jaise hi possible ho, tests likhna start kar do. Jitna late karoge tests add karne me, utni zyada dependencies aapke app me ho jayengi, aur utna hi mushkil hoga start karna.
 
 ## Testing Types {#testing-types}
 
-When designing your Vue application's testing strategy, you should leverage the following testing types:
+Jab aap apne Vue app ka testing strategy design kar rahe ho, toh aapko in testing types ka use karna chahiye:
 
-- **Unit**: Checks that inputs to a given function, class, or composable are producing the expected output or side effects.
-- **Component**: Checks that your component mounts, renders, can be interacted with, and behaves as expected. These tests import more code than unit tests, are more complex, and require more time to execute.
-- **End-to-end**: Checks features that span multiple pages and makes real network requests against your production-built Vue application. These tests often involve standing up a database or other backend.
+- **Unit**: Ye check karta hai ki diya gaya function, class ya composable ke inputs expected output ya side effects produce kar rahe hain ya nahi.
+- **Component**: Ye check karta hai ki aapka component mount hota hai, render hota hai, interact kiya ja sakta hai, aur expected tarike se behave karta hai. Ye tests unit tests se zyada code import karte hain, zyada complex hote hain aur execute hone me zyada time lete hain.
+- **End-to-end**: Ye un features ko check karta hai jo multiple pages tak spread hote hain aur real network requests karte hain aapke production-built Vue app ke against. Ye tests aksar database ya koi backend bhi involve karte hain.
 
-Each testing type plays a role in your application's testing strategy, and each will protect you against different types of issues.
+Har testing type ka apna role hota hai aapke app ke testing strategy me, aur har ek alag-alag types ke issues se aapko protect karta hai.
 
 ## Overview {#overview}
 
-We will briefly discuss what each of these are, how they can be implemented for Vue applications, and provide some general recommendations.
+Hum chhote se discuss karenge ki ye sab kya hain, Vue apps ke liye kaise implement kiye ja sakte hain, aur kuch general recommendations denge.
 
 ## Unit Testing {#unit-testing}
 
-Unit tests are written to verify that small, isolated units of code are working as expected. A unit test usually covers a single function, class, composable, or module. Unit tests focus on logical correctness and only concern themselves with a small portion of the application's overall functionality. They may mock large parts of your application's environment (e.g. initial state, complex classes, 3rd party modules, and network requests).
+Unit tests likhe jaate hain ye verify karne ke liye ki chhote, isolated code units expected tarike se kaam kar rahe hain. Ek unit test usually ek single function, class, composable ya module cover karta hai. Unit tests logical correctness pe focus karte hain aur sirf application ke ek chhote part ki functionality se concern hote hain. Ye aapke app ke environment ke bade parts ko mock kar sakte hain (jaise initial state, complex classes, 3rd party modules, aur network requests).
 
-In general, unit tests will catch issues with a function's business logic and logical correctness.
+Generally, unit tests ek function ke business logic aur logical correctness me issues catch karenge.
 
-Take for example this `increment` function:
+Example ke liye ek `increment` function dekho:
 
 ```js [helpers.js]
 export function increment(current, max = 10) {
@@ -70,9 +70,9 @@ export function increment(current, max = 10) {
 }
 ```
 
-Because it's very self-contained, it'll be easy to invoke the increment function and assert that it returns what it's supposed to, so we'll write a Unit Test.
+Kyuki ye function bahut hi self-contained hai, isliye `increment` function ko invoke karna aur assert karna easy hoga ki ye wahi return kar raha hai jo expected hai. Isliye hum iske liye ek Unit Test likhenge.
 
-If any of these assertions fail, it's clear that the issue is contained within the `increment` function.
+Agar inme se koi bhi assertion fail ho jata hai, toh clearly issue sirf `increment` function ke andar hi hoga.
 
 ```js{4-16} [helpers.spec.js]
 import { increment } from './helpers'
@@ -92,60 +92,77 @@ describe('increment', () => {
 })
 ```
 
-As mentioned previously, unit testing is typically applied to self-contained business logic, components, classes, modules, or functions that do not involve UI rendering, network requests, or other environmental concerns.
+Jaise pehle mention kiya gaya tha, unit testing generally un self-contained business logic, components, classes, modules ya functions pe apply hoti hai jo UI rendering, network requests ya environment concerns se deal nahi karte.
 
-These are typically plain JavaScript / TypeScript modules unrelated to Vue. In general, writing unit tests for business logic in Vue applications does not differ significantly from applications using other frameworks.
+Ye mostly plain JavaScript / TypeScript modules hote hain jo Vue se unrelated hote hain. General rule ye hai ki Vue applications ke business logic ka unit testing likhna dusre frameworks jaise hi hota hai.
 
-There are two instances where you DO unit test Vue-specific features:
+Do cases hote hain jaha aapko Vue-specific features ka unit test likhna padta hai:
 
-1. Composables
-2. Components
+1. **Composables**
+2. **Components**
+
+---
 
 ### Composables {#composables}
 
-One category of functions specific to Vue applications is [Composables](/guide/reusability/composables), which may require special handling during tests.
-See [Testing Composables](#testing-composables) below for more details.
+Vue applications ka ek specific function category hai [Composables](/guide/reusability/composables), jinhe test karte waqt special handling ki zarurat ho sakti hai.  
+Details ke liye dekho [Testing Composables](#testing-composables).
+
+---
 
 ### Unit Testing Components {#unit-testing-components}
 
-A component can be tested in two ways:
+Ek component ko test karne ke do tareeke hote hain:
 
-1. Whitebox: Unit Testing
+1. **Whitebox: Unit Testing**  
+   Whitebox tests component ke implementation details aur dependencies ko jaante hain. Focus hota hai **component ko isolate** karne par.  
+   Inme aksar aapko child components mock karne padenge, aur plugins / dependencies (jaise Pinia) ka setup karna padega.
 
-   Tests that are "Whitebox tests" are aware of the implementation details and dependencies of a component. They are focused on **isolating** the component under test. These tests will usually involve mocking some, if not all of your component's children, as well as setting up plugin state and dependencies (e.g. Pinia).
+2. **Blackbox: Component Testing**  
+   Blackbox tests component ke implementation details ko nahi jaante. Ye kam se kam mocking use karte hain taaki component aur poore system ka integration test ho sake. Ye usually sabhi child components render karte hain aur zyada "integration test" ke category me aate hain.  
+   Dekho [Component Testing recommendations](#component-testing).
 
-2. Blackbox: Component Testing
-
-   Tests that are "Blackbox tests" are unaware of the implementation details of a component. These tests mock as little as possible to test the integration of your component and the entire system. They usually render all child components and are considered more of an "integration test". See the [Component Testing recommendations](#component-testing) below.
+---
 
 ### Recommendation {#recommendation}
 
-- [Vitest](https://vitest.dev/)
+- [Vitest](https://vitest.dev/)  
+  Kyunki `create-vue` ke official setup me [Vite](https://vitejs.dev/) use hota hai, isliye recommend kiya jata hai ki aap unit testing framework bhi wahi use karo jo Vite ke config aur pipeline ke sath seamlessly integrate ho.  
+  [Vitest](https://vitest.dev/) isi purpose ke liye design hua hai, Vue / Vite team members ne banaya aur maintain kiya hai. Ye Vite-based projects ke sath minimal effort me integrate ho jata hai aur bahut fast hai.
 
-  Since the official setup created by `create-vue` is based on [Vite](https://vitejs.dev/), we recommend using a unit testing framework that can leverage the same configuration and transform pipeline directly from Vite. [Vitest](https://vitest.dev/) is a unit testing framework designed specifically for this purpose, created and maintained by Vue / Vite team members. It integrates with Vite-based projects with minimal effort, and is blazing fast.
+---
 
 ### Other Options {#other-options}
 
-- [Jest](https://jestjs.io/) is a popular unit testing framework. However, we only recommend Jest if you have an existing Jest test suite that needs to be migrated over to a Vite-based project, as Vitest offers a more seamless integration and better performance.
+- [Jest](https://jestjs.io/) ek popular unit testing framework hai. Lekin recommend tabhi hai agar aapke paas already Jest test suite ho jo aapko migrate karna ho Vite-based project me. Naye projects ke liye **Vitest** better performance aur seamless integration deta hai.
+
+---
 
 ## Component Testing {#component-testing}
 
-In Vue applications, components are the main building blocks of the UI. Components are therefore the natural unit of isolation when it comes to validating your application's behavior. From a granularity perspective, component testing sits somewhere above unit testing and can be considered a form of integration testing. Much of your Vue Application should be covered by a component test and we recommend that each Vue component has its own spec file.
+Vue applications me **components** UI ke main building blocks hote hain. Isliye components naturally best candidate hain isolation aur testing ke liye. Granularity ke perspective se, component testing unit testing se ek level upar hota hai aur integration testing ke form me count hota hai.  
+Aapke Vue Application ka zyada hissa component tests se cover hona chahiye aur recommend hai ki har Vue component ka apna ek spec file ho.
 
-Component tests should catch issues relating to your component's props, events, slots that it provides, styles, classes, lifecycle hooks, and more.
+Component tests ko issues pakadne chahiye jo component ke **props, events, slots, styles, classes, lifecycle hooks** etc. se related ho.
 
-Component tests should not mock child components, but instead test the interactions between your component and its children by interacting with the components as a user would. For example, a component test should click on an element like a user would instead of programmatically interacting with the component.
+Component tests me child components ko mock nahi karna chahiye, balki component aur uske children ke beech interaction ko test karna chahiye jaise ek user karta hai.  
+For example, ek component test ko element pe click karna chahiye jaise ek user karta hai, instead of programmatically component se interact karne ke.
 
-Component tests should focus on the component's public interfaces rather than internal implementation details. For most components, the public interface is limited to: events emitted, props, and slots. When testing, remember to **test what a component does, not how it does it**.
+Component tests ka focus component ke **public interfaces** pe hona chahiye, internal implementation details pe nahi.  
+Most components ke liye public interface limited hota hai: **events emitted, props, aur slots**.  
+Testing karte waqt hamesha yaad rakho: **component kya karta hai test karo, kaise karta hai wo nahi**.
+
+---
 
 **DO**
 
-- For **Visual** logic: assert correct render output based on inputted props and slots.
-- For **Behavioral** logic: assert correct render updates or emitted events in response to user input events.
+- **Visual logic ke liye**: assert karo ki given props aur slots ke base pe sahi render output ho.
+- **Behavioral logic ke liye**: assert karo ki user input events ke response me sahi render updates ya events emit ho.
 
-  In the below example, we demonstrate a Stepper component that has a DOM element labeled "increment" and can be clicked. We pass a prop called `max` that prevents the Stepper from being incremented past `2`, so if we click the button 3 times, the UI should still say `2`.
+Example: ek Stepper component hai jisme ek DOM element "increment" label ke sath hai aur uspe click kiya ja sakta hai.  
+Hum ek `max` prop pass karte hain jo Stepper ko 2 se aage increment hone se rokta hai. Agar hum button ko 3 baar click karte hain, toh UI me fir bhi `2` hi dikhna chahiye.
 
-  We know nothing about the implementation of Stepper, only that the "input" is the `max` prop and the "output" is the state of the DOM as the user will see it.
+Yaha hume Stepper ke implementation ke baare me kuch nahi pata — sirf ye ki input hai `max` prop aur output hai DOM ka state jaise user ko dikhega.
 
 ::: code-group
 
@@ -208,107 +225,123 @@ await fireEvent.click(button)
 
 **DON'T**
 
-- Don't assert the private state of a component instance or test the private methods of a component. Testing implementation details makes the tests brittle, as they are more likely to break and require updates when the implementation changes.
+- Component instance ka private state assert mat karo ya uske private methods ko test mat karo. Implementation details test karne se tests brittle ho jaate hain, kyunki agar implementation change hoti hai toh tests bhi break ho jaate hain aur update karne padte hain.
 
-  The component's ultimate job is rendering the correct DOM output, so tests focusing on the DOM output provide the same level of correctness assurance (if not more) while being more robust and resilient to change.
+  Component ka ultimate kaam hai sahi DOM output render karna. Isliye DOM output par focus karne wale tests wahi level ka correctness assurance dete hain (agar zyada nahi), aur zyada robust hote hain aur changes ke against resilient hote hain.
 
-  Don't rely exclusively on snapshot tests. Asserting HTML strings does not describe correctness. Write tests with intentionality.
+  Sirf snapshot tests pe rely mat karo. HTML strings ko assert karna correctness describe nahi karta. Hamesha intentional tests likho.
 
-  If a method needs to be tested thoroughly, consider extracting it into a standalone utility function and write a dedicated unit test for it. If it cannot be extracted cleanly, it may be tested as a part of a component, integration, or end-to-end test that covers it.
+  Agar ek method ko thoroughly test karna zaroori hai, toh usse standalone utility function me extract karne ka socho aur uske liye dedicated unit test likho. Agar extract cleanly nahi ho raha, toh use component, integration, ya end-to-end test ke part ke roop me test karo jo usse cover karta ho.
+
+---
 
 ### Recommendation {#recommendation-1}
 
-- [Vitest](https://vitest.dev/) for components or composables that render headlessly (e.g. the [`useFavicon`](https://vueuse.org/core/useFavicon/#usefavicon) function in VueUse). Components and DOM can be tested using [`@vue/test-utils`](https://github.com/vuejs/test-utils).
+- [Vitest](https://vitest.dev/) un components ya composables ke liye jo headlessly render hote hain (jaise [`useFavicon`](https://vueuse.org/core/useFavicon/#usefavicon) function VueUse me). Components aur DOM ko test karne ke liye [`@vue/test-utils`](https://github.com/vuejs/test-utils) use kar sakte ho.
 
-- [Cypress Component Testing](https://on.cypress.io/component) for components whose expected behavior depends on properly rendering styles or triggering native DOM events. It can be used with Testing Library via [@testing-library/cypress](https://testing-library.com/docs/cypress-testing-library/intro).
+- [Cypress Component Testing](https://on.cypress.io/component) un components ke liye jinka expected behavior styles ya native DOM events pe depend karta hai. Ye Testing Library ke sath bhi use ho sakta hai via [@testing-library/cypress](https://testing-library.com/docs/cypress-testing-library/intro).
 
-The main differences between Vitest and browser-based runners are speed and execution context. In short, browser-based runners, like Cypress, can catch issues that node-based runners, like Vitest, cannot (e.g. style issues, real native DOM events, cookies, local storage, and network failures), but browser-based runners are _orders of magnitude slower than Vitest_ because they do open a browser, compile your stylesheets, and more. Cypress is a browser-based runner that supports component testing. Please read [Vitest's comparison page](https://vitest.dev/guide/comparisons.html#cypress) for the latest information comparing Vitest and Cypress.
+Vitest aur browser-based runners ke beech main differences hain **speed** aur **execution context**. Browser-based runners (jaise Cypress) un issues ko catch kar sakte hain jo node-based runners (jaise Vitest) nahi kar paate (jaise style issues, real native DOM events, cookies, local storage, aur network failures). Lekin ye Vitest se kai guna slow hote hain kyunki browser open karte hain, stylesheets compile karte hain, aur aur bhi.  
+Cypress ek browser-based runner hai jo component testing support karta hai. Vitest aur Cypress ke latest comparison ke liye [Vitest's comparison page](https://vitest.dev/guide/comparisons.html#cypress) dekho.
+
+---
 
 ### Mounting Libraries {#mounting-libraries}
 
-Component testing often involves mounting the component being tested in isolation, triggering simulated user input events, and asserting on the rendered DOM output. There are dedicated utility libraries that make these tasks simpler.
+Component testing me aksar component ko isolation me mount karna, simulated user input events trigger karna, aur rendered DOM output pe assertions karna shamil hota hai. Ye tasks simplify karne ke liye dedicated utility libraries hain:
 
-- [`@vue/test-utils`](https://github.com/vuejs/test-utils) is the official low-level component testing library that was written to provide users access to Vue specific APIs. It's also the lower-level library `@testing-library/vue` is built on top of.
+- [`@vue/test-utils`](https://github.com/vuejs/test-utils) official low-level component testing library hai jo Vue specific APIs access karne ke liye likhi gayi hai. Yehi wo lower-level library hai jiske upar `@testing-library/vue` build kiya gaya hai.
 
-- [`@testing-library/vue`](https://github.com/testing-library/vue-testing-library) is a Vue testing library focused on testing components without relying on implementation details. Its guiding principle is that the more tests resemble the way software is used, the more confidence they can provide.
+- [`@testing-library/vue`](https://github.com/testing-library/vue-testing-library) ek Vue testing library hai jo components ko bina implementation details pe rely kiye test karne pe focus karti hai. Iska guiding principle hai: jitna zyada tests software ke actual usage jaise lagte hain, utna hi zyada confidence dete hain.
 
-We recommend using `@vue/test-utils` for testing components in applications. `@testing-library/vue` has issues with testing asynchronous component with Suspense, so it should be used with caution.
+Applications me components test karne ke liye hum recommend karte hain ki `@vue/test-utils` use karo. `@testing-library/vue` ka Suspense ke sath asynchronous component testing me issues hain, isliye ise caution ke sath use karna chahiye.
+
+---
 
 ### Other Options {#other-options-1}
 
-- [Nightwatch](https://nightwatchjs.org/) is an E2E test runner with Vue Component Testing support. ([Example Project](https://github.com/nightwatchjs-community/todo-vue))
+- [Nightwatch](https://nightwatchjs.org/) ek E2E test runner hai jisme Vue Component Testing support hai. ([Example Project](https://github.com/nightwatchjs-community/todo-vue))
 
-- [WebdriverIO](https://webdriver.io/docs/component-testing/vue) for cross-browser component testing that relies on native user interaction based on standardized automation. It can also be used with Testing Library.
+- [WebdriverIO](https://webdriver.io/docs/component-testing/vue) cross-browser component testing ke liye jo standardized automation par based native user interaction use karta hai. Ye Testing Library ke sath bhi use kiya ja sakta hai.
+
+---
 
 ## E2E Testing {#e2e-testing}
 
-While unit tests provide developers with some degree of confidence, unit and component tests are limited in their abilities to provide holistic coverage of an application when deployed to production. As a result, end-to-end (E2E) tests provide coverage on what is arguably the most important aspect of an application: what happens when users actually use your applications.
+Unit tests developers ko thoda confidence dete hain, lekin unit aur component tests limited hote hain holistic coverage dene me jab application production me hota hai. Isi wajah se end-to-end (E2E) tests sabse important aspect ko cover karte hain: jab users actually application use karte hain toh kya hota hai.
 
-End-to-end tests focus on multi-page application behavior that makes network requests against your production-built Vue application. They often involve standing up a database or other backend and may even be run against a live staging environment.
+End-to-end tests multi-page application behavior pe focus karte hain jo production-built Vue application ke against network requests banate hain. Ye aksar ek database ya backend setup involve karte hain, aur kabhi kabhi live staging environment ke against bhi run hote hain.
 
-End-to-end tests will often catch issues with your router, state management library, top-level components (e.g. an App or Layout), public assets, or any request handling. As stated above, they catch critical issues that may be impossible to catch with unit tests or component tests.
+E2E tests aksar router, state management library, top-level components (jaise App ya Layout), public assets, ya request handling ke issues catch karte hain. Ye wo critical issues pakad lete hain jo unit ya component tests se catch karna mushkil hota hai.
 
-End-to-end tests do not import any of your Vue application's code but instead rely completely on testing your application by navigating through entire pages in a real browser.
+E2E tests aapki Vue application ke kisi bhi code ko import nahi karte, balki poore pages ko real browser me navigate karke test karte hain.
 
-End-to-end tests validate many of the layers in your application. They can either target your locally built application or even a live Staging environment. Testing against your Staging environment not only includes your frontend code and static server but all associated backend services and infrastructure.
+E2E tests application ke kai layers ko validate karte hain. Ye aapke locally built app pe ya live staging environment pe target kar sakte hain. Staging environment pe test karna frontend code, static server, aur associated backend services sabko include karta hai.
 
-> The more your tests resemble how your software is used, the more confidence they can give you. - [Kent C. Dodds](https://twitter.com/kentcdodds/status/977018512689455106) - Author of the Testing Library
+> Jitna zyada aapke tests software ke actual usage ko resemble karte hain, utna hi zyada confidence dete hain. - [Kent C. Dodds](https://twitter.com/kentcdodds/status/977018512689455106) - Testing Library ke author
 
-By testing how user actions impact your application, E2E tests are often the key to higher confidence in whether an application is functioning properly or not.
+User actions application pe kaise impact karte hain ye test karke, E2E tests higher confidence dete hain ki app sahi kaam kar raha hai ya nahi.
+
+---
 
 ### Choosing an E2E Testing Solution {#choosing-an-e2e-testing-solution}
 
-While end-to-end (E2E) testing on the web has gained a negative reputation for unreliable (flaky) tests and slowing down development processes, modern E2E tools have made strides forward to create more reliable, interactive, and useful tests. When choosing an E2E testing framework, the following sections provide some guidance on things to keep in mind when choosing a testing framework for your application.
+Web pe end-to-end (E2E) testing ka reputation hai unreliable (flaky) tests aur development ko slow karne ka. Lekin modern E2E tools ne reliable, interactive, aur useful tests banane me progress kiya hai. Testing framework choose karte waqt ye points dhyan me rakho:
 
 #### Cross-browser testing {#cross-browser-testing}
 
-One of the primary benefits that end-to-end (E2E) testing is known for is its ability to test your application across multiple browsers. While it may seem desirable to have 100% cross-browser coverage, it is important to note that cross browser testing has diminishing returns on a team's resources due to the additional time and machine power required to run them consistently. As a result, it is important to be mindful of this trade-off when choosing the amount of cross-browser testing your application needs.
+E2E testing ka ek major benefit hai ki ye app ko multiple browsers me test kar sakta hai. Lekin 100% cross-browser coverage hamesha efficient nahi hoti, kyunki consistently run karne me zyada time aur resources lagte hain. Isliye trade-off samajhna important hai jab decide kar rahe ho ki kitna cross-browser testing chahiye.
 
 #### Faster feedback loops {#faster-feedback-loops}
 
-One of the primary problems with end-to-end (E2E) tests and development is that running the entire suite takes a long time. Typically, this is only done in continuous integration and deployment (CI/CD) pipelines. Modern E2E testing frameworks have helped to solve this by adding features like parallelization, which allows for CI/CD pipelines to often run magnitudes faster than before. In addition, when developing locally, the ability to selectively run a single test for the page you are working on while also providing hot reloading of tests can help boost a developer's workflow and productivity.
+E2E tests ka ek common problem hai ki pura suite run karna bahut time leta hai. Ye typically CI/CD pipelines me run hota hai. Modern frameworks me parallelization jaise features hote hain jo tests ko magnitudes faster bana dete hain. Local development ke time pe single test run karna aur hot reloading available hona developer productivity ko boost karta hai.
 
 #### First-class debugging experience {#first-class-debugging-experience}
 
-While developers have traditionally relied on scanning logs in a terminal window to help determine what went wrong in a test, modern end-to-end (E2E) test frameworks allow developers to leverage tools they are already familiar with, e.g. browser developer tools.
+Pehle developers terminal logs pe depend karte the samajhne ke liye ki test me kya galat hua. Modern E2E frameworks allow karte hain ki aap familiar tools (jaise browser devtools) ka use karo debugging ke liye.
 
 #### Visibility in headless mode {#visibility-in-headless-mode}
 
-When end-to-end (E2E) tests are run in continuous integration/deployment pipelines, they are often run in headless browsers (i.e., no visible browser is opened for the user to watch). A critical feature of modern E2E testing frameworks is the ability to see snapshots and/or videos of the application during testing, providing some insight into why errors are happening. Historically, it was tedious to maintain these integrations.
+CI/CD pipelines me E2E tests aksar headless browsers me run hote hain. Modern frameworks me snapshots aur videos available hote hain jo errors samajhne me madad karte hain.
+
+---
 
 ### Recommendation {#recommendation-2}
 
-- [Playwright](https://playwright.dev/) is a great E2E testing solution that supports Chromium, WebKit, and Firefox. Test on Windows, Linux, and macOS, locally or on CI, headless or headed with native mobile emulation of Google Chrome for Android and Mobile Safari. It has an informative UI, excellent debuggability, built-in assertions, parallelization, traces and is designed to eliminate flaky tests. Support for [Component Testing](https://playwright.dev/docs/test-components) is available, but marked experimental. Playwright is open source and maintained by Microsoft.
+- [Playwright](https://playwright.dev/) ek great E2E testing solution hai jo Chromium, WebKit, aur Firefox support karta hai. Ye Windows, Linux, macOS par run hota hai, locally ya CI par, headless ya headed. Isme informative UI, excellent debuggability, built-in assertions, parallelization, traces hote hain aur flaky tests eliminate karne ke liye design hua hai. Component Testing support hai (experimental). Playwright open source hai aur Microsoft maintain karta hai.
 
-- [Cypress](https://www.cypress.io/) has an informative graphical interface, excellent debuggability, built-in assertions, stubs, flake-resistance, and snapshots. As mentioned above, it provides stable support for [Component Testing](https://docs.cypress.io/guides/component-testing/introduction). Cypress supports Chromium-based browsers, Firefox, and Electron. WebKit support is available, but marked experimental. Cypress is MIT-licensed, but some features like parallelization require a subscription to Cypress Cloud.
+- [Cypress](https://www.cypress.io/) me informative graphical interface, excellent debuggability, built-in assertions, stubs, flake-resistance, aur snapshots hote hain. Ye stable component testing support deta hai ([docs](https://docs.cypress.io/guides/component-testing/introduction)). Cypress Chromium-based browsers, Firefox, aur Electron support karta hai. WebKit support experimental hai. Cypress MIT-licensed hai, lekin parallelization jaise kuch features Cypress Cloud subscription require karte hain.
 
 <div class="lambdatest">
   <a href="https://lambdatest.com" target="_blank">
     <img src="/images/lambdatest.svg">
     <div>
       <div class="testing-partner">Testing Sponsor</div>
-      <div>Lambdatest is a cloud platform for running E2E, accessibility, and visual regression tests across all major browsers and real devices, with AI assisted test generation!</div>
+      <div>
+        Lambdatest ek cloud platform hai jo E2E, accessibility, aur visual regression tests ko
+        saare major browsers aur real devices par run karne ki facility deta hai, AI-assisted test generation ke sath!
+      </div>
     </div>
   </a>
 </div>
 
 ### Other Options {#other-options-2}
 
-- [Nightwatch](https://nightwatchjs.org/) is an E2E testing solution based on [Selenium WebDriver](https://www.npmjs.com/package/selenium-webdriver). This gives it the widest browser support range, including native mobile testing. Selenium-based solutions will be slower than Playwright or Cypress.
+- [Nightwatch](https://nightwatchjs.org/) ek E2E testing solution hai jo [Selenium WebDriver](https://www.npmjs.com/package/selenium-webdriver) par based hai. Is wajah se ye sabse wide browser support deta hai, including native mobile testing. Selenium-based solutions Playwright ya Cypress se slow hoti hain.
 
-- [WebdriverIO](https://webdriver.io/) is a test automation framework for web and mobile testing based on the WebDriver protocol.
+- [WebdriverIO](https://webdriver.io/) ek test automation framework hai web aur mobile testing ke liye jo WebDriver protocol par based hai.
 
 ## Recipes {#recipes}
 
-### Adding Vitest to a Project {#adding-vitest-to-a-project}
+### Project me Vitest add karna {#adding-vitest-to-a-project}
 
-In a Vite-based Vue project, run:
+Ek Vite-based Vue project me, run karein:
 
 ```sh
 > npm install -D vitest happy-dom @testing-library/vue
 ```
 
-Next, update the Vite configuration to add the `test` option block:
+Next, Vite configuration update karein aur `test` option block add karein:
 
 ```js{5-11} [vite.config.js]
 import { defineConfig } from 'vite'
@@ -326,7 +359,7 @@ export default defineConfig({
 ```
 
 :::tip
-If you use TypeScript, add `vitest/globals` to the `types` field in your `tsconfig.json`.
+Agar aap TypeScript use karte ho, toh `tsconfig.json` ke `types` field mein `vitest/globals` add karo.
 
 ```json [tsconfig.json]
 {
@@ -338,7 +371,7 @@ If you use TypeScript, add `vitest/globals` to the `types` field in your `tsconf
 
 :::
 
-Then, create a file ending in `*.test.js` in your project. You can place all test files in a test directory in the project root or in test directories next to your source files. Vitest will automatically search for them using the naming convention.
+Phir, apne project mein `*.test.js` se end hone wali ek file banao.Aap chaaho toh saari test files ko project root ke andar ek test directory mein rakh sakte ho, ya phir source files ke paas hi test directories bana sakte ho. Vitest inhe automatically dhund lega naming convention ke basis par.
 
 ```js [MyComponent.test.js]
 import { render } from '@testing-library/vue'
@@ -356,7 +389,7 @@ test('it should work', () => {
 })
 ```
 
-Finally, update `package.json` to add the test script and run it:
+Aakhri step mein, `package.json` ko update karo aur test script add karke usse run karo:
 
 ```json{4} [package.json]
 {
@@ -373,16 +406,19 @@ Finally, update `package.json` to add the test script and run it:
 
 ### Testing Composables {#testing-composables}
 
-> This section assumes you have read the [Composables](/guide/reusability/composables) section.
+> Ye section assume karta hai ki aapne [Composables](/guide/reusability/composables) section padha hua hai.
 
-When it comes to testing composables, we can divide them into two categories: composables that do not rely on a host component instance, and composables that do.
+Composables test karte time, hum unhe do categories mein divide kar sakte hain:
 
-A composable depends on a host component instance when it uses the following APIs:
+1. Composables jo host component instance par depend **nahi** karte.
+2. Composables jo host component instance par depend karte hain.
+
+Ek composable host component instance par tab depend karta hai jab wo in APIs ka use karta hai:
 
 - Lifecycle hooks
 - Provide / Inject
 
-If a composable only uses Reactivity APIs, then it can be tested by directly invoking it and asserting its returned state/methods:
+Agar ek composable sirf Reactivity APIs ka use karta hai, toh usse directly invoke karke aur uske return kiye gaye state/methods ko assert karke test kiya ja sakta hai:
 
 ```js [counter.js]
 import { ref } from 'vue'
@@ -410,7 +446,7 @@ test('useCounter', () => {
 })
 ```
 
-A composable that relies on lifecycle hooks or Provide / Inject needs to be wrapped in a host component to be tested. We can create a helper like the following:
+Ek composable jo lifecycle hooks ya Provide / Inject par rely karta hai, use test karne ke liye host component ke andar wrap karna padta hai. Hum ek helper function aise create kar sakte hain:
 
 ```js [test-utils.js]
 import { createApp } from 'vue'
@@ -432,8 +468,6 @@ export function withSetup(composable) {
 ```
 
 ```js
-import { withSetup } from './test-utils'
-import { useFoo } from './foo'
 
 test('useFoo', () => {
   const [result, app] = withSetup(() => useFoo(123))
@@ -446,7 +480,7 @@ test('useFoo', () => {
 })
 ```
 
-For more complex composables, it could also be easier to test it by writing tests against the wrapper component using [Component Testing](#component-testing) techniques.
+Zyada complex composables ke liye, unhe test karna easy ho sakta hai agar hum wrapper component ke against tests likhein using [Component Testing](#component-testing) techniques.
 
 <!--
 TODO more testing recipes can be added in the future e.g.

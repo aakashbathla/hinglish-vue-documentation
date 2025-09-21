@@ -2,7 +2,7 @@
 
 ## What is State Management? {#what-is-state-management}
 
-Technically, every Vue component instance already "manages" its own reactive state. Take a simple counter component as an example:
+Technically, har Vue component instance apna khud ka reactive state "manage" karta hai. Ek simple counter component ka example lo:
 
 <div class="composition-api">
 
@@ -52,36 +52,36 @@ export default {
 
 It is a self-contained unit with the following parts:
 
-- The **state**, the source of truth that drives our app;
-- The **view**, a declarative mapping of the **state**;
-- The **actions**, the possible ways the state could change in reaction to user inputs from the **view**.
+- **State**, jo hamare app ko chalane ka source of truth hai;
+- **View**, ek declarative mapping of the **state**;
+- **Actions**, jo possible ways hai state ko change karne ke, user inputs ke reaction me jo **view** se aate hain.
 
-This is a simple representation of the concept of "one-way data flow":
+Ye ek simple representation hai "one-way data flow" concept ka:
 
 <p style="text-align: center">
   <img alt="state flow diagram" src="./images/state-flow.png" width="252px" style="margin: 40px auto">
 </p>
 
-However, the simplicity starts to break down when we have **multiple components that share a common state**:
+Lekin, ye simplicity breakdown hone lagti hai jab **multiple components ko ek hi common state share karna ho**:
 
-1. Multiple views may depend on the same piece of state.
-2. Actions from different views may need to mutate the same piece of state.
+1. Multiple views ko ek hi state piece par depend karna padta hai.
+2. Different views ke actions ko ek hi state ko mutate karna padta hai.
 
-For case one, a possible workaround is by "lifting" the shared state up to a common ancestor component, and then pass it down as props. However, this quickly gets tedious in component trees with deep hierarchies, leading to another problem known as [Prop Drilling](/guide/components/provide-inject#prop-drilling).
+Case one ke liye, ek workaround ye hai ki shared state ko ek common ancestor component me "lift" kar do, aur phir usko props ke through neeche pass karo. Lekin ye tedious ban jata hai jab component trees deep hierarchies me ho, aur isse ek aur problem aati hai jise kehte hain [Prop Drilling](/guide/components/provide-inject#prop-drilling).
 
-For case two, we often find ourselves resorting to solutions such as reaching for direct parent / child instances via template refs, or trying to mutate and synchronize multiple copies of the state via emitted events. Both of these patterns are brittle and quickly lead to unmaintainable code.
+Case two ke liye, aksar hume direct parent/child instances access karni padti hain template refs ke through, ya phir multiple copies of state mutate aur synchronize karni padti hain emitted events ke saath. Dono hi patterns brittle hote hain aur quickly unmaintainable code banate hain.
 
-A simpler and more straightforward solution is to extract the shared state out of the components, and manage it in a global singleton. With this, our component tree becomes a big "view", and any component can access the state or trigger actions, no matter where they are in the tree!
+Ek simpler aur straightforward solution hai shared state ko components se nikal kar ek global singleton me manage karna. Isse hamara component tree ek bada "view" ban jata hai, aur koi bhi component state access kar sakta hai ya actions trigger kar sakta hai, chahe wo tree ke kahin bhi ho!
 
 ## Simple State Management with Reactivity API {#simple-state-management-with-reactivity-api}
 
 <div class="options-api">
 
-In Options API, reactive data is declared using the `data()` option. Internally, the object returned by `data()` is made reactive via the [`reactive()`](/api/reactivity-core#reactive) function, which is also available as a public API.
+Options API me, reactive data ko `data()` option ke through declare kiya jata hai. Internally, `data()` se return hone wale object ko reactive banaya jata hai [`reactive()`](/api/reactivity-core#reactive) function ke through, jo ek public API ke roop me bhi available hai.
 
 </div>
 
-If you have a piece of state that should be shared by multiple instances, you can use [`reactive()`](/api/reactivity-core#reactive) to create a reactive object, and then import it into multiple components:
+Agar aapke paas ek aisi state hai jo multiple instances ke beech share karni hai, toh aap [`reactive()`](/api/reactivity-core#reactive) ka use karke ek reactive object create kar sakte ho, aur phir usko multiple components me import kar sakte ho:
 
 ```js
 // store.js
@@ -151,9 +151,9 @@ export default {
 
 </div>
 
-Now whenever the `store` object is mutated, both `<ComponentA>` and `<ComponentB>` will update their views automatically - we have a single source of truth now.
+Ab jab bhi `store` object mutate hoga, dono `<ComponentA>` aur `<ComponentB>` apne views ko automatically update karenge – ab hamare paas ek single source of truth hai.
 
-However, this also means any component importing `store` can mutate it however they want:
+Lekin iska matlab ye bhi hai ki koi bhi component jo `store` ko import karta hai, wo usko apne hisaab se mutate kar sakta hai:
 
 ```vue-html{2}
 <template>
@@ -163,7 +163,7 @@ However, this also means any component importing `store` can mutate it however t
 </template>
 ```
 
-While this works in simple cases, global state that can be arbitrarily mutated by any component is not going to be very maintainable in the long run. To ensure the state-mutating logic is centralized like the state itself, it is recommended to define methods on the store with names that express the intention of the actions:
+Jab simple cases me ye kaam karta hai, lekin globally state ko har component se arbitrarily mutate karna long run me maintainable nahi rahega. Isliye, ye ensure karne ke liye ki state-mutating logic bhi centralized ho jaise state khud centralized hai, recommend kiya jata hai ki methods ko store me define karein jin ke names actions ke intention ko express karte ho:
 
 ```js{6-8}
 // store.js
@@ -197,10 +197,10 @@ export const store = reactive({
 </div>
 
 :::tip
-Note the click handler uses `store.increment()` with parentheses - this is necessary to call the method with the proper `this` context since it's not a component method.
+Dhyan dein ki click handler `store.increment()` ko parentheses ke saath use kar raha hai – ye zaroori hai taki method ko sahi `this` context ke saath call kiya ja sake, kyunki ye ek component method nahi hai.
 :::
 
-Although here we are using a single reactive object as a store, you can also share reactive state created using other [Reactivity APIs](/api/reactivity-core) such as `ref()` or `computed()`, or even return global state from a [Composable](/guide/reusability/composables):
+Yahaan hum ek single reactive object ko store ke roop me use kar rahe hain, lekin aap reactive state ko share karne ke liye dusre [Reactivity APIs](/api/reactivity-core) bhi use kar sakte ho jaise `ref()` ya `computed()`, ya phir ek [Composable](/guide/reusability/composables) se global state return karke bhi.
 
 ```js
 import { ref } from 'vue'
@@ -219,25 +219,25 @@ export function useCount() {
 }
 ```
 
-The fact that Vue's reactivity system is decoupled from the component model makes it extremely flexible.
+Ye fact ki Vue ka reactivity system component model se alag (decoupled) hai, usse bahut hi flexible banata hai.
 
 ## SSR Considerations {#ssr-considerations}
 
-If you are building an application that leverages [Server-Side Rendering (SSR)](./ssr), the above pattern can lead to issues due to the store being a singleton shared across multiple requests. This is discussed in [more details](./ssr#cross-request-state-pollution) in the SSR guide.
+Agar aap ek application bana rahe ho jo [Server-Side Rendering (SSR)](./ssr) use karti hai, toh upar wala pattern issues create kar sakta hai kyunki store ek singleton hai jo multiple requests ke beech share hota hai. Iske baare me [aur details](./ssr#cross-request-state-pollution) SSR guide me di gayi hain.
 
 ## Pinia {#pinia}
 
-While our hand-rolled state management solution will suffice in simple scenarios, there are many more things to consider in large-scale production applications:
+Jab humara hand-rolled state management solution simple scenarios ke liye kaam aata hai, bade scale ke production applications me aur bhi cheezein dhyaan me rakhni padti hain:
 
-- Stronger conventions for team collaboration
-- Integrating with the Vue DevTools, including timeline, in-component inspection, and time-travel debugging
+- Team collaboration ke liye strong conventions
+- Vue DevTools ke saath integration, jisme timeline, in-component inspection, aur time-travel debugging shamil ho
 - Hot Module Replacement
 - Server-Side Rendering support
 
-[Pinia](https://pinia.vuejs.org) is a state management library that implements all of the above. It is maintained by the Vue core team, and works with both Vue 2 and Vue 3.
+[Pinia](https://pinia.vuejs.org) ek state management library hai jo ye sab provide karti hai. Ye Vue core team dwara maintain ki jaati hai aur Vue 2 aur Vue 3 dono ke saath kaam karti hai.
 
-Existing users may be familiar with [Vuex](https://vuex.vuejs.org/), the previous official state management library for Vue. With Pinia serving the same role in the ecosystem, Vuex is now in maintenance mode. It still works, but will no longer receive new features. It is recommended to use Pinia for new applications.
+Jo users pehle se familiar hain [Vuex](https://vuex.vuejs.org/) se, unke liye — Vuex pehle Vue ki official state management library thi. Ab Pinia ecosystem me wahi role play kar rahi hai, aur Vuex ab maintenance mode me hai. Vuex ab bhi kaam karta hai, lekin naye features nahi aayenge. Naye applications ke liye Pinia use karna recommended hai.
 
-Pinia started out as an exploration of what the next iteration of Vuex could look like, incorporating many ideas from core team discussions for Vuex 5. Eventually, we realized that Pinia already implements most of what we wanted in Vuex 5, and decided to make it the new recommendation instead.
+Pinia ek exploration ke roop me start hua tha ki Vuex ka next version (Vuex 5) kaisa dikh sakta hai. Isme Vuex 5 ke liye core team discussions se liye gaye ideas implement kiye gaye. Aakhir me, hume realize hua ki Pinia already unme se zyada cheezein implement karta hai jo hum Vuex 5 me chahte the, aur fir ise hi naye recommendation ke roop me choose kiya gaya.
 
-Compared to Vuex, Pinia provides a simpler API with less ceremony, offers Composition-API-style APIs, and most importantly, has solid type inference support when used with TypeScript.
+Vuex ke comparison me, Pinia ek simpler API provide karta hai jisme kam boilerplate hota hai, Composition API style APIs deta hai, aur sabse important baat, TypeScript ke saath use karte waqt solid type inference support karta hai.

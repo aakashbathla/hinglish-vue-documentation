@@ -2,11 +2,11 @@
 
 ## Client-Side vs. Server-Side Routing {#client-side-vs-server-side-routing}
 
-Routing on the server side means the server is sending a response based on the URL path that the user is visiting. When we click on a link in a traditional server-rendered web app, the browser receives an HTML response from the server and reloads the entire page with the new HTML.
+Server side routing ka matlab hai ki server ek response bhejta hai based on URL path jo user visit kar raha hai. Jab hum ek traditional server-rendered web app mein link par click karte hain, toh browser ko server se ek HTML response milta hai aur pura page reload hota hai naye HTML ke saath.
 
-In a [Single-Page Application](https://developer.mozilla.org/en-US/docs/Glossary/SPA) (SPA), however, the client-side JavaScript can intercept the navigation, dynamically fetch new data, and update the current page without full page reloads. This typically results in a more snappy user experience, especially for use cases that are more like actual "applications", where the user is expected to perform many interactions over a long period of time.
+Lekin ek [Single-Page Application](https://developer.mozilla.org/en-US/docs/Glossary/SPA) (SPA) mein, client-side JavaScript navigation ko intercept kar sakti hai, dynamically naya data fetch karke current page ko update kar sakti hai bina full page reload ke. Ye approach zyada fast aur smooth user experience deti hai, specially un cases mein jo actual "applications" jaise hote hain, jahan user se expect hota hai ki wo lambe time tak multiple interactions kare.
 
-In such SPAs, the "routing" is done on the client side, in the browser. A client-side router is responsible for managing the application's rendered view using browser APIs such as [History API](https://developer.mozilla.org/en-US/docs/Web/API/History) or the [`hashchange` event](https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event).
+Aise SPAs mein, "routing" client side par hoti hai, yani browser ke andar. Client-side router responsible hota hai application ke rendered view ko manage karne ke liye, browser APIs jaise [History API](https://developer.mozilla.org/en-US/docs/Web/API/History) ya [`hashchange` event](https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event) ka use karke.
 
 ## Official Router {#official-router}
 
@@ -17,13 +17,13 @@ In such SPAs, the "routing" is done on the client side, in the browser. A client
   </VueSchoolLink>
 </div>
 
-Vue is well-suited for building SPAs. For most SPAs, it's recommended to use the officially-supported [Vue Router library](https://github.com/vuejs/router). For more details, see Vue Router's [documentation](https://router.vuejs.org/).
+Vue SPAs banane ke liye bahut suitable hai. Zyada tar SPAs ke liye, officially-supported [Vue Router library](https://github.com/vuejs/router) use karne ki recommendation hoti hai. Aur details ke liye dekhein Vue Router ki [documentation](https://router.vuejs.org/).
 
 ## Simple Routing from Scratch {#simple-routing-from-scratch}
 
-If you only need very simple routing and do not wish to involve a full-featured router library, you can do so with [Dynamic Components](/guide/essentials/component-basics#dynamic-components) and update the current component state by listening to browser [`hashchange` events](https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event) or using the [History API](https://developer.mozilla.org/en-US/docs/Web/API/History).
+Agar aapko sirf basic routing ki zarurat hai aur ek full-featured router library use nahi karna chahte, toh aap [Dynamic Components](/guide/essentials/component-basics#dynamic-components) ka use karke aur browser ke [`hashchange` events](https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event) ya [History API](https://developer.mozilla.org/en-US/docs/Web/API/History) ko listen karke current component state update kar sakte ho.
 
-Here's a bare-bone example:
+Ye ek simple example hai:
 
 <div class="composition-api">
 
@@ -51,8 +51,7 @@ const currentView = computed(() => {
 </script>
 
 <template>
-  <a href="#/">Home</a> |
-  <a href="#/about">About</a> |
+  <a href="#/">Home</a> | <a href="#/about">About</a> |
   <a href="#/non-existent-path">Broken Link</a>
   <component :is="currentView" />
 </template>
@@ -88,15 +87,14 @@ export default {
   },
   mounted() {
     window.addEventListener('hashchange', () => {
-		  this.currentPath = window.location.hash
-		})
+      this.currentPath = window.location.hash
+    })
   }
 }
 </script>
 
 <template>
-  <a href="#/">Home</a> |
-  <a href="#/about">About</a> |
+  <a href="#/">Home</a> | <a href="#/about">About</a> |
   <a href="#/non-existent-path">Broken Link</a>
   <component :is="currentView" />
 </template>

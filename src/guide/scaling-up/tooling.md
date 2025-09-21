@@ -6,24 +6,24 @@ import { VTCodeGroup, VTCodeGroupTab } from '@vue/theme'
 
 ## Try It Online {#try-it-online}
 
-You don't need to install anything on your machine to try out Vue SFCs - there are online playgrounds that allow you to do so right in the browser:
+Vue SFCs ko try karne ke liye aapko apne machine pe kuch install karne ki zaroorat nahi hai — kuch online playgrounds hain jahan aap directly browser me try kar sakte ho:
 
 - [Vue SFC Playground](https://play.vuejs.org)
-  - Always deployed from latest commit
-  - Designed for inspecting component compilation results
+  - Hamesha latest commit se deployed
+  - Component compilation results inspect karne ke liye design kiya gaya hai
 - [Vue + Vite on StackBlitz](https://vite.new/vue)
-  - IDE-like environment running actual Vite dev server in the browser
-  - Closest to local setup
+  - IDE-like environment jisme actual Vite dev server browser me run hota hai
+  - Local setup ke sabse kareeb
 
-It is also recommended to use these online playgrounds to provide reproductions when reporting bugs.
+Ye online playgrounds bug report karte waqt reproductions provide karne ke liye bhi recommend kiye jate hain.
 
 ## Project Scaffolding {#project-scaffolding}
 
 ### Vite {#vite}
 
-[Vite](https://vitejs.dev/) is a lightweight and fast build tool with first-class Vue SFC support. It is created by Evan You, who is also the author of Vue!
+[Vite](https://vitejs.dev/) ek lightweight aur fast build tool hai jisme Vue SFC ke liye first-class support milta hai. Isse Evan You ne banaya hai, jo Vue ke author bhi hain!
 
-To get started with Vite + Vue, simply run:
+Vite + Vue ke sath start karne ke liye, bas ye command run karo:
 
 ::: code-group
 
@@ -34,70 +34,66 @@ $ npm create vue@latest
 ```sh [pnpm]
 $ pnpm create vue@latest
 ```
-  
+
 ```sh [yarn]
 # For Yarn Modern (v2+)
 $ yarn create vue@latest
-  
+
 # For Yarn ^v4.11
 $ yarn dlx create-vue@latest
 ```
-  
+
 ```sh [bun]
 $ bun create vue@latest
 ```
 
 :::
 
-This command will install and execute [create-vue](https://github.com/vuejs/create-vue), the official Vue project scaffolding tool.
+Ye command [create-vue](https://github.com/vuejs/create-vue) ko install aur execute karega, jo Vue ka official project scaffolding tool hai.
 
-- To learn more about Vite, check out the [Vite docs](https://vitejs.dev).
-- To configure Vue-specific behavior in a Vite project, for example passing options to the Vue compiler, check out the docs for [@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue#readme).
+- Vite ke baare me aur seekhne ke liye [Vite docs](https://vitejs.dev) check karo.
+- Vue-specific behavior ko configure karne ke liye, jaise Vue compiler ko options pass karna, [@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue#readme) docs check karo.
 
-Both online playgrounds mentioned above also support downloading files as a Vite project.
+Upar bataye gaye dono online playgrounds files ko Vite project ke roop me download karne ka option bhi dete hain.
 
 ### Vue CLI {#vue-cli}
 
-[Vue CLI](https://cli.vuejs.org/) is the official webpack-based toolchain for Vue. It is now in maintenance mode and we recommend starting new projects with Vite unless you rely on specific webpack-only features. Vite will provide superior developer experience in most cases.
+[Vue CLI](https://cli.vuejs.org/) Vue ke liye official webpack-based toolchain hai. Ab ye maintenance mode me hai, aur naye projects ke liye hum recommend karte hain ki aap Vite use karo, jab tak aapko specifically webpack-only features ki zaroorat na ho. Zyada cases me Vite better developer experience deta hai.
 
-For information on migrating from Vue CLI to Vite:
+Vue CLI se Vite me migrate karne ke liye:
 
 - [Vue CLI -> Vite Migration Guide from VueSchool.io](https://vueschool.io/articles/vuejs-tutorials/how-to-migrate-from-vue-cli-to-vite/)
-- [Tools / Plugins that help with auto migration](https://github.com/vitejs/awesome-vite#vue-cli)
+- [Auto migration ke liye tools / plugins](https://github.com/vitejs/awesome-vite#vue-cli)
 
 ### Note on In-Browser Template Compilation {#note-on-in-browser-template-compilation}
 
-When using Vue without a build step, component templates are written either directly in the page's HTML or as inlined JavaScript strings. In such cases, Vue needs to ship the template compiler to the browser in order to perform on-the-fly template compilation. On the other hand, the compiler would be unnecessary if we pre-compile the templates with a build step. To reduce client bundle size, Vue provides [different "builds"](https://unpkg.com/browse/vue@3/dist/) optimized for different use cases.
+Jab Vue bina build step ke use hota hai, tab component templates ya to directly page ke HTML me likhe jaate hain ya inline JavaScript strings ke roop me. Aise cases me Vue ko template compiler browser me ship karna padta hai taaki wo on-the-fly compilation kar sake. Agar hum pehle hi templates ko build step me compile kar lein, to compiler unnecessary ho jata hai. Client bundle size kam karne ke liye Vue [different "builds"](https://unpkg.com/browse/vue@3/dist/) provide karta hai:
 
-- Build files that start with `vue.runtime.*` are **runtime-only builds**: they do not include the compiler. When using these builds, all templates must be pre-compiled via a build step.
+- `vue.runtime.*` se start hone wale build files **runtime-only builds** hote hain: inme compiler include nahi hota. Is case me saare templates ko build step ke through pre-compile karna padta hai.
+- Jo build files `.runtime` include nahi karte, wo **full builds** hote hain: inme compiler hota hai aur browser me directly template compile karne ka support hota hai. Lekin payload ~14kb zyada ho jata hai.
 
-- Build files that do not include `.runtime` are **full builds**: they include the compiler and support compiling templates directly in the browser. However, they will increase the payload by ~14kb.
+Default tooling setups runtime-only build use karte hain, kyunki SFCs ke saare templates pre-compiled hote hain. Agar kisi reason se aapko build step ke sath bhi in-browser template compilation chahiye, to aap build tool ko configure karke `vue` ko `vue/dist/vue.esm-bundler.js` par alias kar sakte ho.
 
-Our default tooling setups use the runtime-only build since all templates in SFCs are pre-compiled. If, for some reason, you need in-browser template compilation even with a build step, you can do so by configuring the build tool to alias `vue` to `vue/dist/vue.esm-bundler.js` instead.
-
-If you are looking for a lighter-weight alternative for no-build-step usage, check out [petite-vue](https://github.com/vuejs/petite-vue).
+Agar aapko ek lightweight alternative chahiye bina build-step usage ke liye, to [petite-vue](https://github.com/vuejs/petite-vue) check karo.
 
 ## IDE Support {#ide-support}
 
-- The recommended IDE setup is [VS Code](https://code.visualstudio.com/) + the [Vue - Official extension](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (previously Volar). The extension provides syntax highlighting, TypeScript support, and intellisense for template expressions and component props.
+- Recommended IDE setup hai [VS Code](https://code.visualstudio.com/) + [Vue - Official extension](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (pehle Volar). Ye extension syntax highlighting, TypeScript support, aur template expressions & component props ke liye intellisense provide karta hai.
 
   :::tip
-  Vue - Official replaces [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur), our previous official VS Code extension for Vue 2. If you have Vetur currently installed, make sure to disable it in Vue 3 projects.
+  Vue - Official extension, [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur) ko replace karta hai (jo Vue 2 ke liye tha). Agar aapke paas Vetur install hai, to Vue 3 projects me usse disable kar lena.  
   :::
 
-- [WebStorm](https://www.jetbrains.com/webstorm/) also provides great built-in support for Vue SFCs.
+- [WebStorm](https://www.jetbrains.com/webstorm/) me bhi Vue SFCs ke liye great built-in support hai.
 
-- Other IDEs that support the [Language Service Protocol](https://microsoft.github.io/language-server-protocol/) (LSP) can also leverage Volar's core functionalities via LSP:
-
-  - Sublime Text support via [LSP-Volar](https://github.com/sublimelsp/LSP-volar).
-
-  - vim / Neovim support via [coc-volar](https://github.com/yaegassy/coc-volar).
-
-  - emacs support via [lsp-mode](https://emacs-lsp.github.io/lsp-mode/page/lsp-volar/)
+- Baaki IDEs jo [Language Service Protocol](https://microsoft.github.io/language-server-protocol/) (LSP) support karte hain, wo bhi Volar ki functionalities LSP ke through use kar sakte hain:
+  - Sublime Text: [LSP-Volar](https://github.com/sublimelsp/LSP-volar)
+  - vim / Neovim: [coc-volar](https://github.com/yaegassy/coc-volar)
+  - emacs: [lsp-mode](https://emacs-lsp.github.io/lsp-mode/page/lsp-volar/)
 
 ## Browser Devtools {#browser-devtools}
 
-The Vue browser devtools extension allows you to explore a Vue app's component tree, inspect the state of individual components, track state management events, and profile performance.
+Vue browser devtools extension aapko Vue app ka component tree explore karne, individual components ka state inspect karne, state management events track karne aur performance profile karne deta hai.
 
 ![devtools screenshot](./images/devtools.png)
 
@@ -110,47 +106,39 @@ The Vue browser devtools extension allows you to explore a Vue app's component t
 
 Main article: [Using Vue with TypeScript](/guide/typescript/overview).
 
-- [Vue - Official extension](https://github.com/vuejs/language-tools) provides type checking for SFCs using `<script lang="ts">` blocks, including template expressions and cross-component props validation.
-
-- Use [`vue-tsc`](https://github.com/vuejs/language-tools/tree/master/packages/tsc) for performing the same type checking from the command line, or for generating `d.ts` files for SFCs.
+- [Vue - Official extension](https://github.com/vuejs/language-tools) `<script lang="ts">` blocks ke liye type checking provide karta hai, jisme template expressions aur cross-component props validation bhi included hai.
+- Command line se type checking karne ke liye ya `d.ts` files generate karne ke liye [`vue-tsc`](https://github.com/vuejs/language-tools/tree/master/packages/tsc) use karo.
 
 ## Testing {#testing}
 
 Main article: [Testing Guide](/guide/scaling-up/testing).
 
-- [Cypress](https://www.cypress.io/) is recommended for E2E tests. It can also be used for component testing for Vue SFCs via the [Cypress Component Test Runner](https://docs.cypress.io/guides/component-testing/introduction).
-
-- [Vitest](https://vitest.dev/) is a test runner created by Vue / Vite team members that focuses on speed. It is specifically designed for Vite-based applications to provide the same instant feedback loop for unit / component testing.
-
-- [Jest](https://jestjs.io/) can be made to work with Vite via [vite-jest](https://github.com/sodatea/vite-jest). However, this is only recommended if you have existing Jest-based test suites that you need to migrate over to a Vite-based setup, as Vitest provides similar functionalities with a much more efficient integration.
+- [Cypress](https://www.cypress.io/) E2E tests ke liye recommended hai. Ye Vue SFCs ke component testing ke liye bhi use ho sakta hai [Cypress Component Test Runner](https://docs.cypress.io/guides/component-testing/introduction) ke sath.
+- [Vitest](https://vitest.dev/) ek fast test runner hai jo Vue / Vite team members ne banaya hai. Ye Vite-based apps ke liye specifically design hua hai taki same instant feedback loop mile unit / component testing me.
+- [Jest](https://jestjs.io/) ko [vite-jest](https://github.com/sodatea/vite-jest) ke through Vite ke sath use kiya ja sakta hai. Lekin ye sirf tab recommend hai jab aapke paas pehle se Jest-based test suites ho jo migrate karne hain, kyunki Vitest already similar functionality better integration ke sath provide karta hai.
 
 ## Linting {#linting}
 
-The Vue team maintains [eslint-plugin-vue](https://github.com/vuejs/eslint-plugin-vue), an [ESLint](https://eslint.org/) plugin that supports SFC-specific linting rules.
+Vue team maintain karti hai [eslint-plugin-vue](https://github.com/vuejs/eslint-plugin-vue), jo SFC-specific linting rules support karta hai.
 
-Users previously using Vue CLI may be used to having linters configured via webpack loaders. However when using a Vite-based build setup, our general recommendation is:
+Pehle Vue CLI use karne wale users shayad webpack loaders ke sath linters configure karne ke aadat wale ho. Lekin Vite-based setup me recommendation ye hai:
 
-1. `npm install -D eslint eslint-plugin-vue`, then follow `eslint-plugin-vue`'s [configuration guide](https://eslint.vuejs.org/user-guide/#usage).
-
-2. Setup ESLint IDE extensions, for example [ESLint for VS Code](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint), so you get linter feedback right in your editor during development. This also avoids unnecessary linting cost when starting the dev server.
-
-3. Run ESLint as part of the production build command, so you get full linter feedback before shipping to production.
-
-4. (Optional) Setup tools like [lint-staged](https://github.com/okonet/lint-staged) to automatically lint modified files on git commit.
+1. `npm install -D eslint eslint-plugin-vue` run karo, aur fir `eslint-plugin-vue` ka [configuration guide](https://eslint.vuejs.org/user-guide/#usage) follow karo.
+2. ESLint IDE extensions setup karo, jaise [ESLint for VS Code](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint), taki development ke dauraan editor me hi lint feedback mile. Isse dev server start karte waqt unnecessary linting cost bacha sakte ho.
+3. ESLint ko production build command ke part ke roop me run karo, taki production me ship karne se pehle full lint feedback mile.
+4. (Optional) [lint-staged](https://github.com/okonet/lint-staged) setup karo taaki git commit pe modified files automatically lint ho jayein.
 
 ## Formatting {#formatting}
 
-- The [Vue - Official](https://github.com/vuejs/language-tools) VS Code extension provides formatting for Vue SFCs out of the box.
-
-- Alternatively, [Prettier](https://prettier.io/) provides built-in Vue SFC formatting support.
+- [Vue - Official](https://github.com/vuejs/language-tools) VS Code extension out of the box Vue SFCs ke liye formatting support karta hai.
+- [Prettier](https://prettier.io/) me bhi Vue SFC formatting support built-in hai.
 
 ## SFC Custom Block Integrations {#sfc-custom-block-integrations}
 
-Custom blocks are compiled into imports to the same Vue file with different request queries. It is up to the underlying build tool to handle these import requests.
+Custom blocks ko same Vue file me alag request queries ke sath imports ke roop me compile kiya jata hai. Ye underlying build tool par depend karta hai ki wo in imports ko kaise handle kare.
 
-- If using Vite, a custom Vite plugin should be used to transform matched custom blocks into executable JavaScript. [Example](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue#example-for-transforming-custom-blocks)
-
-- If using Vue CLI or plain webpack, a webpack loader should be configured to transform the matched blocks. [Example](https://vue-loader.vuejs.org/guide/custom-blocks.html)
+- Vite use karte waqt, ek custom Vite plugin use karna chahiye jo matched custom blocks ko executable JavaScript me transform kare. [Example](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue#example-for-transforming-custom-blocks)
+- Vue CLI ya plain webpack use karte waqt, ek webpack loader configure karna hota hai taaki matched blocks transform ho jayein. [Example](https://vue-loader.vuejs.org/guide/custom-blocks.html)
 
 ## Lower-Level Packages {#lower-level-packages}
 
@@ -158,25 +146,25 @@ Custom blocks are compiled into imports to the same Vue file with different requ
 
 - [Docs](https://github.com/vuejs/core/tree/main/packages/compiler-sfc)
 
-This package is part of the Vue core monorepo and is always published with the same version as the main `vue` package. It is included as a dependency of the main `vue` package and proxied under `vue/compiler-sfc` so you don't need to install it individually.
+Ye package Vue core monorepo ka part hai aur hamesha main `vue` package ke same version me publish hota hai. Ye `vue/compiler-sfc` ke under proxy kiya gaya hai, isliye alag se install karne ki zaroorat nahi hai.
 
-The package itself provides lower-level utilities for processing Vue SFCs and is only meant for tooling authors that need to support Vue SFCs in custom tools.
+Ye package low-level utilities provide karta hai Vue SFCs process karne ke liye, aur ye mainly tooling authors ke liye hai jo custom tools me Vue SFC support chahte hain.
 
 :::tip
-Always prefer using this package via the `vue/compiler-sfc` deep import since this ensures its version is in sync with the Vue runtime.
+Hamesha is package ko `vue/compiler-sfc` deep import ke roop me use karo taki iska version Vue runtime ke sath sync me rahe.  
 :::
 
 ### `@vitejs/plugin-vue` {#vitejs-plugin-vue}
 
 - [Docs](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue)
 
-Official plugin that provides Vue SFC support in Vite.
+Ye official plugin hai jo Vite me Vue SFC support provide karta hai.
 
 ### `vue-loader` {#vue-loader}
 
 - [Docs](https://vue-loader.vuejs.org/)
 
-The official loader that provides Vue SFC support in webpack. If you are using Vue CLI, also see [docs on modifying `vue-loader` options in Vue CLI](https://cli.vuejs.org/guide/webpack.html#modifying-options-of-a-loader).
+Ye official loader hai jo webpack me Vue SFC support provide karta hai. Agar aap Vue CLI use kar rahe ho, to [Vue CLI me vue-loader options modify karne ke docs](https://cli.vuejs.org/guide/webpack.html#modifying-options-of-a-loader) bhi check karo.
 
 ## Other Online Playgrounds {#other-online-playgrounds}
 
